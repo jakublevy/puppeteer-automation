@@ -1,0 +1,7 @@
+lib/package-lock.json
+lib/node_modules/
+lib/.idea/
+
+frontend-test/package-lock.json
+frontend-test/node_modules/
+frontend-test/public/

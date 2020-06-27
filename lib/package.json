@@ -1,0 +1,20 @@
+{
+  "name": "puppeteer-recorder-lib",
+  "version": "0.0.0",
+  "description": "A Puppeteer recorder and a player",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [
+    "puppeteer",
+    "recorder"
+  ],
+  "author": "Jakub Levý",
+  "license": "",
+  "dependencies": {
+    "puppeteer": "4.0.0"
+  },
+  "devDependencies": {
+    "@medv/finder": "^1.1.3"
+  }
+}
