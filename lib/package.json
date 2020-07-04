@@ -12,8 +12,8 @@
   "author": "Jakub Levý",
   "license": "",
   "dependencies": {
-    "puppeteer": "latest",
-    "clipboardy": "latest"
+    "clipboardy": "latest",
+    "puppeteer": "^5.0.0"
   },
   "devDependencies": {
     "@medv/finder": "latest"
