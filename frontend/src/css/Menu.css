@@ -1,0 +1,10 @@
+a:first-child {
+    margin-left: 1rem;
+}
+nav {
+    margin: 0 -0.5rem;
+}
+
+header {
+    padding-bottom: 0.8rem;
+}

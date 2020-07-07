@@ -1,3 +1,7 @@
-header {
-    padding: 0 0.5rem 0 0.5rem;
+body {
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    right: 0.5rem;
 }
