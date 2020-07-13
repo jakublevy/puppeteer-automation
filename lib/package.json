@@ -13,7 +13,7 @@
   "license": "",
   "dependencies": {
     "clipboardy": "latest",
-    "puppeteer": "^5.0.0"
+    "puppeteer": "latest"
   },
   "devDependencies": {
     "@medv/finder": "latest"
