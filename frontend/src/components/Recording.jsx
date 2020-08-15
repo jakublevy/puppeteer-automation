@@ -5,6 +5,7 @@ import {useForceUpdate} from "../Utils/HooksUtils";
 import _ from 'lodash'
 import {getRecordingConfiguration, getRecordings} from "../Utils/RecordingUtils";
 import RecordingConfManager from "./RecordingConfManager";
+//import Recorder from 'recorder-lib/src/Recorder.js'
 
 const Recording = ({recordingInfo, setRecordingMode}) => {
 
@@ -29,6 +30,8 @@ const Recording = ({recordingInfo, setRecordingMode}) => {
         saveRecording(recordingInfo)
     }, [recordingConf])
 
+    //let a = new Recorder()
+
     return (
         <>
             <button className="btn btn-light" onClick={() => setRecordingMode(false)}>
@@ -51,7 +54,6 @@ const Recording = ({recordingInfo, setRecordingMode}) => {
                 <tbody>
                 </tbody>
             </table>
-
         </>
     )
 }

@@ -9,7 +9,7 @@ frontend-test/.idea/
 
 frontend/package-lock.json
 frontend/node_modules/
-frontend/public/
+# frontend/public/
 frontend/.idea/
 
 .idea/
