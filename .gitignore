@@ -1,15 +1,18 @@
-lib/package-lock.json
-lib/node_modules/
+Frontend/.vs/
+Frontend/packages
+Frontend/Frontend/bin
+Frontend/Frontend/obj
+
 lib/.idea/
+lib/node_modules/
+lib/package-lock.json
 
-frontend-test/package-lock.json
-frontend-test/node_modules/
-frontend-test/public/
-frontend-test/.idea/
+old/frontend/.idea
+old/frontend/node_modules/
+old/frontend/package-lock.json
 
-frontend/package-lock.json
-frontend/node_modules/
-# frontend/public/
-frontend/.idea/
+old/frontend-test/.idea
+old/frontend-test/node_modules/
+old/frontend-test/package-lock.json
 
-.idea/
+

@@ -6,6 +6,8 @@ import _ from 'lodash'
 import {getRecordingConfiguration, getRecordings} from "../Utils/RecordingUtils";
 import RecordingConfManager from "./RecordingConfManager";
 //import Recorder from 'recorder-lib/src/Recorder.js'
+//import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer'
 
 const Recording = ({recordingInfo, setRecordingMode}) => {
 
@@ -31,6 +33,7 @@ const Recording = ({recordingInfo, setRecordingMode}) => {
     }, [recordingConf])
 
     //let a = new Recorder()
+    let a = puppeteer.launch()
 
     return (
         <>
