@@ -12,6 +12,7 @@
   "author": "Jakub Levý",
   "license": "",
   "dependencies": {
+    "async-mutex": "^0.2.4",
     "clipboardy": "latest",
     "puppeteer": "latest",
     "zeromq": "latest"

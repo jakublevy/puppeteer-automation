@@ -1,6 +1,6 @@
-﻿namespace Frontend.Forms
+﻿namespace Frontend
 {
-    partial class PlayerForm
+    partial class CodeGenEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,29 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.codeGeneratorOptionsPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.textEditor = new ScintillaNET.Scintilla();
             this.SuspendLayout();
             // 
-            // codeGeneratorOptionsPropertyGrid
+            // textEditor
             // 
-            this.codeGeneratorOptionsPropertyGrid.Location = new System.Drawing.Point(12, 12);
-            this.codeGeneratorOptionsPropertyGrid.Name = "codeGeneratorOptionsPropertyGrid";
-            this.codeGeneratorOptionsPropertyGrid.Size = new System.Drawing.Size(259, 284);
-            this.codeGeneratorOptionsPropertyGrid.TabIndex = 1;
+            this.textEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textEditor.Lexer = ScintillaNET.Lexer.Cpp;
+            this.textEditor.Location = new System.Drawing.Point(12, 12);
+            this.textEditor.Name = "textEditor";
+            this.textEditor.Size = new System.Drawing.Size(776, 426);
+            this.textEditor.TabIndex = 0;
             // 
-            // PlayerForm
+            // CodeGenEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 308);
-            this.Controls.Add(this.codeGeneratorOptionsPropertyGrid);
-            this.Name = "PlayerForm";
-            this.Text = "PlayerForm";
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textEditor);
+            this.Name = "CodeGenEditor";
+            this.Text = "CodeGenEditor";
+            this.Load += new System.EventHandler(this.CodeGenEditor_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.PropertyGrid codeGeneratorOptionsPropertyGrid;
+
+        private ScintillaNET.Scintilla textEditor;
     }
 }

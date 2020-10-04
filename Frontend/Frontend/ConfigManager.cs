@@ -174,11 +174,7 @@ namespace Frontend
 
         private static PlayerOptions DefaultPlayerOptions()
         {
-            PlayerOptions po = new PlayerOptions();
-            if (po.PuppeteerOptions == null)
-                po.PuppeteerOptions = DefaultPuppeteerOptions();
-
-            return po;
+            return new PlayerOptions();
         }
 
 

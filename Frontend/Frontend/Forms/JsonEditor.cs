@@ -21,7 +21,10 @@ namespace Frontend.Forms
 
         public void SetEditorText(string txt)
         {
+            bool oldState = textEditor.ReadOnly;
+            textEditor.ReadOnly = false;
             textEditor.Text = txt;
+            textEditor.ReadOnly = oldState;
         }
 
         public string GetEditorText()
@@ -41,12 +44,16 @@ namespace Frontend.Forms
             textEditor.Styles[Style.Json.Operator].ForeColor = Color.Purple;
             //textEditor.Lexer = Lexer.Json;
 
-            textEditor.Text = "prdel";
-
             foreach (var textEditorStyle in textEditor.Styles)
                 textEditorStyle.Size = 12;
             
             //textEditor.Styles[Style.json]
+        }
+
+        private void modificationsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            warningLabel.Visible = modificationsCheckBox.Checked;
+            textEditor.ReadOnly = !modificationsCheckBox.Checked;
         }
     }
 }

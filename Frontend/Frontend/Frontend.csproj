@@ -81,16 +81,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\CodeGenEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CodeGenEditor.Designer.cs">
+      <DependentUpon>CodeGenEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="CodeGeneratorOptions.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrentEdit.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Filter.cs" />
     <Compile Include="Forms\CodeGeneratorSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\CodeGeneratorSettingsForm.Designer.cs">
       <DependentUpon>CodeGeneratorSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FilterForm.Designer.cs">
+      <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\JsonEditor.cs">
       <SubType>Form</SubType>
@@ -122,7 +135,14 @@
     <Compile Include="Forms\RecorderSettingsForm.Designer.cs">
       <DependentUpon>RecorderSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ReplayViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReplayViewForm.Designer.cs">
+      <DependentUpon>ReplayViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NodeJsOptions.cs" />
+    <Compile Include="PairSocketExtensions.cs" />
     <Compile Include="PlayerOptions.cs" />
     <Compile Include="PuppeteerOptions.cs" />
     <Compile Include="Program.cs" />
@@ -130,6 +150,7 @@
     <Compile Include="RecordedEvents.cs" />
     <Compile Include="RecorderConfiguration.cs" />
     <Compile Include="Recording.cs" />
+    <Compile Include="RecordingManager.cs" />
     <Compile Include="ThumbnailManager.cs" />
     <Compile Include="UserControls\ActionUserControl.cs">
       <SubType>UserControl</SubType>
@@ -155,8 +176,14 @@
     <Compile Include="UserControls\ThumbnailUserControl.Designer.cs">
       <DependentUpon>ThumbnailUserControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\CodeGenEditor.resx">
+      <DependentUpon>CodeGenEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CodeGeneratorSettingsForm.resx">
       <DependentUpon>CodeGeneratorSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FilterForm.resx">
+      <DependentUpon>FilterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JsonEditor.resx">
       <DependentUpon>JsonEditor.cs</DependentUpon>
@@ -172,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RecorderSettingsForm.resx">
       <DependentUpon>RecorderSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReplayViewForm.resx">
+      <DependentUpon>ReplayViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

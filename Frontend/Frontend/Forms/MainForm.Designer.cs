@@ -50,7 +50,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(755, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(831, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,28 +68,28 @@
             // recorderToolStripMenuItem
             // 
             this.recorderToolStripMenuItem.Name = "recorderToolStripMenuItem";
-            this.recorderToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.recorderToolStripMenuItem.Text = "Recorder";
+            this.recorderToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.recorderToolStripMenuItem.Text = "Recorder and Browser";
             this.recorderToolStripMenuItem.Click += new System.EventHandler(this.recorderToolStripMenuItem_Click);
             // 
             // codeGeneratorToolStripMenuItem
             // 
             this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
-            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
             this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
             // 
             // playerToolStripMenuItem
             // 
             this.playerToolStripMenuItem.Name = "playerToolStripMenuItem";
-            this.playerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.playerToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.playerToolStripMenuItem.Text = "Player ";
             this.playerToolStripMenuItem.Click += new System.EventHandler(this.playerToolStripMenuItem_Click);
             // 
             // nodejsToolStripMenuItem
             // 
             this.nodejsToolStripMenuItem.Name = "nodejsToolStripMenuItem";
-            this.nodejsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.nodejsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.nodejsToolStripMenuItem.Text = "Node.js";
             this.nodejsToolStripMenuItem.Click += new System.EventHandler(this.nodejsToolStripMenuItem_Click);
             // 
@@ -99,7 +99,7 @@
             this.addNewRecordingButton.Name = "addNewRecordingButton";
             this.addNewRecordingButton.Size = new System.Drawing.Size(94, 23);
             this.addNewRecordingButton.TabIndex = 1;
-            this.addNewRecordingButton.Text = "Add Recording";
+            this.addNewRecordingButton.Text = "Add Recordings";
             this.addNewRecordingButton.UseVisualStyleBackColor = true;
             this.addNewRecordingButton.Click += new System.EventHandler(this.addNewRecordingButton_Click);
             // 
@@ -154,7 +154,7 @@
             this.editUserControl.Location = new System.Drawing.Point(11, 27);
             this.editUserControl.Name = "editUserControl";
             this.editUserControl.RecorderState = Frontend.UserControls.EditUserControl.State.Disconnected;
-            this.editUserControl.Size = new System.Drawing.Size(732, 411);
+            this.editUserControl.Size = new System.Drawing.Size(808, 411);
             this.editUserControl.TabIndex = 7;
             this.editUserControl.Visible = false;
             // 
@@ -162,7 +162,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 450);
+            this.ClientSize = new System.Drawing.Size(831, 450);
             this.Controls.Add(this.editUserControl);
             this.Controls.Add(this.updatedLabel);
             this.Controls.Add(this.createdLabel);
@@ -174,6 +174,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Puppeteer Recorder";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

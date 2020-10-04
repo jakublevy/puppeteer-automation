@@ -20,16 +20,12 @@ namespace Frontend.Forms
 
         public PlayerOptions ExportOptions()
         {
-            PuppeteerOptions puppOpt = puppeteerOptionsUserControl.ExportOptions();
-            po.PuppeteerOptions = puppOpt;
-
             return po;
         }
 
         public void BindOptions(PlayerOptions p)
         {
             po = p;
-            puppeteerOptionsUserControl.BindOptions(po.PuppeteerOptions);
             codeGeneratorOptionsPropertyGrid.SelectedObject = po;
         }
     }

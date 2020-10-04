@@ -13,17 +13,19 @@ using Frontend.UserControls;
 using NetMQ;
 using NetMQ.Sockets;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Frontend
 {
     public partial class MainForm : Form
     {
+        List<Form> openedSettingForms = new List<Form>();
         public enum AppMode
         {
             List, Edit
         }
 
-        private  AppMode appState = AppMode.List;
+        private AppMode appState = AppMode.List;
         private CurrentEdit currentEdit;
 
         public  AppMode AppState
@@ -41,31 +43,6 @@ namespace Frontend
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //TODO: odesli ahoj
-
-            using (var pair = new PairSocket("@tcp://127.0.0.1:3000")) // connect
-            {
-                // Send a message from the client socket
-                pair.SendFrame("launch");
-                pair.SendFrame("test");
-                Console.WriteLine(pair.ReceiveFrameString());
-                
-
-                //// Receive the message from the server socket
-                //string m1 = server.ReceiveFrameString();
-                //Console.WriteLine("From Client: {0}", m1);
-
-                //// Send a response back from the server
-                //server.SendFrame("Hi Back");
-
-                //// Receive the response from the client socket
-                //string m2 = client.ReceiveFrameString();
-                //Console.WriteLine("From Server: {0}", m2);
-            }
-        }
-
         private void recorderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RecorderSettingsForm rs = new RecorderSettingsForm();
@@ -76,6 +53,7 @@ namespace Frontend
                 ConfigManager.SaveRecordedEventsConfiguration(rc.RecordedEvents);
               
             };
+            openedSettingForms.Add(rs);
             rs.Show();
         }
 
@@ -89,6 +67,7 @@ namespace Frontend
                 CodeGeneratorOptions cgo = cgs.ExportCodeGeneratorOptions();
                 ConfigManager.SaveCodeGeneratorOptions(cgo);
             };
+            openedSettingForms.Add(cgs);
             cgs.Show();
         }
 
@@ -101,6 +80,7 @@ namespace Frontend
                 PlayerOptions po = pf.ExportOptions();
                 ConfigManager.SavePlayerOptions(po);
             };
+            openedSettingForms.Add(pf);
             pf.Show();
         }
 
@@ -120,23 +100,13 @@ namespace Frontend
             editUserControl.InitMain(this);
             List<Thumbnail> thumbnails = ThumbnailManager.Init();
             LoadThumbnailsUi(thumbnails);
-
-
-            Thumbnail test = new Thumbnail
-            {
-                Created = DateTime.Now,
-                Updated = DateTime.Now,
-                Id = 5,
-                Name = "Test",
-                Websites = new List<Uri> { new Uri("https://grizly.cz"), new Uri("https://seznam.cz") }
-            };
-            ThumbnailUserControl tuc = new ThumbnailUserControl();
-            tuc.BindThumbnail(test);
-            thumbnailsFlowLayoutPanel.Controls.Add(tuc);
         }
 
-        private void SwitchToEditMode(Thumbnail t)
+        public void SwitchToEditMode(Thumbnail t)
         {
+            openedSettingForms.ForEach(f=>f.Close());
+            openedSettingForms.Clear();
+
             if (currentEdit == null)
                 currentEdit = new CurrentEdit();
 
@@ -148,20 +118,17 @@ namespace Frontend
                 NodeJsOptions = ConfigManager.GetNodeJsOptions(),
                 RecordedEvents = ConfigManager.GetRecordedEventsOptions()
             };
-
+            currentEdit.Thumbnail = t;
             if (IsNewRecording(t))
-            {
-                currentEdit.Recording = new Recording();
-                currentEdit.Thumbnail = t;
-
-            }
+                currentEdit.Recordings = new List<Recording>();
+            
             else //editing an existing recording
             {
                 string recordingJson = File.ReadAllText($"recordings/{t.Id}.json");
-                currentEdit.Recording = JsonConvert.DeserializeObject<Recording>(recordingJson, ConfigManager.JsonSettings);
+                dynamic recordings = JsonConvert.DeserializeObject(recordingJson, ConfigManager.JsonSettings);
+                currentEdit.StartupHints = recordings.StartupHints;
+                currentEdit.Recordings = (List<Recording>) ((JArray) recordings.Recordings).ToObject(typeof(List<Recording>));
             }
-
-            //editUserControl
 
             editUserControl.BindEdit(currentEdit);
 
@@ -180,6 +147,9 @@ namespace Frontend
             {
                 SetListUiVisibility(true);
                 SetEditUiVisiblity(false);
+
+                thumbnailsFlowLayoutPanel.Controls.Clear();
+                LoadThumbnailsUi(ThumbnailManager.LoadThumbnails());
             }
             else //Edit
             {
@@ -219,7 +189,13 @@ namespace Frontend
                 ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
             };
             njc.BindNodeJsOptions(ConfigManager.GetNodeJsOptions());
+            openedSettingForms.Add(njc);
             njc.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            editUserControl.NodeJsProcess?.Kill();
         }
     }
 }

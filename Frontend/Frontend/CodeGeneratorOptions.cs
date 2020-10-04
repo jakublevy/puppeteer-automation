@@ -20,31 +20,40 @@ namespace Frontend
         public bool BlankLinesBetweenCodeBlocks { get; set; } = true;
 
 
+        [JsonProperty(PropertyName = "addRequirePuppeteer")]
+        public bool AddRequirePuppeteer { get; set; } = true;
 
         [JsonProperty(PropertyName = "browserClose")]
-        [Browsable(false)]
-        private bool browserClose = false;
+        public bool BrowserClose { get; set; } = true;
+
+
 
         [JsonProperty(PropertyName = "browserDisconnect")]
         [Browsable(false)]
         private bool browserDisconnect = false;
 
-        [JsonProperty(PropertyName = "addRequirePuppeteer")]
-        [Browsable(false)]
-        private bool addRequirePuppeteer = false;
 
         [JsonProperty(PropertyName = "browserConnect")]
         [Browsable(false)]
         private bool browserConnect = false;
 
+
+        [JsonProperty(PropertyName = "addLaunchOrConnect")]
+        [Browsable(false)]
+        private bool addLaunchOrConnect = true;
+
         [JsonProperty(PropertyName = "browserLaunch")]
         [Browsable(false)]
-        private bool browserLaunch = false;
+        private bool browserLaunch = true;
+
 
 
 
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
         public string WaitForNavigationOptions { get; set; } = "{ \"waitUntil\": \"networkidle0\" }";
+
+        [JsonProperty(PropertyName = "waitForTargetOptions")]
+        public string WaitForTargetOptions { get; set; } = "{ \"timeout\": 10000 }";
 
         [JsonProperty(PropertyName = "catchErrors")]
         public bool CatchErrors { get; set; } = false;
