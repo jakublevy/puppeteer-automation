@@ -141,6 +141,12 @@
     <Compile Include="Forms\ReplayViewForm.Designer.cs">
       <DependentUpon>ReplayViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WaitingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WaitingWindow.Designer.cs">
+      <DependentUpon>WaitingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="NodeJsOptions.cs" />
     <Compile Include="PairSocketExtensions.cs" />
     <Compile Include="PlayerOptions.cs" />
@@ -176,6 +182,7 @@
     <Compile Include="UserControls\ThumbnailUserControl.Designer.cs">
       <DependentUpon>ThumbnailUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitForNavigationEnum.cs" />
     <EmbeddedResource Include="Forms\CodeGenEditor.resx">
       <DependentUpon>CodeGenEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -202,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReplayViewForm.resx">
       <DependentUpon>ReplayViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WaitingWindow.resx">
+      <DependentUpon>WaitingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

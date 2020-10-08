@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
+using System.ServiceModel.Dispatcher;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,8 +42,18 @@ namespace Frontend.UserControls
 
       private ReplayViewForm replayViewForm;
 
+      private ActionUserControl runningNowHighlightedAuc;
+      private ActionUserControl oldErrorHighlightedAuc;
+
+      private bool kill = false;
+
+      private object colorChangeLck = new object();
+
       public void FilterChanged(Filter f)
       {
+          if (f == null)
+              return;
+
           activeFilter = f;
 
           if (f.EventTypes.Count == 0 && f.Status.Count == 0 && f.Targets.Count == 0)
@@ -162,7 +173,7 @@ namespace Frontend.UserControls
                     NodeJsProcess?.Kill();
                 pair?.Close();
                 pair = null;
-
+                
             }
             else if (recorderState == State.Recording)
             {
@@ -196,6 +207,7 @@ namespace Frontend.UserControls
             nameTextBox.DataBindings.Clear();
             nameTextBox.DataBindings.Add("Text", edit.Thumbnail, "Name");
             ce.Recordings.ForEach(r=>LoadRecording(r));
+            FilterChanged(activeFilter);
         }
 
         private void saveAndExitButton_Click(object sender, EventArgs e)
@@ -228,6 +240,7 @@ namespace Frontend.UserControls
             RecordingManager.SaveCurrentEdit(edit);
 
             mf.AppState = MainForm.AppMode.List;
+            replayViewForm?.Close();
             actionsFlowLayoutPanel.Controls.Clear();
             filterForm?.Close();
         }
@@ -242,7 +255,6 @@ namespace Frontend.UserControls
             {
                 url = new Uri(a.newUrl.ToString()).Authority;
                 uris.Add(url);
-
             }
 
             return uris;
@@ -267,7 +279,7 @@ namespace Frontend.UserControls
                 RecorderState = State.Disconnected;
             };
             NodeJsProcess.StartInfo.WorkingDirectory = workingDir;
-            //NodeJsProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            NodeJsProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             NodeJsProcess.StartInfo.FileName = edit.Config.NodeJsOptions.InterpreterPath;
             NodeJsProcess.StartInfo.Arguments = edit.Config.NodeJsOptions.NodeJsEntryPoint;
@@ -297,6 +309,7 @@ namespace Frontend.UserControls
 
         private void browserConnection_Click(object sender, EventArgs e)
         {
+            kill = false;
             if (recorderState == State.Disconnected)
             {
                 try
@@ -330,10 +343,11 @@ namespace Frontend.UserControls
 
 
             }
-            else if (recorderState == State.Connected)
+            else if (recorderState == State.Connected || recorderState == State.Recording)
             {
+                kill = true;
                 RecorderState = State.Disconnected;
-                
+                replayViewForm?.ForceClose();
             }
         }
 
@@ -422,18 +436,24 @@ namespace Frontend.UserControls
 
         private void LoadAction(dynamic action)
         {
+            int id;
+            if (action.ToString() == "True")
+                return;
             if (action.type == "urlHint")
             {
                 edit.Thumbnail.Websites.Add(new Uri(action.url.ToString()).Authority);
+                id = -1;
             }
             else if (action.type == "startupHints")
             {
                 edit.StartupHints = action;
+                id = -1;
             }
             else 
             {
                 ActionUserControl auc = new ActionUserControl();
-                auc.BindAction(action);
+                auc.BindAction(action, edit.AllocateId());
+                id = auc.Id;
                 if (selectedAllCheckBox.CheckState == CheckState.Checked)
                     auc.SetSelected(true);
 
@@ -446,7 +466,7 @@ namespace Frontend.UserControls
                 
             }
 
-            edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig() });
+            edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id});
         }
 
         private void LoadRecording(Recording r)
@@ -458,7 +478,7 @@ namespace Frontend.UserControls
             else if (r.Action.type != "startupHints")
             {
                 ActionUserControl auc = new ActionUserControl();
-                auc.BindRecording(r);
+                auc.BindRecording(r, r.Id);
                 if (selectedAllCheckBox.CheckState == CheckState.Checked)
                     auc.SetSelected(true);
 
@@ -487,6 +507,9 @@ namespace Frontend.UserControls
 
                 string json = pair.ReceiveFrameString();
                 dynamic action = JsonConvert.DeserializeObject(json, ConfigManager.JsonSettings);
+                if(action.ToString() == "True")
+                    continue;
+
                 LoadAction(action);
             }
         }
@@ -547,9 +570,12 @@ namespace Frontend.UserControls
 
         private void UpdateProcessButtons()
         {
-            optimizeButton.Enabled = SomeActionsSelectedForProcessing();
-            codeGenButton.Enabled = SomeActionsSelectedForProcessing();
-            replayButton.Enabled = SomeActionsSelectedForProcessing();
+            if (RecorderState == State.Connected)
+            {
+                optimizeButton.Enabled = SomeActionsSelectedForProcessing();
+                codeGenButton.Enabled = SomeActionsSelectedForProcessing();
+                replayButton.Enabled = SomeActionsSelectedForProcessing();
+            }
         }
 
         public void ActionUserControlEnableCheckedChanged(ActionUserControl sender)
@@ -566,9 +592,11 @@ namespace Frontend.UserControls
             filterForm.Show();
         }
 
-        private List<dynamic> GetRecordingActionsForOutput()
+        private Tuple<List<dynamic>, List<ActionUserControl>> GetRecordingActionsForOutput()
         {
+            Tuple<List<dynamic>, List<ActionUserControl>> ret;
             List<dynamic> outputActions = new List<dynamic>();
+            List<ActionUserControl> outputUserControl = new List<ActionUserControl>();
 
             if (edit.StartupHints != null)
                 outputActions.Add(edit.StartupHints);
@@ -577,18 +605,25 @@ namespace Frontend.UserControls
             {
                 if (enabledRadioButton.Checked)
                 {
-                    if(auc.EnabledForOutput)
+                    if (auc.EnabledForOutput)
+                    {
                         outputActions.Add(auc.ExportActionForOutput());
+                        outputUserControl.Add(auc);
+                    }
                 }
                 else if (selectedRadioButton.Checked)
                 {
-                    if(auc.Selected)
+                    if (auc.Selected)
+                    {
                         outputActions.Add(auc.ExportActionForOutput());
+                        outputUserControl.Add(auc);
+                    }
                 }
                 
             }
 
-            return outputActions;
+            ret = new Tuple<List<dynamic>, List<ActionUserControl>>(outputActions, outputUserControl);
+            return ret;
         }
 
         private List<Recording> GetRecordingsForOptimize()
@@ -629,12 +664,6 @@ namespace Frontend.UserControls
             actions.ForEach(a => LoadRecording(a));
         }
 
-        private void EditUserControl_VisibleChanged(object sender, EventArgs e)
-        {
-            filterLabel.Text = "Filter Disabled";
-            filterLabel.ForeColor = Color.Red;
-        }
-
         private void processRadioButtons_CheckedChanged(object sender, EventArgs e)
         {
             UpdateProcessButtons();
@@ -642,7 +671,7 @@ namespace Frontend.UserControls
 
         private void codeGenButton_Click(object sender, EventArgs e)
         {
-            string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput(), ConfigManager.JsonSettings);
+            string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput().Item1, ConfigManager.JsonSettings);
             string codeGenOptsJson = JsonConvert.SerializeObject(edit.Config.CodeGeneratorConfig, ConfigManager.JsonSettings);
             pair.SendFrame("codeGen");
             pair.SendFrame(codeGenOptsJson);
@@ -659,9 +688,8 @@ namespace Frontend.UserControls
             {
                 cts = new CancellationTokenSource();
                 cancelToken = cts.Token;
-
                 replayViewForm?.Close();
-                replayViewForm = new ReplayViewForm();
+                replayViewForm = new ReplayViewForm(this, cts);
                 SetReplayEndedVisibility(false);
                 replayViewForm.Show();
 
@@ -670,25 +698,47 @@ namespace Frontend.UserControls
 
         }
 
-        private void SetReplayUi(bool state)
+        public void HighlightActionUserControlById(int id, Color c)
+        {
+            lock (colorChangeLck)
+            {
+                if (oldErrorHighlightedAuc != null)
+                    UiSafeOperation(() => oldErrorHighlightedAuc.BackColor = default);
+                
+                if (runningNowHighlightedAuc != null)
+                    UiSafeOperation(() => runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod);
+
+                foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
+                    if (auc.Id == id)
+                    {
+                        oldErrorHighlightedAuc = auc;
+                        auc.BackColor = c;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void SetReplayActiveUi(bool state)
         {
             UiSafeOperation(() =>
             {
-                recordButton.Enabled = state;
-                optimizeButton.Enabled = state;
-                replayButton.Enabled = state;
-                codeGenButton.Enabled = state;
+                recordButton.Enabled = !state;
+                optimizeButton.Enabled = !state;
+                replayButton.Enabled = !state;
+                codeGenButton.Enabled = !state;
             });
         }
 
-        private void AddErrorToReplayViewForm(string msg)
+        private void AddErrorToReplayViewForm(string msg, int id)
         {
-            UiSafeOperation(() => replayViewForm.AddError(msg));
+            UiSafeOperation(() => replayViewForm.AddError(msg, id));
         }
 
         private void SetReplayEndedVisibility(bool visibility)
         {
-            UiSafeOperation(() => replayViewForm.SetRecordingEndedVisibility(visibility));
+            UiSafeOperation(() => replayViewForm.SetRecordingEnded(visibility));
         }
 
         private void UiSafeOperation(Action a)
@@ -700,39 +750,152 @@ namespace Frontend.UserControls
                 a();
         }
 
+        public void ClearAucCustomColors()
+        {
+            lock (colorChangeLck)
+            {
+                foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
+                    UiSafeOperation(() => auc.BackColor = default);
+                }
+            }
+        }
+
+        private void FinishReplay()
+        {
+            pair.SendFrame("finished");
+            string msg = pair.ReceiveFrameString();
+            while (msg != "evaluated")
+            {
+                msg = pair.ReceiveFrameString();
+            }
+            UiSafeOperation(() => replayViewForm.ReplayEndedNow());
+            SetReplayActiveUi(false);
+
+        }
+
+        private void AucColorChangeSafe(ActionUserControl auc, Color c)
+        {
+            lock (colorChangeLck)
+            {
+                UiSafeOperation(() => auc.BackColor = c);
+                runningNowHighlightedAuc = auc;
+            }
+        }
+
         private void ReplayTask()
         {
-            SetReplayUi(false);
+            SetReplayActiveUi(true);
 
-            string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput(), ConfigManager.JsonSettings);
+            Tuple<List<dynamic>, List<ActionUserControl>> t = GetRecordingActionsForOutput();
+            List<dynamic> actions = t.Item1;
+            List<ActionUserControl> aucs = t.Item2;
+
             string codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
+            string actionsJson = JsonConvert.SerializeObject(actions, ConfigManager.JsonSettings);
             pair.SendFrame("replay");
             pair.SendFrame(codeGenConfig);
             pair.SendFrame(actionsJson);
 
-            string msg = null;
-            bool b = false;
+            actions.RemoveAt(0); //startupHints
 
-            while (!cts.IsCancellationRequested && msg != "evaluated")
+            for (int i = 0; i < actions.Count; ++i)
             {
-                if (b)
+
+                if (cts.IsCancellationRequested)
                 {
-                    AddErrorToReplayViewForm(msg);
-                    //Add error to error list
+                    if(!kill)
+                        FinishReplay();
+                    return;
                 }
-                b = pair.ReceiveFrameStringTimeout(out msg, 100);
+
+                lock (colorChangeLck)
+                {
+                    runningNowHighlightedAuc = aucs[i];
+                }
+                AucColorChangeSafe(aucs[i], Color.DarkGoldenrod);
+
+                pair.SendFrame(i.ToString());
+                bool b;
+                string m = null;
+                b = pair.ReceiveFrameStringTimeout(out m, 100);
+                while (!b && !cts.IsCancellationRequested)
+                    b = pair.ReceiveFrameStringTimeout(out m, 100);
+
+
+                if (cts.IsCancellationRequested)
+                {
+                    if (!kill)
+                    {
+                        FinishReplay();
+                        AucColorChangeSafe(aucs[i], default);
+                    }
+
+                    return;
+                }
+
+                while (m != "evaluated")
+                {
+                    //exception occurred
+                    if(m != "true")
+                        AddErrorToReplayViewForm(m, aucs[i].Id);
+
+                    b = false;
+                    while (!b && !cts.IsCancellationRequested)
+                        b = pair.ReceiveFrameStringTimeout(out m, 100);
+
+
+                    if (cts.IsCancellationRequested)
+                    {
+                        if (!kill)
+                        {
+                            FinishReplay();
+                            AucColorChangeSafe(aucs[i], default);
+                        }
+                        return;
+                    }
+
+
+                }
+
+                AucColorChangeSafe(aucs[i], default);
             }
-            if (msg == "evaluated")
-            {
-                SetReplayUi(true);
-                SetReplayEndedVisibility(true);
-            }
-            if (cts.IsCancellationRequested)
-            {
-                UiSafeOperation(() => replayViewForm?.Close());
-                NodeJsProcess.Kill();
-                SetReplayUi(true);
-            }
+
+            pair.SendFrame("finished");
+
+            SetReplayEndedVisibility(true);
+            SetReplayActiveUi(false);
+
+            //SetReplayActiveUi(true);
+            //string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput(), ConfigManager.JsonSettings);
+            //string codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
+            //pair.SendFrame("replay");
+            //pair.SendFrame(codeGenConfig);
+            //pair.SendFrame(actionsJson);
+
+            //string msg = null;
+            //bool b = false;
+
+            //while (!cts.IsCancellationRequested && msg != "evaluated")
+            //{
+            //    if (b)
+            //    {
+            //        AddErrorToReplayViewForm(msg);
+            //        //Add error to error list
+            //    }
+            //    b = pair.ReceiveFrameStringTimeout(out msg, 100);
+            //}
+            //if (msg == "evaluated")
+            //{
+            //    SetReplayActiveUi(false);
+            //    SetReplayEndedVisibility(true);
+            //}
+            //if (cts.IsCancellationRequested)
+            //{
+            //    UiSafeOperation(() => replayViewForm?.Close());
+            //    NodeJsProcess.Kill();
+            //    SetReplayActiveUi(false);
+            //}
         }
     }
 }

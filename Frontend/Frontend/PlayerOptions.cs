@@ -53,10 +53,18 @@ namespace Frontend
         //private bool browserLaunch = true;
 
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
-        public string WaitForNavigationOptions { get; set; } = "{ \"waitUntil\": \"networkidle0\" }";
+        [Browsable(false)]
+        public string WaitForNavigationOptionJson => "{ \"waitUntil\": \"" + Enum.GetName(typeof(WaitForNavigation), WaitForNavigationOptions) + "\" }";
+
+
+        public WaitForNavigation WaitForNavigationOptions { get; set; }
 
         [JsonProperty(PropertyName = "waitForTargetOptions")]
-        public string WaitForTargetOptions { get; set; } = "{ \"timeout\": 10000 }";
+        [Browsable(false)]
+        public string WaitForTargetOptions => "{ \"timeout\": " + WaitForTargetTimeoutMs + " }";
+
+        [JsonIgnore]
+        public int WaitForTargetTimeoutMs { get; set; } = 5000;
 
         [Browsable(false)]
         [JsonProperty(PropertyName = "catchErrors")]
@@ -70,7 +78,11 @@ namespace Frontend
         public bool SendErrorsBack = true;
 
         [JsonProperty(PropertyName = "typeOptions")]
-        public string TypeOptions { get; set; } = "{ \"delay\": 100 }";
+        [Browsable(false)]
+        public string TypeOptions => "{ \"delay\": " + KeystrokeDelayMs + " }";
+
+        [JsonIgnore]
+        public int KeystrokeDelayMs { get; set; } = 100;
 
         [Browsable(false)]
         [JsonProperty(PropertyName = "evaluationFinishedAck")]

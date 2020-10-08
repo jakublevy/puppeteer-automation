@@ -24,8 +24,8 @@ namespace Frontend.UserControls
             thumbnail = t;
             nameTextBox.Text = t.Name;
             websitesListBox.DataSource = t.Websites.ToList();
-            createdLabel.Text = t.Created.ToString("dd.MM.yy HH:mm:ss");
-            updatedLabel.Text = t.Updated.ToString("dd.MM.yy HH:mm:ss");
+            createdLabel.Text = t.Created.ToString("d. M. yyyy H:mm:ss");
+            updatedLabel.Text = t.Updated.ToString("d. M. yyyy H:mm:ss");
         }
 
         private void nameTextBox_TextChanged(object sender, EventArgs e)

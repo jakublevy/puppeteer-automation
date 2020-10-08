@@ -110,7 +110,7 @@
             // optimizeButton
             // 
             this.optimizeButton.Enabled = false;
-            this.optimizeButton.Location = new System.Drawing.Point(452, 20);
+            this.optimizeButton.Location = new System.Drawing.Point(453, 19);
             this.optimizeButton.Name = "optimizeButton";
             this.optimizeButton.Size = new System.Drawing.Size(75, 23);
             this.optimizeButton.TabIndex = 6;
@@ -212,7 +212,6 @@
             this.Controls.Add(this.nameTextBox);
             this.Name = "EditUserControl";
             this.Size = new System.Drawing.Size(715, 358);
-            this.VisibleChanged += new System.EventHandler(this.EditUserControl_VisibleChanged);
             this.processGroupBox.ResumeLayout(false);
             this.processGroupBox.PerformLayout();
             this.ResumeLayout(false);

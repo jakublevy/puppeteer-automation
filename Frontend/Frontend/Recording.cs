@@ -8,6 +8,7 @@ namespace Frontend
 {
     public class Recording
     {
+        public int Id { get; set; }
         public dynamic Action { get; set; }
         public UiConfig UiConfig { get; set; }
     }

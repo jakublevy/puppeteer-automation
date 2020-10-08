@@ -40,6 +40,7 @@ namespace Frontend.UserControls
             viewportEnabledCheckBox.Checked = opts.Viewport != null;
             slowMoNumericUpDown.Value = opts.SlowMo;
             devtoolsCheckBox.Checked = opts.DevTools;
+            headlessCheckBox.Checked = opts.Headless;
 
             if (opts is ConnectPuppeteerOptions co)
             {
@@ -74,6 +75,7 @@ namespace Frontend.UserControls
             }
 
             po.DevTools = devtoolsCheckBox.Checked;
+            po.Headless = headlessCheckBox.Checked;
             po.SlowMo = Decimal.ToInt32(slowMoNumericUpDown.Value);
 
             if (viewportEnabledCheckBox.Checked)

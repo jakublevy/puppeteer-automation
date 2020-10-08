@@ -17,7 +17,7 @@ namespace Frontend
             if (!Directory.Exists("recordings"))
                 Directory.CreateDirectory("recordings");
 
-            dynamic recording = new {StartupHints = edit.StartupHints, Recordings = edit.Recordings};
+            dynamic recording = new {StartupHints = edit.StartupHints, Recordings = edit.Recordings, NextId = edit.NextAvailableId};
 
             string json = JsonConvert.SerializeObject(recording, ConfigManager.JsonSettings);
             File.WriteAllText($"recordings/{edit.Thumbnail.Id}.json", json);

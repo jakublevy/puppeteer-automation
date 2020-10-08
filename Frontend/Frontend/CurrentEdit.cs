@@ -12,5 +12,11 @@ namespace Frontend
         public dynamic StartupHints { get; set; }
         public List<Recording> Recordings { get; set; }
         public Configuration Config { get; set; }
+        public int NextAvailableId { get; set; }
+
+        public int AllocateId()
+        {
+            return NextAvailableId++;
+        }
     }
 }

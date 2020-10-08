@@ -51,6 +51,7 @@
             this.devtoolsCheckBox = new System.Windows.Forms.CheckBox();
             this.slowMoLabel = new System.Windows.Forms.Label();
             this.slowMoNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.headlessCheckBox = new System.Windows.Forms.CheckBox();
             this.viewportGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumericUpDown)).BeginInit();
@@ -299,7 +300,7 @@
             // devtoolsCheckBox
             // 
             this.devtoolsCheckBox.AutoSize = true;
-            this.devtoolsCheckBox.Location = new System.Drawing.Point(159, 144);
+            this.devtoolsCheckBox.Location = new System.Drawing.Point(142, 156);
             this.devtoolsCheckBox.Name = "devtoolsCheckBox";
             this.devtoolsCheckBox.Size = new System.Drawing.Size(68, 17);
             this.devtoolsCheckBox.TabIndex = 10;
@@ -332,10 +333,21 @@
             0,
             0});
             // 
+            // headlessCheckBox
+            // 
+            this.headlessCheckBox.AutoSize = true;
+            this.headlessCheckBox.Location = new System.Drawing.Point(142, 133);
+            this.headlessCheckBox.Name = "headlessCheckBox";
+            this.headlessCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.headlessCheckBox.TabIndex = 14;
+            this.headlessCheckBox.Text = "Headless";
+            this.headlessCheckBox.UseVisualStyleBackColor = true;
+            // 
             // PuppeteerOptionsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.headlessCheckBox);
             this.Controls.Add(this.slowMoNumericUpDown);
             this.Controls.Add(this.slowMoLabel);
             this.Controls.Add(this.devtoolsCheckBox);
@@ -388,5 +400,6 @@
         private System.Windows.Forms.Label slowMoLabel;
         private System.Windows.Forms.NumericUpDown slowMoNumericUpDown;
         private System.Windows.Forms.CheckBox viewportEnabledCheckBox;
+        private System.Windows.Forms.CheckBox headlessCheckBox;
     }
 }

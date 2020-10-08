@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,18 +41,18 @@
             this.createdLabel = new System.Windows.Forms.Label();
             this.updatedLabel = new System.Windows.Forms.Label();
             this.editUserControl = new Frontend.UserControls.EditUserControl();
-            this.menuStrip1.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // menuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(831, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(831, 24);
+            this.menuStrip.TabIndex = 0;
+            this.menuStrip.Text = "menuStrip1";
             // 
             // optionsToolStripMenuItem
             // 
@@ -99,15 +99,18 @@
             this.addNewRecordingButton.Name = "addNewRecordingButton";
             this.addNewRecordingButton.Size = new System.Drawing.Size(94, 23);
             this.addNewRecordingButton.TabIndex = 1;
-            this.addNewRecordingButton.Text = "Add Recordings";
+            this.addNewRecordingButton.Text = "Add Recording";
             this.addNewRecordingButton.UseVisualStyleBackColor = true;
             this.addNewRecordingButton.Click += new System.EventHandler(this.addNewRecordingButton_Click);
             // 
             // thumbnailsFlowLayoutPanel
             // 
+            this.thumbnailsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.thumbnailsFlowLayoutPanel.Location = new System.Drawing.Point(12, 87);
             this.thumbnailsFlowLayoutPanel.Name = "thumbnailsFlowLayoutPanel";
-            this.thumbnailsFlowLayoutPanel.Size = new System.Drawing.Size(590, 351);
+            this.thumbnailsFlowLayoutPanel.Size = new System.Drawing.Size(807, 336);
             this.thumbnailsFlowLayoutPanel.TabIndex = 2;
             // 
             // nameLabel
@@ -151,7 +154,7 @@
             this.editUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editUserControl.Location = new System.Drawing.Point(11, 27);
+            this.editUserControl.Location = new System.Drawing.Point(12, 12);
             this.editUserControl.Name = "editUserControl";
             this.editUserControl.RecorderState = Frontend.UserControls.EditUserControl.State.Disconnected;
             this.editUserControl.Size = new System.Drawing.Size(808, 411);
@@ -162,7 +165,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(831, 450);
+            this.ClientSize = new System.Drawing.Size(831, 434);
             this.Controls.Add(this.editUserControl);
             this.Controls.Add(this.updatedLabel);
             this.Controls.Add(this.createdLabel);
@@ -170,14 +173,14 @@
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.thumbnailsFlowLayoutPanel);
             this.Controls.Add(this.addNewRecordingButton);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "Puppeteer Recorder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,7 +188,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recorderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;

@@ -17,6 +17,7 @@ namespace Frontend.UserControls
     {
         private dynamic action;
         private UiConfig uiConfig;
+        public int Id { get; private set; }
         private JsonEditor je = null;
 
         public bool Selected => selectCheckBox.Checked;
@@ -27,10 +28,11 @@ namespace Frontend.UserControls
             InitializeComponent();
         }
 
-        public void BindRecording(Recording r)
+        public void BindRecording(Recording r, int id)
         {
             action = r.Action;
             uiConfig = r.UiConfig;
+            Id = id;
             BindActionToUi();
             ApplyUi();
         }
@@ -82,7 +84,7 @@ namespace Frontend.UserControls
 
         public Recording ExportRecordingForSave()
         {
-            return new Recording {Action = action, UiConfig = uiConfig};
+            return new Recording {Action = action, UiConfig = uiConfig, Id = Id};
         }
 
         public dynamic ExportActionForOutput()
@@ -297,10 +299,11 @@ namespace Frontend.UserControls
             uiConfig.SelectedLocatorIndex = locatorsComboBox.SelectedIndex;
         }
 
-        public void BindAction(dynamic a)
+        public void BindAction(dynamic a, int id)
         {
             action = a;
             uiConfig = new UiConfig();
+            this.Id = id;
             BindActionToUi();
             ApplyUi();
         }

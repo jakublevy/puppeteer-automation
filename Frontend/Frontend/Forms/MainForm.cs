@@ -120,14 +120,18 @@ namespace Frontend
             };
             currentEdit.Thumbnail = t;
             if (IsNewRecording(t))
+            {
                 currentEdit.Recordings = new List<Recording>();
-            
+                currentEdit.NextAvailableId = 0;
+            }
+
             else //editing an existing recording
             {
                 string recordingJson = File.ReadAllText($"recordings/{t.Id}.json");
                 dynamic recordings = JsonConvert.DeserializeObject(recordingJson, ConfigManager.JsonSettings);
                 currentEdit.StartupHints = recordings.StartupHints;
                 currentEdit.Recordings = (List<Recording>) ((JArray) recordings.Recordings).ToObject(typeof(List<Recording>));
+                currentEdit.NextAvailableId = recordings.NextId;
             }
 
             editUserControl.BindEdit(currentEdit);
@@ -161,7 +165,9 @@ namespace Frontend
         private void SetEditUiVisiblity(bool state)
         {
             editUserControl.Visible = state;
-            optionsToolStripMenuItem.Enabled = !state;
+
+            menuStrip.Visible = !state;
+            //optionsToolStripMenuItem.Enabled = !state;
         }
 
         private void SetListUiVisibility(bool state)
@@ -172,7 +178,8 @@ namespace Frontend
             websitesLabel.Visible = state;
             createdLabel.Visible = state;
             updatedLabel.Visible = state;
-            optionsToolStripMenuItem.Enabled = !state;
+            menuStrip.Visible = !state;
+            //optionsToolStripMenuItem.Enabled = !state;
         }
 
         private void addNewRecordingButton_Click(object sender, EventArgs e)
@@ -195,7 +202,8 @@ namespace Frontend
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            editUserControl.NodeJsProcess?.Kill();
+            if(editUserControl.NodeJsProcess != null && !editUserControl.NodeJsProcess.HasExited)
+                editUserControl.NodeJsProcess.Kill();
         }
     }
 }

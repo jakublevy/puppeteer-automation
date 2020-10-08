@@ -50,10 +50,18 @@ namespace Frontend
 
 
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
-        public string WaitForNavigationOptions { get; set; } = "{ \"waitUntil\": \"networkidle0\" }";
+        [Browsable(false)]
+        public string WaitForNavigationOptionJson => "{ \"waitUntil\": \"" + Enum.GetName(typeof(WaitForNavigation), WaitForNavigationOptions) + "\" }";
+
+
+        public WaitForNavigation WaitForNavigationOptions { get; set; }
 
         [JsonProperty(PropertyName = "waitForTargetOptions")]
-        public string WaitForTargetOptions { get; set; } = "{ \"timeout\": 10000 }";
+        [Browsable(false)]
+        public string WaitForTargetOptions => "{ \"timeout\": "+ WaitForTargetTimeoutMs +" }";
+
+        [JsonIgnore] 
+        public int WaitForTargetTimeoutMs { get; set; } = 5000;
 
         [JsonProperty(PropertyName = "catchErrors")]
         public bool CatchErrors { get; set; } = false;
@@ -62,7 +70,11 @@ namespace Frontend
         public bool LogErrors { get; set; } = false;
 
         [JsonProperty(PropertyName = "typeOptions")]
-        public string TypeOptions { get; set; } = "{ \"delay\": 100 }";
+        [Browsable(false)]
+        public string TypeOptions => "{ \"delay\": " + KeystrokeDelayMs +" }";
+
+        [JsonIgnore]
+        public int KeystrokeDelayMs { get; set; } = 100;
 
         [JsonProperty(PropertyName = "indent")]
         public int Indent { get; set; } = 3;
