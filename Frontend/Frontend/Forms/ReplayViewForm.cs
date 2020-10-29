@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Frontend.UserControls;
 
@@ -85,6 +79,7 @@ namespace Frontend.Forms
 
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            clearErrorSelection.Enabled = true;
             DataGridViewRow clickedRow = dataGridView.Rows[e.RowIndex];
             int id = (int) clickedRow.Cells["idColumn"].Value;
             euc.HighlightActionUserControlById(id, Color.FromArgb(206,32,41));
@@ -93,6 +88,8 @@ namespace Frontend.Forms
         private void clearErrorSelection_Click(object sender, EventArgs e)
         {
             dataGridView.ClearSelection();
+            euc.ClearErrorCustomColors();
+            clearErrorSelection.Enabled = false;
         }
 
         public void ForceClose()

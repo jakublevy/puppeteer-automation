@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Frontend.Forms;
 using Newtonsoft.Json;
@@ -107,10 +99,16 @@ namespace Frontend.UserControls
 
         public dynamic ExportActionForOutputImpl()
         {
-            if (action.locators != null && action.selector != null && locatorRadioButton.Checked)
-                action.target = locatorsComboBox.SelectedIndex.ToString();
+            if (action.locators != null && action.locators.Count != 0 && locatorRadioButton.Checked)
+            {
+                if (locatorsComboBox.SelectedIndex == -1 && locatorsComboBox.Text != "")
+                    action.target = locatorsComboBox.Text;
+                
+                else
+                    action.target = locatorsComboBox.SelectedIndex.ToString();
+            }
 
-            else if (selectorRadioButton.Checked)
+            if (selectorRadioButton.Checked)
                 action.target = "selector";
 
             return action;
@@ -158,7 +156,6 @@ namespace Frontend.UserControls
 
         private void selectorTextBox_TextChanged(object sender, EventArgs e)
         {
-
             action.selector = selectorTextBox.Text;
         }
 

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Frontend.Forms;
 using Frontend.UserControls;
-using NetMQ;
-using NetMQ.Sockets;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -100,6 +93,8 @@ namespace Frontend
             editUserControl.InitMain(this);
             List<Thumbnail> thumbnails = ThumbnailManager.Init();
             LoadThumbnailsUi(thumbnails);
+
+            PerformSettingsChecks();
         }
 
         public void SwitchToEditMode(Thumbnail t)
@@ -179,7 +174,7 @@ namespace Frontend
             createdLabel.Visible = state;
             updatedLabel.Visible = state;
             menuStrip.Visible = !state;
-            //optionsToolStripMenuItem.Enabled = !state;
+            nodeInterpreterVersionLabel.Visible = state;
         }
 
         private void addNewRecordingButton_Click(object sender, EventArgs e)
@@ -190,7 +185,7 @@ namespace Frontend
 
         private void nodejsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NodeJsConfig njc = new NodeJsConfig();
+            NodeJsConfig njc = new NodeJsConfig(this);
             njc.Closing += (o, args) =>
             {
                 ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
@@ -204,6 +199,78 @@ namespace Frontend
         {
             if(editUserControl.NodeJsProcess != null && !editUserControl.NodeJsProcess.HasExited)
                 editUserControl.NodeJsProcess.Kill();
+        }
+
+        private void SetUiBasedOnSettings(bool state)
+        {
+            thumbnailsFlowLayoutPanel.Enabled = state;
+            addNewRecordingButton.Enabled = state;
+        }
+
+        private void UiSafeOperation(Action a)
+        {
+            if (InvokeRequired)
+                Invoke(new MethodInvoker(() => a()));
+
+            else
+                a();
+        }
+
+        public void PerformSettingsChecks()
+        {
+            NodeJsOptions njo = ConfigManager.GetNodeJsOptions();
+            Process p = new Process();
+            p.EnableRaisingEvents = true;
+            ProcessStartInfo psi = new ProcessStartInfo(njo.InterpreterPath, "-v");
+            psi.UseShellExecute = false;
+            psi.RedirectStandardError = true;
+            psi.RedirectStandardInput = true;
+            psi.RedirectStandardOutput = true;
+            p.Exited += (sender, args) =>
+            {
+                string nodeV = p.StandardOutput.ReadToEnd();
+
+                if (nodeV.StartsWith("v"))
+                {
+                    UiSafeOperation(() =>
+                    {
+                        nodeInterpreterVersionLabel.Text = $"node -v: {nodeV}";
+                        SetUiBasedOnSettings(true);
+                    });
+                }
+                else
+                    UiSafeOperation(NodeInterpterNotWorking);
+                    
+                
+            };
+            p.StartInfo = psi;
+            try
+            {
+                p.Start();
+            }
+            catch (Exception)
+            {
+                UiSafeOperation(NodeInterpterNotWorking);
+            }
+        }
+
+        private void NodeInterpterNotWorking()
+        {
+            nodeInterpreterVersionLabel.Text = "node -v: Problems with starting node interpreter, check node.js interpreter path in options.";
+            SetUiBasedOnSettings(false);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (AppState == AppMode.Edit)
+            {
+                if (keyData == (Keys.Shift | Keys.Delete))
+                {
+                    editUserControl.DeleteRequested();
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

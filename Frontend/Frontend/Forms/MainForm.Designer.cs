@@ -41,6 +41,7 @@
             this.createdLabel = new System.Windows.Forms.Label();
             this.updatedLabel = new System.Windows.Forms.Label();
             this.editUserControl = new Frontend.UserControls.EditUserControl();
+            this.nodeInterpreterVersionLabel = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,6 +96,7 @@
             // 
             // addNewRecordingButton
             // 
+            this.addNewRecordingButton.Enabled = false;
             this.addNewRecordingButton.Location = new System.Drawing.Point(12, 27);
             this.addNewRecordingButton.Name = "addNewRecordingButton";
             this.addNewRecordingButton.Size = new System.Drawing.Size(94, 23);
@@ -108,6 +110,7 @@
             this.thumbnailsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbnailsFlowLayoutPanel.Enabled = false;
             this.thumbnailsFlowLayoutPanel.Location = new System.Drawing.Point(12, 87);
             this.thumbnailsFlowLayoutPanel.Name = "thumbnailsFlowLayoutPanel";
             this.thumbnailsFlowLayoutPanel.Size = new System.Drawing.Size(807, 336);
@@ -154,18 +157,28 @@
             this.editUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editUserControl.Location = new System.Drawing.Point(12, 12);
+            this.editUserControl.Location = new System.Drawing.Point(15, 7);
             this.editUserControl.Name = "editUserControl";
             this.editUserControl.RecorderState = Frontend.UserControls.EditUserControl.State.Disconnected;
-            this.editUserControl.Size = new System.Drawing.Size(808, 411);
+            this.editUserControl.Size = new System.Drawing.Size(804, 415);
             this.editUserControl.TabIndex = 7;
             this.editUserControl.Visible = false;
+            // 
+            // nodeInterpreterVersionLabel
+            // 
+            this.nodeInterpreterVersionLabel.AutoSize = true;
+            this.nodeInterpreterVersionLabel.Location = new System.Drawing.Point(70, 6);
+            this.nodeInterpreterVersionLabel.Name = "nodeInterpreterVersionLabel";
+            this.nodeInterpreterVersionLabel.Size = new System.Drawing.Size(49, 13);
+            this.nodeInterpreterVersionLabel.TabIndex = 8;
+            this.nodeInterpreterVersionLabel.Text = "node -v: ";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 434);
+            this.Controls.Add(this.nodeInterpreterVersionLabel);
             this.Controls.Add(this.editUserControl);
             this.Controls.Add(this.updatedLabel);
             this.Controls.Add(this.createdLabel);
@@ -199,8 +212,9 @@
         private System.Windows.Forms.Label websitesLabel;
         private System.Windows.Forms.Label createdLabel;
         private System.Windows.Forms.Label updatedLabel;
-        private UserControls.EditUserControl editUserControl;
         private System.Windows.Forms.ToolStripMenuItem nodejsToolStripMenuItem;
+        private UserControls.EditUserControl editUserControl;
+        private System.Windows.Forms.Label nodeInterpreterVersionLabel;
     }
 }
 

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Frontend.Forms
@@ -13,9 +6,11 @@ namespace Frontend.Forms
     public partial class NodeJsConfig : Form
     {
         private NodeJsOptions njc;
-        public NodeJsConfig()
+        private MainForm mf;
+        public NodeJsConfig(MainForm m)
         {
             InitializeComponent();
+            mf = m;
         }
 
         public void BindNodeJsOptions(NodeJsOptions n)
@@ -64,6 +59,11 @@ namespace Frontend.Forms
             {
                 njc.NodeJsEntryPoint = nodeJsEntryPointTextBox.Text;
             }
+        }
+
+        private void NodeJsConfig_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            mf.PerformSettingsChecks();
         }
     }
 }

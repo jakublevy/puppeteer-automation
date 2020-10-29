@@ -12,8 +12,10 @@
   "author": "Jakub Levý",
   "license": "",
   "dependencies": {
-    "async-mutex": "^0.2.4",
+    "async-mutex": "latest",
     "clipboardy": "latest",
+    "css.escape": "^1.5.1",
+    "js-string-escape": "^1.0.1",
     "puppeteer": "latest",
     "zeromq": "latest"
   },

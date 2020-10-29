@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace Frontend
@@ -15,7 +9,7 @@ namespace Frontend
         [JsonProperty(PropertyName = "headless")] 
         public bool Headless { get; set; } = false;
 
-        [JsonProperty(PropertyName = "defaultViewport")]
+        [JsonProperty(PropertyName = "defaultViewport", NullValueHandling = NullValueHandling.Include)]
         public Viewport Viewport { get; set; }
 
         [JsonProperty(PropertyName = "devtools")]

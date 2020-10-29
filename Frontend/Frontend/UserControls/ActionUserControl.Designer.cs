@@ -54,7 +54,7 @@
             this.jsonEditButton.Name = "jsonEditButton";
             this.jsonEditButton.Size = new System.Drawing.Size(75, 23);
             this.jsonEditButton.TabIndex = 0;
-            this.jsonEditButton.Text = "JSON Edit";
+            this.jsonEditButton.Text = "JSON";
             this.jsonEditButton.UseVisualStyleBackColor = true;
             this.jsonEditButton.Click += new System.EventHandler(this.jsonEditButton_Click);
             // 

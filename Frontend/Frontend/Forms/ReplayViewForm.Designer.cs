@@ -74,6 +74,7 @@
             this.dataGridView.Location = new System.Drawing.Point(12, 32);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.Size = new System.Drawing.Size(776, 406);
             this.dataGridView.TabIndex = 2;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
@@ -89,6 +90,7 @@
             // 
             this.errorsColumn.HeaderText = "Error";
             this.errorsColumn.Name = "errorsColumn";
+            this.errorsColumn.ReadOnly = true;
             // 
             // stopButton
             // 

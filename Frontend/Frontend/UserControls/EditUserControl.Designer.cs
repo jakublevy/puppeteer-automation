@@ -42,6 +42,9 @@
             this.selectedAllCheckBox = new System.Windows.Forms.CheckBox();
             this.filterButton = new System.Windows.Forms.Button();
             this.filterLabel = new System.Windows.Forms.Label();
+            this.addAsFirst = new System.Windows.Forms.RadioButton();
+            this.addAsLast = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.processGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,7 +113,7 @@
             // optimizeButton
             // 
             this.optimizeButton.Enabled = false;
-            this.optimizeButton.Location = new System.Drawing.Point(453, 19);
+            this.optimizeButton.Location = new System.Drawing.Point(453, 3);
             this.optimizeButton.Name = "optimizeButton";
             this.optimizeButton.Size = new System.Drawing.Size(75, 23);
             this.optimizeButton.TabIndex = 6;
@@ -196,10 +199,44 @@
             this.filterLabel.TabIndex = 0;
             this.filterLabel.Text = "Filter Disabled";
             // 
+            // addAsFirst
+            // 
+            this.addAsFirst.AutoSize = true;
+            this.addAsFirst.Location = new System.Drawing.Point(489, 27);
+            this.addAsFirst.Name = "addAsFirst";
+            this.addAsFirst.Size = new System.Drawing.Size(44, 17);
+            this.addAsFirst.TabIndex = 11;
+            this.addAsFirst.Text = "First";
+            this.addAsFirst.UseVisualStyleBackColor = true;
+            // 
+            // addAsLast
+            // 
+            this.addAsLast.AutoSize = true;
+            this.addAsLast.Checked = true;
+            this.addAsLast.Location = new System.Drawing.Point(489, 43);
+            this.addAsLast.Name = "addAsLast";
+            this.addAsLast.Size = new System.Drawing.Size(45, 17);
+            this.addAsLast.TabIndex = 12;
+            this.addAsLast.TabStop = true;
+            this.addAsLast.Text = "Last";
+            this.addAsLast.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(447, 37);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Add as";
+            // 
             // EditUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.addAsFirst);
+            this.Controls.Add(this.addAsLast);
             this.Controls.Add(this.optimizeButton);
             this.Controls.Add(this.filterLabel);
             this.Controls.Add(this.filterButton);
@@ -235,5 +272,8 @@
         private System.Windows.Forms.CheckBox selectedAllCheckBox;
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.Label filterLabel;
+        private System.Windows.Forms.RadioButton addAsFirst;
+        private System.Windows.Forms.RadioButton addAsLast;
+        private System.Windows.Forms.Label label1;
     }
 }

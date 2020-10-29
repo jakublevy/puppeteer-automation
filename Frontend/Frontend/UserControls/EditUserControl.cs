@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Diagnostics;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Permissions;
-using System.ServiceModel.Dispatcher;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 using Frontend.Forms;
 using NetMQ;
 using NetMQ.Sockets;
 using Newtonsoft.Json;
-using Timer = System.Timers.Timer;
 
 
 namespace Frontend.UserControls
@@ -280,12 +272,16 @@ namespace Frontend.UserControls
             };
             NodeJsProcess.StartInfo.WorkingDirectory = workingDir;
             NodeJsProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            NodeJsProcess.StartInfo.UseShellExecute = false;
+            NodeJsProcess.StartInfo.RedirectStandardError = true;
+            NodeJsProcess.StartInfo.RedirectStandardInput = true;
+            NodeJsProcess.StartInfo.RedirectStandardOutput = true;
 
             NodeJsProcess.StartInfo.FileName = edit.Config.NodeJsOptions.InterpreterPath;
             NodeJsProcess.StartInfo.Arguments = edit.Config.NodeJsOptions.NodeJsEntryPoint;
             try
             {
-               NodeJsProcess.Start();
+            //        NodeJsProcess.Start();
             }
             catch (Exception)
             {
@@ -325,8 +321,15 @@ namespace Frontend.UserControls
                 if(pair == null)
                     pair = new PairSocket("@tcp://127.0.0.1:3000");
 
+
                 string eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
-                pair.SendFrame("setEventsToRecord");
+                //pair.SendFrame("setEventsToRecord");
+                bool b = pair.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
+                if (!b)
+                {
+                    HandleIncorrectProcess();
+                    return;
+                }
                 pair.SendFrame(eventsToRecord);
 
                 if (edit.Config.PuppeteerConfig is LaunchPuppeteerOptions lpo)
@@ -338,8 +341,35 @@ namespace Frontend.UserControls
                 else if (edit.Config.PuppeteerConfig is ConnectPuppeteerOptions cpo)
                 {
                     pair.SendFrame("connect");
-                } 
-                RecorderState = State.Connected;
+                }
+
+                string response;
+                bool received = pair.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out response);
+                if (received)
+                {
+                    if (response == "ACK")
+                        RecorderState = State.Connected;
+
+                    else
+                    {
+                        if (edit.Config.PuppeteerConfig is LaunchPuppeteerOptions)
+                        {
+                            MessageBox.Show("Could not launch browser, check whether chrome/chromium is installed or correct path was supplied in options", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            HandleIncorrectProcess();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not connect to browser, check IP a Port number and whether the browser process is running with --remote-debugging-port=PORT_N", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            HandleIncorrectProcess();
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    HandleIncorrectProcess();
+                }
+                
 
 
             }
@@ -349,6 +379,12 @@ namespace Frontend.UserControls
                 RecorderState = State.Disconnected;
                 replayViewForm?.ForceClose();
             }
+        }
+
+        private void HandleIncorrectProcess()
+        {
+            NodeJsProcess?.Kill();
+            MessageBox.Show("Node.js app is not responding. Check if node interpreter is running correct code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void InterruptTasks()
@@ -417,11 +453,11 @@ namespace Frontend.UserControls
             {
                 cts = new CancellationTokenSource();
                 cancelToken = cts.Token;
-                recordingTask = Task.Factory.StartNew(RecordingTask, cancelToken);
 
                 pair.SendFrame("start");
 
                 RecorderState = State.Recording;
+                recordingTask = Task.Factory.StartNew(RecordingTask, cancelToken);
             }
             else if(!connectionStatus)
             {
@@ -429,8 +465,8 @@ namespace Frontend.UserControls
             }
             else if (connectionStatus && recorderState == State.Recording) //Stop recording
             {
-                pair.SendFrame("stop");
                 RecorderState = State.Connected;
+                pair.SendFrame("stop");
             }
         }
 
@@ -461,12 +497,21 @@ namespace Frontend.UserControls
                 UiSafeOperation(() =>
                 {
                     actionsFlowLayoutPanel.Controls.Add(auc);
+                    
+                    if(addAsFirst.Checked)
+                        actionsFlowLayoutPanel.Controls.SetChildIndex(actionsFlowLayoutPanel.Controls[actionsFlowLayoutPanel.Controls.Count - 1],0);
+
                     UpdateAllActionUpDownButtons();
+
+                    actionsFlowLayoutPanel.ScrollControlIntoView(auc);
                 });
                 
             }
 
-            edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id});
+            if(addAsLast.Checked)
+                edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id});
+            else //addAsFirst.Checked
+                edit.Recordings.Insert(0, new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
         }
 
         private void LoadRecording(Recording r)
@@ -505,9 +550,16 @@ namespace Frontend.UserControls
                 if (pair.HasIn && cancelToken.IsCancellationRequested)
                     break;
 
-                string json = pair.ReceiveFrameString();
+
+                string json = null;
+                if (!pair.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out json))
+                {
+                    continue;
+                }
+
                 dynamic action = JsonConvert.DeserializeObject(json, ConfigManager.JsonSettings);
-                if(action.ToString() == "True")
+
+                if (action.ToString() == "True")
                     continue;
 
                 LoadAction(action);
@@ -703,10 +755,20 @@ namespace Frontend.UserControls
             lock (colorChangeLck)
             {
                 if (oldErrorHighlightedAuc != null)
-                    UiSafeOperation(() => oldErrorHighlightedAuc.BackColor = default);
-                
+                    UiSafeOperation(() =>
+                    {
+                        oldErrorHighlightedAuc.BackColor = default;
+                        actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
+                    });
+
                 if (runningNowHighlightedAuc != null)
-                    UiSafeOperation(() => runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod);
+                {
+                    UiSafeOperation(() =>
+                    {
+                        runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod;
+                        actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
+                    });
+                }
 
                 foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
                 {
@@ -714,7 +776,28 @@ namespace Frontend.UserControls
                     {
                         oldErrorHighlightedAuc = auc;
                         auc.BackColor = c;
+                        actionsFlowLayoutPanel.ScrollControlIntoView(auc);
                         break;
+                    }
+                }
+            }
+        }
+
+        public void ClearErrorCustomColors()
+        {
+            lock (colorChangeLck)
+            {
+                if (oldErrorHighlightedAuc != null)
+                {
+                    UiSafeOperation(() => oldErrorHighlightedAuc.BackColor = default);
+                    oldErrorHighlightedAuc = null;
+                    if (runningNowHighlightedAuc != null)
+                    {
+                        UiSafeOperation(() =>
+                        {
+                            runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod;
+                            actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
+                        });
                     }
                 }
             }
@@ -728,6 +811,12 @@ namespace Frontend.UserControls
                 optimizeButton.Enabled = !state;
                 replayButton.Enabled = !state;
                 codeGenButton.Enabled = !state;
+
+
+                foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
+                    auc.Enabled = !state;
+                }
             });
         }
 
@@ -769,16 +858,33 @@ namespace Frontend.UserControls
             {
                 msg = pair.ReceiveFrameString();
             }
+            runningNowHighlightedAuc = null;
             UiSafeOperation(() => replayViewForm.ReplayEndedNow());
             SetReplayActiveUi(false);
 
+        }
+
+        public void DeleteRequested()
+        {
+            List<ActionUserControl> toRemove = new List<ActionUserControl>();
+            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
+                if(auc.Selected) 
+                    toRemove.Add(auc);
+            }
+            toRemove.ForEach(auc => actionsFlowLayoutPanel.Controls.Remove(auc));
+            selectedAllCheckBox.CheckState = CheckState.Unchecked;
         }
 
         private void AucColorChangeSafe(ActionUserControl auc, Color c)
         {
             lock (colorChangeLck)
             {
-                UiSafeOperation(() => auc.BackColor = c);
+                UiSafeOperation(() =>
+                {
+                    auc.BackColor = c;
+                    actionsFlowLayoutPanel.ScrollControlIntoView(auc);
+                });
                 runningNowHighlightedAuc = auc;
             }
         }
@@ -861,6 +967,7 @@ namespace Frontend.UserControls
                 AucColorChangeSafe(aucs[i], default);
             }
 
+            runningNowHighlightedAuc = null;
             pair.SendFrame("finished");
 
             SetReplayEndedVisibility(true);
