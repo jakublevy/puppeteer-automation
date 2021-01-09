@@ -106,7 +106,7 @@
             this.recordButton.Name = "recordButton";
             this.recordButton.Size = new System.Drawing.Size(96, 37);
             this.recordButton.TabIndex = 5;
-            this.recordButton.Text = "Start Recordings";
+            this.recordButton.Text = "Start Recording";
             this.recordButton.UseVisualStyleBackColor = true;
             this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
             // 

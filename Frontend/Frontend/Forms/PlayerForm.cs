@@ -2,6 +2,9 @@
 
 namespace Frontend.Forms
 {
+    /// <summary>
+    /// This form contains Property Grid that is used to set properties of PlayerOptions object.
+    /// </summary>
     public partial class PlayerForm : Form
     {
         private PlayerOptions po;

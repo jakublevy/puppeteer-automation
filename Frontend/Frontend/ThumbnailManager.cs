@@ -6,9 +6,18 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    /// <summary>
+    /// This file contains logic and helper methods for working with thumbnails (recording previews, shown on the application main page).
+    /// </summary>
     class ThumbnailManager
     {
         private static int nextAvailableId;
+
+        /// <summary>
+        /// Called with the start of the Frontend application. This method loads saved recordings if there exists a file with them.
+        /// If there is not file, it creates an empty collection of recordings.
+        /// </summary>
+        /// <returns></returns>
         public static List<Thumbnail> Init()
         {
             if (File.Exists(Constants.RECORDING_LIST_FILE))
@@ -37,7 +46,6 @@ namespace Frontend
             }
             else
             {
-            //    File.Create(Constants.RECORDING_LIST_FILE);
                 nextAvailableId = 1;
 
                 return new List<Thumbnail>();

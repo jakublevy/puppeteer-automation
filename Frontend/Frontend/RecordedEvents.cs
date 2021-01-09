@@ -2,6 +2,9 @@
 
 namespace Frontend
 {
+    /// <summary>
+    /// Contains events that are available for capturing.
+    /// </summary>
     public class RecordedEvents
     {
         public bool Click { get; set; } = true;

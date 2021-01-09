@@ -79,14 +79,14 @@
             this.viewportGroupBox.Size = new System.Drawing.Size(230, 123);
             this.viewportGroupBox.TabIndex = 0;
             this.viewportGroupBox.TabStop = false;
-            this.viewportGroupBox.Text = "Viewport";
+            this.viewportGroupBox.Text = "Override Viewport ";
             // 
             // viewportEnabledCheckBox
             // 
             this.viewportEnabledCheckBox.AutoSize = true;
             this.viewportEnabledCheckBox.Checked = true;
             this.viewportEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewportEnabledCheckBox.Location = new System.Drawing.Point(58, 2);
+            this.viewportEnabledCheckBox.Location = new System.Drawing.Point(100, 2);
             this.viewportEnabledCheckBox.Name = "viewportEnabledCheckBox";
             this.viewportEnabledCheckBox.Size = new System.Drawing.Size(65, 17);
             this.viewportEnabledCheckBox.TabIndex = 9;

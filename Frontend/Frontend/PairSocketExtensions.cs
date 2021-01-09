@@ -6,6 +6,10 @@ namespace Frontend
 {
     public static class PairSocketExtensions
     {
+        /// <summary>
+        /// Extension method that waits maximally timeoutMs for a string data on pair.
+        /// </summary>
+        /// <returns></returns>
         public static bool ReceiveFrameStringTimeout(this PairSocket pair, out string result, int timeoutMs)
         {
             Stopwatch sw = Stopwatch.StartNew();

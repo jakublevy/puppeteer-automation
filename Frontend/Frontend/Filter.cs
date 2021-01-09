@@ -4,7 +4,7 @@ namespace Frontend
 {
     public class Filter
     {
-        //Contains value for hiding
+        //Each property contains values that should be hidden when using filter.
 
         public List<string> EventTypes { get; set; } = new List<string>();
         public List<string> Targets { get; set; } = new List<string>();

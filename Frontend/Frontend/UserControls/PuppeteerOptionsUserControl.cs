@@ -3,11 +3,15 @@ using System.Windows.Forms;
 
 namespace Frontend.UserControls
 {
+    /// <summary>
+    /// This User control is an UI for configuration of PuppeteerOptions object.
+    /// </summary>
     public partial class PuppeteerOptionsUserControl : UserControl
     {
         enum BrowserMode
         {
-            Launch, Connect
+            Launch, //corresponds to puppeteer.launch(...)
+            Connect //corresponds to puppeteer.connect(...)
         }
 
         public PuppeteerOptionsUserControl()
@@ -19,6 +23,9 @@ namespace Frontend.UserControls
             viewportEnabledCheckBox.BringToFront();
         }
 
+        /// <summary>
+        /// Fills the UI with respect to the supplied parameter opts.
+        /// </summary>
         public void BindOptions(PuppeteerOptions opts)
         {
             if (opts.Viewport != null)
@@ -39,15 +46,21 @@ namespace Frontend.UserControls
             {
                 hostTextBox.Text = co.EndPoint.Host;
                 portTextBox.Text = co.EndPoint.Port.ToString();
+                connectionTypeComboBox.SelectedIndex = 1;
                 SetBrowserMode(BrowserMode.Connect);
             }
             else if (opts is LaunchPuppeteerOptions lo)
             {
                 pathTextBox.Text = lo.ExecutablePath;
+                connectionTypeComboBox.SelectedIndex = 0;
                 SetBrowserMode(BrowserMode.Launch);
             }
         }
 
+        /// <summary>
+        /// Exports current UI into PuppeteerOptions.
+        /// </summary>
+        /// <returns></returns>
         public PuppeteerOptions ExportOptions()
         {
             PuppeteerOptions po = null;
@@ -89,6 +102,9 @@ namespace Frontend.UserControls
             return po;
         }
 
+        /// <summary>
+        /// Setting visibility for controls of launch state (browser path)
+        /// </summary>
         private void SetLaunchControlsVisibility(bool state)
         {
             pathTextBox.Visible = state;
@@ -96,6 +112,9 @@ namespace Frontend.UserControls
             browseButton.Visible = state;
         }
 
+        /// <summary>
+        /// Setting visibility for controls of connect state (ip address, port)
+        /// </summary>
         private void SetConnectControlsVisibility(bool state)
         {
             hostLabel.Visible = state;
@@ -104,6 +123,10 @@ namespace Frontend.UserControls
             portTextBox.Visible = state;
         }
 
+
+        /// <summary>
+        /// Sets the UI controls visibility with respect to the given parameter mode.
+        /// </summary>
         private void SetBrowserMode(BrowserMode mode)
         {
             if (mode == BrowserMode.Launch)
@@ -118,6 +141,9 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Changes the current BrowserMode based on selected value of combo box.
+        /// </summary>
         private void connectionTypeComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             if (connectionTypeComboBox.SelectedItem.ToString() == "Connect")
@@ -130,6 +156,9 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Open file dialog for choosing browser executable path.
+        /// </summary>
         private void browseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog opfd = new OpenFileDialog();
@@ -139,11 +168,17 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Default connection type is 0 = Launch
+        /// </summary>
         private void PuppeteerOptionsUserControl_Load(object sender, EventArgs e)
         {
             connectionTypeComboBox.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// UI logic that enables or disables viewport group box.
+        /// </summary>
         private void viewportEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             viewportGroupBox.Enabled = viewportEnabledCheckBox.Checked;

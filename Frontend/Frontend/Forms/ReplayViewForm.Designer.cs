@@ -96,9 +96,9 @@
             // 
             this.stopButton.Location = new System.Drawing.Point(12, 3);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(67, 23);
+            this.stopButton.Size = new System.Drawing.Size(88, 23);
             this.stopButton.TabIndex = 3;
-            this.stopButton.Text = "Stop";
+            this.stopButton.Text = "Stop Replaying";
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 

@@ -4,6 +4,10 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    /// <summary>
+    /// Corresponds to a subset of Puppeteer.launch/connect,
+    /// for more information consult: https://github.com/puppeteer/puppeteer/blob/v5.5.0/docs/api.md#puppeteerlaunchoptions 
+    /// </summary>
     public class PuppeteerOptions
     {
         [JsonProperty(PropertyName = "headless")] 

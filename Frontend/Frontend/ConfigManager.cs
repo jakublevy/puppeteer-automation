@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    /// <summary>
+    /// This class contains various methods for saving, retrieving, and obtaining default configuration.
+    /// </summary>
     class ConfigManager
     {
         public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings

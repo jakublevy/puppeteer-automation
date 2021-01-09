@@ -10,15 +10,24 @@ using Newtonsoft.Json.Linq;
 
 namespace Frontend
 {
+    /// <summary>
+    /// This is the main form of the Frontend application.
+    /// After the start the list of thumbnails (recording previews) are shown.
+    /// </summary>
     public partial class MainForm : Form
     {
         List<Form> openedSettingForms = new List<Form>();
+
         public enum AppMode
         {
-            List, Edit
+            List, //list of thumbnails is shown
+            Edit //some recording is edited
         }
 
+        //current state of the application
         private AppMode appState = AppMode.List;
+
+        //currently edited recording
         private CurrentEdit currentEdit;
 
         public  AppMode AppState
@@ -36,6 +45,24 @@ namespace Frontend
             InitializeComponent();
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            editUserControl.InitMain(this);
+            List<Thumbnail> thumbnails = ThumbnailManager.Init();
+            LoadThumbnailsUi(thumbnails);
+
+            PerformSettingsChecks();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (editUserControl.NodeJsProcess != null && !editUserControl.NodeJsProcess.HasExited)
+                editUserControl.NodeJsProcess.Kill();
+        }
+
+        /// <summary>
+        /// Showing form of recorder settings on menu item click.
+        /// </summary>
         private void recorderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RecorderSettingsForm rs = new RecorderSettingsForm();
@@ -50,6 +77,9 @@ namespace Frontend
             rs.Show();
         }
 
+        /// <summary>
+        /// Showing form of code generator settings on menu item click.
+        /// </summary>
         private void codeGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CodeGeneratorSettingsForm cgs = new CodeGeneratorSettingsForm();
@@ -64,6 +94,9 @@ namespace Frontend
             cgs.Show();
         }
 
+        /// <summary>
+        /// Showing form of player settings on menu item click.
+        /// </summary>
         private void playerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PlayerForm pf = new PlayerForm();
@@ -77,6 +110,24 @@ namespace Frontend
             pf.Show();
         }
 
+        /// <summary>
+        /// On menu item click, this method shows form of settings related to Node.js
+        /// </summary>
+        private void nodejsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NodeJsConfig njc = new NodeJsConfig(this);
+            njc.Closing += (o, args) =>
+            {
+                ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
+            };
+            njc.BindNodeJsOptions(ConfigManager.GetNodeJsOptions());
+            openedSettingForms.Add(njc);
+            njc.Show();
+        }
+
+        /// <summary>
+        /// Creates corresponding UIs to passed thumbnails list
+        /// </summary>
         private void LoadThumbnailsUi(List<Thumbnail> thumbnails)
         {
             foreach(Thumbnail t in thumbnails)
@@ -88,15 +139,9 @@ namespace Frontend
             
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            editUserControl.InitMain(this);
-            List<Thumbnail> thumbnails = ThumbnailManager.Init();
-            LoadThumbnailsUi(thumbnails);
-
-            PerformSettingsChecks();
-        }
-
+        /// <summary>
+        /// Changes UI and prepares for editing passed thumbnail
+        /// </summary>
         public void SwitchToEditMode(Thumbnail t)
         {
             openedSettingForms.ForEach(f=>f.Close());
@@ -140,6 +185,9 @@ namespace Frontend
             return !File.Exists($"recordings/{thumbnail.Id}.json");
         }
 
+        /// <summary>
+        /// Changes UI from List mode to Edit mode and vice versa.
+        /// </summary>
         private void UiChange()
         {
             if (AppState == AppMode.List)
@@ -157,14 +205,19 @@ namespace Frontend
             }
         }
 
+        /// <summary>
+        /// Sets the visibility of menu strip items.
+        /// </summary>
         private void SetEditUiVisiblity(bool state)
         {
             editUserControl.Visible = state;
-
             menuStrip.Visible = !state;
-            //optionsToolStripMenuItem.Enabled = !state;
         }
 
+        /// <summary>
+        /// Sets the visibility of List mode components.
+        /// </summary>
+        /// <param name="state"></param>
         private void SetListUiVisibility(bool state)
         {
             addNewRecordingButton.Visible = state;
@@ -177,36 +230,29 @@ namespace Frontend
             nodeInterpreterVersionLabel.Visible = state;
         }
 
+        /// <summary>
+        /// After clicking on "Add Recording" button, this method creates new thumbnails and switches to edit mode.
+        /// </summary>
         private void addNewRecordingButton_Click(object sender, EventArgs e)
         {
             Thumbnail t = ThumbnailManager.NewThumbnail();
             SwitchToEditMode(t);
         }
 
-        private void nodejsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NodeJsConfig njc = new NodeJsConfig(this);
-            njc.Closing += (o, args) =>
-            {
-                ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
-            };
-            njc.BindNodeJsOptions(ConfigManager.GetNodeJsOptions());
-            openedSettingForms.Add(njc);
-            njc.Show();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(editUserControl.NodeJsProcess != null && !editUserControl.NodeJsProcess.HasExited)
-                editUserControl.NodeJsProcess.Kill();
-        }
-
-        private void SetUiBasedOnSettings(bool state)
+        /// <summary>
+        /// Sets the availability of edit mode.
+        /// E.g. edit mode is supposed to be disabled when Node.js interpreter is not found.
+        /// </summary>
+        private void SetEditModeAvailability(bool state)
         {
             thumbnailsFlowLayoutPanel.Enabled = state;
             addNewRecordingButton.Enabled = state;
         }
 
+        /// <summary>
+        /// Performs a given action that might be running on different thread and updates UI safely.
+        /// </summary>
+        /// <param name="a"></param>
         private void UiSafeOperation(Action a)
         {
             if (InvokeRequired)
@@ -216,6 +262,10 @@ namespace Frontend
                 a();
         }
 
+        /// <summary>
+        /// Performs certain checks to know whether edit mode should be available.
+        /// E.g. checks whether path points to the correct Node.js interpreter.
+        /// </summary>
         public void PerformSettingsChecks()
         {
             NodeJsOptions njo = ConfigManager.GetNodeJsOptions();
@@ -235,7 +285,7 @@ namespace Frontend
                     UiSafeOperation(() =>
                     {
                         nodeInterpreterVersionLabel.Text = $"node -v: {nodeV}";
-                        SetUiBasedOnSettings(true);
+                        SetEditModeAvailability(true);
                     });
                 }
                 else
@@ -254,12 +304,18 @@ namespace Frontend
             }
         }
 
+        /// <summary>
+        /// Updates UI with a message reporting a problem with Node.js interpreter.
+        /// </summary>
         private void NodeInterpterNotWorking()
         {
             nodeInterpreterVersionLabel.Text = "node -v: Problems with starting node interpreter, check node.js interpreter path in options.";
-            SetUiBasedOnSettings(false);
+            SetEditModeAvailability(false);
         }
 
+        /// <summary>
+        /// Global application shortcut Shift + Del that deletes focused action (only works in edit mode).
+        /// </summary>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (AppState == AppMode.Edit)

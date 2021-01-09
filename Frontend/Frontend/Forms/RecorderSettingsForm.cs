@@ -3,6 +3,10 @@ using System.Windows.Forms;
 
 namespace Frontend.Forms
 {
+    /// <summary>
+    /// This form contains Property Grid that is used to set which events are supposed to be recorded (RecordedEvents object).
+    /// There are also another UI elements for setting RecorderConfiguration object.
+    /// </summary>
     public partial class RecorderSettingsForm : Form
     {
         public RecorderSettingsForm()

@@ -39,11 +39,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(109, 9);
+            this.label1.Location = new System.Drawing.Point(70, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.Size = new System.Drawing.Size(138, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Interpreter";
+            this.label1.Text = "Node.js Interpreter Location";
             // 
             // interpreterTextBox
             // 
@@ -69,9 +69,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(87, 112);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 13);
+            this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Node.js Entry Point";
+            this.label2.Text = "Backend Entry Point";
             // 
             // nodeJsEntryPointTextBox
             // 

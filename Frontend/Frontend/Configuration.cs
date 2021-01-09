@@ -1,5 +1,8 @@
 ﻿namespace Frontend
 {
+    /// <summary>
+    /// Represents the whole configuration of the Frontend application.
+    /// </summary>
     public class Configuration
     {
         public PuppeteerOptions PuppeteerConfig { get; set; }

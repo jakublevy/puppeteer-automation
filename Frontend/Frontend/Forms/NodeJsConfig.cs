@@ -3,6 +3,10 @@ using System.Windows.Forms;
 
 namespace Frontend.Forms
 {
+    /// <summary>
+    /// This form contains fields to set things related to Node.js (interpreter path, backend entry point)
+    /// This file contains mostly necessary UI logic.
+    /// </summary>
     public partial class NodeJsConfig : Form
     {
         private NodeJsOptions njc;

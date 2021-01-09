@@ -2,6 +2,9 @@
 
 namespace Frontend
 {
+    /// <summary>
+    /// This class represents the actual recording with UI related stuff (Thumbnail), configuration (Config), etc.
+    /// </summary>
     public class CurrentEdit
     {
         public Thumbnail Thumbnail { get; set; }

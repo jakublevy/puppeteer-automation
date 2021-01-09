@@ -159,7 +159,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editUserControl.Location = new System.Drawing.Point(15, 7);
             this.editUserControl.Name = "editUserControl";
-            this.editUserControl.RecorderState = Frontend.UserControls.EditUserControl.State.Disconnected;
+            this.editUserControl.WorkingState = Frontend.UserControls.EditUserControl.State.Disconnected;
             this.editUserControl.Size = new System.Drawing.Size(804, 415);
             this.editUserControl.TabIndex = 7;
             this.editUserControl.Visible = false;

@@ -5,6 +5,10 @@ using ScintillaNET;
 
 namespace Frontend.Forms
 {
+    /*
+     * This class uses a text editor ScintillaNET.Scintilla. This code is not my own, it is used with respect to the MIT license.
+     * Source code of ScintillaNET project: https://github.com/jacobslusser/ScintillaNET.
+     */
     public partial class JsonEditor : Form
     {
         public JsonEditor()
@@ -36,12 +40,10 @@ namespace Frontend.Forms
             textEditor.Styles[Style.Json.String].ForeColor = Color.FromArgb(163, 21, 21); // Red
             textEditor.Styles[Style.Json.StringEol].BackColor = Color.Pink;
             textEditor.Styles[Style.Json.Operator].ForeColor = Color.Purple;
-            //textEditor.Lexer = Lexer.Json;
 
             foreach (var textEditorStyle in textEditor.Styles)
                 textEditorStyle.Size = 12;
             
-            //textEditor.Styles[Style.json]
         }
 
         private void modificationsCheckBox_CheckedChanged(object sender, EventArgs e)

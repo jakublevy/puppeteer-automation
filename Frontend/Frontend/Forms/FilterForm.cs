@@ -5,6 +5,9 @@ using Frontend.UserControls;
 
 namespace Frontend.Forms
 {
+    /// <summary>
+    /// This class is a UI for Filter class.
+    /// </summary>
     public partial class FilterForm : Form
     {
         private EditUserControl editUserControl;
@@ -14,6 +17,9 @@ namespace Frontend.Forms
             editUserControl = launcher;
         }
 
+        /// <summary>
+        /// Sets the UI of FilterForm to match with the supplied Filter f.
+        /// </summary>
         public void SetFilter(Filter f)
         {
             if (f.EventTypes.Count > 0)
@@ -61,6 +67,10 @@ namespace Frontend.Forms
             }
         }
 
+        /// <summary>
+        /// Exports currently filled UI into a Filter object.
+        /// </summary>
+        /// <returns>Filter object corresponding to currently filled UI</returns>
         public Filter ExportFilter()
         {
             Filter f = new Filter();
@@ -86,6 +96,11 @@ namespace Frontend.Forms
             return f;
         }
 
+        /// <summary>
+        /// Gets from the supplied group box all text fields of unchecked check boxes and returns them in a List.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         private List<string> EventsToHide(GroupBox parent)
         {
             List<string> output = new List<string>();
@@ -98,6 +113,19 @@ namespace Frontend.Forms
 
             return output;
         }
+
+        /// <summary>
+        /// Notifies and supplies changed filter to the editation UI.
+        /// </summary>
+        private void FilterChanged(object sender, EventArgs e)
+        {
+            editUserControl.FilterChanged(ExportFilter());
+        }
+
+
+        //Following methods are called when checkboxes with "Enable" textfields are checked or unchecked.
+        //These methods enable group box with check boxes for filtering.
+
 
         private void typeEnabled_CheckedChanged(object sender, EventArgs e)
         {
@@ -126,11 +154,6 @@ namespace Frontend.Forms
         private void statusEnabled_CheckedChanged(object sender, EventArgs e)
         {
             statusGroupBox.Enabled = statusEnabled.Checked;
-            editUserControl.FilterChanged(ExportFilter());
-        }
-
-        private void FilterChanged(object sender, EventArgs e)
-        {
             editUserControl.FilterChanged(ExportFilter());
         }
     }

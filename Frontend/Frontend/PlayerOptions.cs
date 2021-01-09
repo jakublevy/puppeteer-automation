@@ -4,34 +4,11 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    /// <summary>
+    /// Options that change the behaviour of a playback.
+    /// </summary>
     public class PlayerOptions
     {
-        //[JsonIgnore]
-        //public bool BrowserCloseOrDisconnect
-        //{
-        //    get
-        //    {
-        //        if (PuppeteerOptions is ConnectPuppeteerOptions)
-        //            return browserDisconnect;
-
-        //        return browserClose;
-        //    }
-        //    set
-        //    {
-        //        if (PuppeteerOptions is ConnectPuppeteerOptions)
-        //        {
-        //            browserDisconnect = value;
-        //            browserClose = false;
-        //        }
-        //        else
-        //        {
-        //            browserClose = value;
-        //            browserDisconnect = false;
-        //        }
-        //    }
-        //}
-
-
         [Browsable(false)]
         [JsonProperty(PropertyName = "browserDisconnect")]
         private bool browserDisconnect = false;
@@ -40,22 +17,16 @@ namespace Frontend
         [JsonProperty(PropertyName = "browserClose")]
         private bool browserClose = false;
 
-        //[Browsable(false)]
-        //[JsonProperty(PropertyName = "browserConnect")]
-        //private bool browserConnect = false;
-
-        //[Browsable(false)]
-        //[JsonProperty(PropertyName = "browserLaunch")]
-        //private bool browserLaunch = true;
-
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
         [Browsable(false)]
         public string WaitForNavigationOptionJson => "{ \"waitUntil\": \"" + Enum.GetName(typeof(WaitForNavigation), WaitForNavigationOptions) + "\" }";
 
 
+        [Description("Defines a condition until the script should wait after performing a navigation.")]
         public WaitForNavigation WaitForNavigationOptions { get; set; }
 
         [JsonProperty(PropertyName = "waitForTargetOptions")]
+        [Description("Time that should be waited for elements in waitForSelector and waitForXPath statements.")]
         [Browsable(false)]
         public string WaitForTargetOptions => "{ \"timeout\": " + WaitForTargetTimeoutMs + " }";
 
@@ -78,12 +49,11 @@ namespace Frontend
         public string TypeOptions => "{ \"delay\": " + KeystrokeDelayMs + " }";
 
         [JsonIgnore]
+        [Description("Sets a pause (ms) between each keystroke.")]
         public int KeystrokeDelayMs { get; set; } = 100;
 
         [Browsable(false)]
         [JsonProperty(PropertyName = "evaluationFinishedAck")]
         public bool EvaluationFinishedAck { get; set; } = false;
-        //  [Browsable(false)] 
-        //  public PuppeteerOptions PuppeteerOptions { get; set; } = null;
     }
 }

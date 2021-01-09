@@ -5,6 +5,10 @@ using System.Windows.Forms;
 
 namespace Frontend.UserControls
 {
+    /// <summary>
+    /// This form corresponds to Thumbnail object
+    /// Code below is UI logic.
+    /// </summary>
     public partial class ThumbnailUserControl : UserControl
     {
         private Thumbnail thumbnail;

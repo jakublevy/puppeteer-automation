@@ -35,11 +35,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(71, 24);
+            this.label1.Location = new System.Drawing.Point(61, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 13);
+            this.label1.Size = new System.Drawing.Size(194, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Waiting for running action to finish...";
+            this.label1.Text = "Waiting for the running action to finish...";
             // 
             // progressBar1
             // 

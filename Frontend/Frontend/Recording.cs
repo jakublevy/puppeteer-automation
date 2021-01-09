@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Frontend
 {
+    /// <summary>
+    /// One action with Id and current ui configuration
+    /// </summary>
     public class Recording
     {
         public int Id { get; set; }

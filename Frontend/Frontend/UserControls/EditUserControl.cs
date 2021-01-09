@@ -19,169 +19,63 @@ namespace Frontend.UserControls
     public partial class EditUserControl : UserControl
     {
         private MainForm mf;
-        private State recorderState = State.Disconnected;
 
-      //  private Timer recordingTimer;
-      private Task recordingTask;
-      private Task replayTask;
-      private CancellationTokenSource cts = new CancellationTokenSource();
-      private CancellationToken cancelToken;
-
-      public Process NodeJsProcess;
-
-      private Filter activeFilter = null;
-      private FilterForm filterForm = null;
-
-      private ReplayViewForm replayViewForm;
-
-      private ActionUserControl runningNowHighlightedAuc;
-      private ActionUserControl oldErrorHighlightedAuc;
-
-      private bool kill = false;
-
-      private object colorChangeLck = new object();
-
-      public void FilterChanged(Filter f)
-      {
-          if (f == null)
-              return;
-
-          activeFilter = f;
-
-          if (f.EventTypes.Count == 0 && f.Status.Count == 0 && f.Targets.Count == 0)
-          {
-              filterLabel.Text = "Filter Disabled";
-              filterLabel.ForeColor = Color.Red;
-          }
-          else
-          {
-              filterLabel.Text = "Filter Enabled";
-              filterLabel.ForeColor = Color.ForestGreen;
-          }
-          ApplyFilter();
-      }
-
-      public void ApplyFilter()
-      {
-          if (activeFilter == null) 
-              return;
-
-          foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
-          {
-              dynamic action = auc.ExportActionForOutput();
-
-              //event types
-              if (activeFilter.EventTypes.FindIndex(x => NormalizeEventName(x) == action.type.ToString()) != -1)
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              if (action.target == "selector" && activeFilter.Targets.Contains("Selector"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              if (action.target != "selector" && activeFilter.Targets.Contains("Locator"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              if (auc.EnabledForOutput && activeFilter.Status.Contains("Enabled"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              if (!auc.EnabledForOutput && activeFilter.Status.Contains("Disabled"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              if (auc.Selected && activeFilter.Status.Contains("Selected"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-
-              if (!auc.Selected && activeFilter.Status.Contains("Not Selected"))
-              {
-                  auc.Visible = false;
-                  continue;
-              }
-
-              auc.Visible = true;
-          }
-
-          foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
-              auc.UpdateUpDownButtons();
-        }
-
-      public State RecorderState
+        //state of edit - at the start the app is disconnected from the browser
+        private State workingState = State.Disconnected;
+        public State WorkingState
         {
-            get { return recorderState; }
-            set { 
-                recorderState = value;
+            get { return workingState; }
+            set
+            {
+                workingState = value;
                 UpdateUi();
             }
         }
 
-      private bool SomeActionsSelectedForProcessing()
-      {
-          foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
-          {
-              if (enabledRadioButton.Checked && auc.EnabledForOutput)
-                  return true;
-              if (selectedRadioButton.Checked && auc.Selected)
-                  return true;
-          }
+        //When we are recording, this task listens for incoming actions.
+        private Task recordingTask;
 
-          return false;
-      }
+        //When we are replaying, this task sends actions to the backend for replay.
+        private Task replayTask;
 
-        private void UpdateUi()
-        {
-            if (recorderState == State.Connected)
-            {
-                browserConnection.Text = "Disconnect/Stop Browser";
-                recordButton.Text = "Start Recordings";
-                recordButton.Enabled = true;
-                UpdateProcessButtons();
-            }
-            else if (recorderState == State.Disconnected)
-            {
-                browserConnection.Text = "Connect/Start Browser";
-                recordButton.Enabled = false;
-                optimizeButton.Enabled = false;
-                codeGenButton.Enabled = false;
-                replayButton.Enabled = false;
+        //machinery used to request a cancel of running either replayTask or recordingTask
+        private CancellationTokenSource cts = new CancellationTokenSource();
+        private CancellationToken cancelToken;
 
-                InterruptTasks();
-                if(NodeJsProcess != null && !NodeJsProcess.HasExited)
-                    NodeJsProcess?.Kill();
-                pair?.Close();
-                pair = null;
-                
-            }
-            else if (recorderState == State.Recording)
-            {
-                recordButton.Text = "Stop Recordings";
-                optimizeButton.Enabled = false;
-                codeGenButton.Enabled = false;
-                replayButton.Enabled = false;
-            }
-        }
+        //Process associated with backend
+        public Process NodeJsProcess;
 
+        //Filter with its UI counterpart
+        private Filter activeFilter = null;
+        private FilterForm filterForm = null;
+
+        //UI that displays the state of replaying
+        private ReplayViewForm replayViewForm;
+
+        //AUC that is highlighted when it's being replayed
+        private ActionUserControl runningNowHighlightedAuc;
+
+        //Last AUC that is highlighted to show the connection between error message and AUC
+        private ActionUserControl oldErrorHighlightedAuc;
+
+        //defines whether the replay should be canceled as soon as possible
+        private bool forceCancelReplay = false;
+
+        //lock to make sure than only one thread at a time changes the highlighting of actions
+        private object colorChangeLck = new object();
+
+        //NetMQ socket for communication with Backend.
         private PairSocket pair = null;
+
+        //This contains the recording this code works with.
+        //It also contains other things like configuration.
         private CurrentEdit edit;
 
         public enum State
         {
-            Connected, Disconnected, Recording
+            Connected, //connected to the backend and a browser
+            Disconnected, //disconnect from the backend
+            Recording //currently recording
         }
         public EditUserControl()
         {
@@ -193,29 +87,175 @@ namespace Frontend.UserControls
             mf = m;
         }
 
+        /// <summary>
+        /// Binds new recording and sets UI and filter accordingly.
+        /// </summary>
+        /// <param name="ce"></param>
         public void BindEdit(CurrentEdit ce)
         {
             edit = ce;
             nameTextBox.DataBindings.Clear();
             nameTextBox.DataBindings.Add("Text", edit.Thumbnail, "Name");
-            ce.Recordings.ForEach(r=>LoadRecording(r));
+            ce.Recordings.ForEach(r => LoadRecording(r));
             FilterChanged(activeFilter);
         }
 
+        /// <summary>
+        /// Called whenever filter was changed.
+        /// Applies the new active filter and updates UI.
+        /// </summary>
+        public void FilterChanged(Filter f)
+        {
+            if (f == null)
+                return;
+
+            activeFilter = f;
+
+            if (f.EventTypes.Count == 0 && f.Status.Count == 0 && f.Targets.Count == 0)
+            {
+                filterLabel.Text = "Filter Disabled";
+                filterLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                filterLabel.Text = "Filter Enabled";
+                filterLabel.ForeColor = Color.ForestGreen;
+            }
+            ApplyFilter();
+        }
+
+        /// <summary>
+        /// This method applies the activeFilter variable.
+        /// After this function is executed, actions will be filtered with respect to activeFilter.
+        /// </summary>
+        public void ApplyFilter()
+        {
+            if (activeFilter == null)
+                return;
+
+            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
+                dynamic action = auc.ExportActionForOutput();
+
+                //event types
+                if (activeFilter.EventTypes.FindIndex(x => NormalizeEventName(x) == action.type.ToString()) != -1)
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                if (action.target == "selector" && activeFilter.Targets.Contains("Selector"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                if (action.target != "selector" && activeFilter.Targets.Contains("Locator"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                if (auc.EnabledForOutput && activeFilter.Status.Contains("Enabled"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                if (!auc.EnabledForOutput && activeFilter.Status.Contains("Disabled"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                if (auc.Selected && activeFilter.Status.Contains("Selected"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+
+                if (!auc.Selected && activeFilter.Status.Contains("Not Selected"))
+                {
+                    auc.Visible = false;
+                    continue;
+                }
+
+                auc.Visible = true;
+            }
+
+            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                auc.UpdateUpDownButtons();
+        }
+
+        /// <summary>
+        /// Returns true if there are some actions to generate code with/replay.
+        /// </summary>
+        private bool SomeActionsSelectedForProcessing()
+        {
+            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
+                if (enabledRadioButton.Checked && auc.EnabledForOutput)
+                    return true;
+                if (selectedRadioButton.Checked && auc.Selected)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Updates UI to match the current workingState.
+        /// </summary>
+        private void UpdateUi()
+        {
+            if (workingState == State.Connected)
+            {
+                browserConnection.Text = "Disconnect/Stop Browser";
+                recordButton.Text = "Start Recording";
+                recordButton.Enabled = true;
+                UpdateProcessButtons();
+            }
+            else if (workingState == State.Disconnected)
+            {
+                browserConnection.Text = "Connect/Start Browser";
+                recordButton.Enabled = false;
+                optimizeButton.Enabled = false;
+                codeGenButton.Enabled = false;
+                replayButton.Enabled = false;
+
+                InterruptTasks();
+                if (NodeJsProcess != null && !NodeJsProcess.HasExited)
+                    NodeJsProcess?.Kill();
+                pair?.Close();
+                pair = null;
+
+            }
+            else if (workingState == State.Recording)
+            {
+                recordButton.Text = "Stop Recording";
+                optimizeButton.Enabled = false;
+                codeGenButton.Enabled = false;
+                replayButton.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Mostly UI logic of "Save & Exit" Button
+        /// </summary>
         private void saveAndExitButton_Click(object sender, EventArgs e)
         {
-            //TODO: save changes to name and captures recordings
-            if (RecorderState == State.Recording)
+            if (WorkingState == State.Recording)
             {
-               DialogResult dr = MessageBox.Show(
-                    "The recording is still running. Do you want to continue?",
-                    "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-               if (dr == DialogResult.No)
-                   return;
+                DialogResult dr = MessageBox.Show(
+                     "The recording is still running. Do you want to continue?",
+                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dr == DialogResult.No)
+                    return;
 
-               recordButton.PerformClick();
+                recordButton.PerformClick();
             }
-            else if (RecorderState == State.Connected)
+            else if (WorkingState == State.Connected)
             {
                 DialogResult dr = MessageBox.Show("The connection to browser is still active. Do you want to continue?",
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -224,23 +264,29 @@ namespace Frontend.UserControls
                 browserConnection.PerformClick();
             }
 
+            //Update recording information
             edit.Thumbnail.Name = nameTextBox.Text;
             edit.Thumbnail.Updated = DateTime.Now;
-            edit.Recordings = GetAllRecordings();
+            edit.Recordings = GetAllActions();
             edit.Thumbnail.Websites.UnionWith(ScrapeWebsitesFromRecordings(edit.Recordings));
-            
+
+            //Save
             RecordingManager.SaveCurrentEdit(edit);
 
+            //Return to the main form
             mf.AppState = MainForm.AppMode.List;
             replayViewForm?.Close();
             actionsFlowLayoutPanel.Controls.Clear();
             filterForm?.Close();
         }
 
+        /// <summary>
+        /// Gets websites of this recording (from pageUrlChanged action).
+        /// </summary>
         private HashSet<string> ScrapeWebsitesFromRecordings(List<Recording> recordings)
         {
             HashSet<string> uris = new HashSet<string>();
-            IEnumerable<dynamic> urlActions = recordings.Select(x=>x.Action).Where(x => x.type == "pageUrlChanged");
+            IEnumerable<dynamic> urlActions = recordings.Select(x => x.Action).Where(x => x.type == "pageUrlChanged");
 
             string url;
             foreach (dynamic a in urlActions)
@@ -252,7 +298,10 @@ namespace Frontend.UserControls
             return uris;
         }
 
-        private List<Recording> GetAllRecordings()
+        /// <summary>
+        /// Returns all actions, each action in addition to JSON data contains ui config and id.
+        /// </summary>
+        private List<Recording> GetAllActions()
         {
             List<Recording> recordings = new List<Recording>();
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
@@ -261,14 +310,18 @@ namespace Frontend.UserControls
             return recordings;
         }
 
+        /// <summary>
+        /// Starts the Backend
+        /// </summary>
         private void StartNodeJsProcess()
         {
-            string workingDir = Path.GetDirectoryName(Path.GetDirectoryName(edit.Config.NodeJsOptions.NodeJsEntryPoint));
-
+            string absolutePath = Path.GetFullPath(edit.Config.NodeJsOptions.NodeJsEntryPoint);
+            string workingDir = Path.GetDirectoryName(Path.GetDirectoryName(absolutePath));
+            string relativeEnd = Path.GetFileName(Path.GetDirectoryName(absolutePath)) + "\\" + Path.GetFileName(absolutePath);
             NodeJsProcess = new Process();
             NodeJsProcess.Exited += (sender, args) =>
             {
-                RecorderState = State.Disconnected;
+                WorkingState = State.Disconnected;
             };
             NodeJsProcess.StartInfo.WorkingDirectory = workingDir;
             NodeJsProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -278,35 +331,20 @@ namespace Frontend.UserControls
             NodeJsProcess.StartInfo.RedirectStandardOutput = true;
 
             NodeJsProcess.StartInfo.FileName = edit.Config.NodeJsOptions.InterpreterPath;
-            NodeJsProcess.StartInfo.Arguments = edit.Config.NodeJsOptions.NodeJsEntryPoint;
-            try
-            {
-            //        NodeJsProcess.Start();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            NodeJsProcess.StartInfo.Arguments = relativeEnd;
+            NodeJsProcess.Start();
         }
 
-        private bool Received(string s)
-        {
-            string response = null;
-            while (pair.HasIn)
-            {
-                response = pair.ReceiveFrameString();
-                if (response == s)
-                    return true;
-            }
-
-            bool b =pair.ReceiveFrameStringTimeout(out response, 5000);
-            return b && s == response;
-        }
-
+        /// <summary>
+        /// If Backend is not running:
+        ///    Connects/launches the browser
+        /// If Backend is running
+        ///    Disconnect/closes the browser and quits Backend process.
+        /// </summary>
         private void browserConnection_Click(object sender, EventArgs e)
         {
-            kill = false;
-            if (recorderState == State.Disconnected)
+            forceCancelReplay = false;
+            if (workingState == State.Disconnected)
             {
                 try
                 {
@@ -314,16 +352,15 @@ namespace Frontend.UserControls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Node.js app cannot be started.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Node.js process cannot be started. Check whether Node.js interpreter path is correct.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if(pair == null)
+                if (pair == null)
                     pair = new PairSocket("@tcp://127.0.0.1:3000");
 
 
                 string eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
-                //pair.SendFrame("setEventsToRecord");
                 bool b = pair.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
                 if (!b)
                 {
@@ -337,10 +374,13 @@ namespace Frontend.UserControls
                     pair.SendFrame("launch");
                     pair.SendFrame(JsonConvert.SerializeObject(lpo, ConfigManager.JsonSettings));
 
+
                 }
                 else if (edit.Config.PuppeteerConfig is ConnectPuppeteerOptions cpo)
                 {
                     pair.SendFrame("connect");
+                    pair.SendFrame(JsonConvert.SerializeObject(cpo, ConfigManager.JsonSettings));
+
                 }
 
                 string response;
@@ -348,7 +388,7 @@ namespace Frontend.UserControls
                 if (received)
                 {
                     if (response == "ACK")
-                        RecorderState = State.Connected;
+                        WorkingState = State.Connected;
 
                     else
                     {
@@ -363,20 +403,17 @@ namespace Frontend.UserControls
                             HandleIncorrectProcess();
                         }
                     }
-                    
+
                 }
                 else
                 {
                     HandleIncorrectProcess();
                 }
-                
-
-
             }
-            else if (recorderState == State.Connected || recorderState == State.Recording)
+            else if (workingState == State.Connected || workingState == State.Recording)
             {
-                kill = true;
-                RecorderState = State.Disconnected;
+                forceCancelReplay = true;
+                WorkingState = State.Disconnected;
                 replayViewForm?.ForceClose();
             }
         }
@@ -384,9 +421,12 @@ namespace Frontend.UserControls
         private void HandleIncorrectProcess()
         {
             NodeJsProcess?.Kill();
-            MessageBox.Show("Node.js app is not responding. Check if node interpreter is running correct code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Node.js app is not responding. Check if node interpreter is running correct code (check backend path or remote connection if used).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// Request a cancel then waits until the tasks end.
+        /// </summary>
         private void InterruptTasks()
         {
             cts?.Cancel();
@@ -399,9 +439,9 @@ namespace Frontend.UserControls
             List<string> events = new List<string>() { "urlHint", "startupHints" };
             foreach (PropertyInfo pi in edit.Config.RecordedEvents.GetType().GetProperties())
             {
-                if ((bool) pi.GetValue(edit.Config.RecordedEvents) && pi.CanWrite)
+                if ((bool)pi.GetValue(edit.Config.RecordedEvents) && pi.CanWrite)
                     events.Add(NormalizeEventName(pi.Name));
-                
+
             }
             return events;
         }
@@ -438,8 +478,8 @@ namespace Frontend.UserControls
 
             if (counter > 4 || !res)
             {
-                MessageBox.Show("Connection to browser was lost", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                RecorderState = State.Disconnected;
+                MessageBox.Show("Connection to browser was lost.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                WorkingState = State.Disconnected;
                 return false;
             }
 
@@ -449,23 +489,23 @@ namespace Frontend.UserControls
         private void recordButton_Click(object sender, EventArgs e)
         {
             bool connectionStatus = IsBrowserConnected();
-            if (connectionStatus && recorderState != State.Recording)
+            if (connectionStatus && workingState != State.Recording)
             {
                 cts = new CancellationTokenSource();
                 cancelToken = cts.Token;
 
                 pair.SendFrame("start");
 
-                RecorderState = State.Recording;
+                WorkingState = State.Recording;
                 recordingTask = Task.Factory.StartNew(RecordingTask, cancelToken);
             }
-            else if(!connectionStatus)
+            else if (!connectionStatus)
             {
-                RecorderState = State.Disconnected;
+                WorkingState = State.Disconnected;
             }
-            else if (connectionStatus && recorderState == State.Recording) //Stop recording
+            else if (connectionStatus && workingState == State.Recording) //Stop recording
             {
-                RecorderState = State.Connected;
+                WorkingState = State.Connected;
                 pair.SendFrame("stop");
             }
         }
@@ -485,7 +525,7 @@ namespace Frontend.UserControls
                 edit.StartupHints = action;
                 id = -1;
             }
-            else 
+            else
             {
                 ActionUserControl auc = new ActionUserControl();
                 auc.BindAction(action, edit.AllocateId());
@@ -497,19 +537,19 @@ namespace Frontend.UserControls
                 UiSafeOperation(() =>
                 {
                     actionsFlowLayoutPanel.Controls.Add(auc);
-                    
-                    if(addAsFirst.Checked)
-                        actionsFlowLayoutPanel.Controls.SetChildIndex(actionsFlowLayoutPanel.Controls[actionsFlowLayoutPanel.Controls.Count - 1],0);
+
+                    if (addAsFirst.Checked)
+                        actionsFlowLayoutPanel.Controls.SetChildIndex(actionsFlowLayoutPanel.Controls[actionsFlowLayoutPanel.Controls.Count - 1], 0);
 
                     UpdateAllActionUpDownButtons();
 
                     actionsFlowLayoutPanel.ScrollControlIntoView(auc);
                 });
-                
+
             }
 
-            if(addAsLast.Checked)
-                edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id});
+            if (addAsLast.Checked)
+                edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
             else //addAsFirst.Checked
                 edit.Recordings.Insert(0, new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
         }
@@ -533,7 +573,7 @@ namespace Frontend.UserControls
                     actionsFlowLayoutPanel.Controls.Add(auc);
                     UpdateAllActionUpDownButtons();
                 });
-                
+
             }
         }
 
@@ -611,9 +651,9 @@ namespace Frontend.UserControls
 
             if (allChecked)
                 selectedAllCheckBox.CheckState = CheckState.Checked;
-            
-            
-            
+
+
+
             else if (allUnchecked)
                 selectedAllCheckBox.CheckState = CheckState.Unchecked;
 
@@ -622,7 +662,7 @@ namespace Frontend.UserControls
 
         private void UpdateProcessButtons()
         {
-            if (RecorderState == State.Connected)
+            if (WorkingState == State.Connected)
             {
                 optimizeButton.Enabled = SomeActionsSelectedForProcessing();
                 codeGenButton.Enabled = SomeActionsSelectedForProcessing();
@@ -652,7 +692,7 @@ namespace Frontend.UserControls
 
             if (edit.StartupHints != null)
                 outputActions.Add(edit.StartupHints);
-            
+
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
             {
                 if (enabledRadioButton.Checked)
@@ -671,7 +711,7 @@ namespace Frontend.UserControls
                         outputUserControl.Add(auc);
                     }
                 }
-                
+
             }
 
             ret = new Tuple<List<dynamic>, List<ActionUserControl>>(outputActions, outputUserControl);
@@ -696,7 +736,6 @@ namespace Frontend.UserControls
 
             }
 
-      //      outputActions[0].
             return outputActions;
         }
 
@@ -869,7 +908,7 @@ namespace Frontend.UserControls
             List<ActionUserControl> toRemove = new List<ActionUserControl>();
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
             {
-                if(auc.Selected) 
+                if (auc.Selected)
                     toRemove.Add(auc);
             }
             toRemove.ForEach(auc => actionsFlowLayoutPanel.Controls.Remove(auc));
@@ -910,7 +949,7 @@ namespace Frontend.UserControls
 
                 if (cts.IsCancellationRequested)
                 {
-                    if(!kill)
+                    if (!forceCancelReplay)
                         FinishReplay();
                     return;
                 }
@@ -931,7 +970,7 @@ namespace Frontend.UserControls
 
                 if (cts.IsCancellationRequested)
                 {
-                    if (!kill)
+                    if (!forceCancelReplay)
                     {
                         FinishReplay();
                         AucColorChangeSafe(aucs[i], default);
@@ -943,7 +982,7 @@ namespace Frontend.UserControls
                 while (m != "evaluated")
                 {
                     //exception occurred
-                    if(m != "true")
+                    if (m != "true")
                         AddErrorToReplayViewForm(m, aucs[i].Id);
 
                     b = false;
@@ -953,7 +992,7 @@ namespace Frontend.UserControls
 
                     if (cts.IsCancellationRequested)
                     {
-                        if (!kill)
+                        if (!forceCancelReplay)
                         {
                             FinishReplay();
                             AucColorChangeSafe(aucs[i], default);
@@ -972,37 +1011,6 @@ namespace Frontend.UserControls
 
             SetReplayEndedVisibility(true);
             SetReplayActiveUi(false);
-
-            //SetReplayActiveUi(true);
-            //string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput(), ConfigManager.JsonSettings);
-            //string codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
-            //pair.SendFrame("replay");
-            //pair.SendFrame(codeGenConfig);
-            //pair.SendFrame(actionsJson);
-
-            //string msg = null;
-            //bool b = false;
-
-            //while (!cts.IsCancellationRequested && msg != "evaluated")
-            //{
-            //    if (b)
-            //    {
-            //        AddErrorToReplayViewForm(msg);
-            //        //Add error to error list
-            //    }
-            //    b = pair.ReceiveFrameStringTimeout(out msg, 100);
-            //}
-            //if (msg == "evaluated")
-            //{
-            //    SetReplayActiveUi(false);
-            //    SetReplayEndedVisibility(true);
-            //}
-            //if (cts.IsCancellationRequested)
-            //{
-            //    UiSafeOperation(() => replayViewForm?.Close());
-            //    NodeJsProcess.Kill();
-            //    SetReplayActiveUi(false);
-            //}
         }
     }
 }

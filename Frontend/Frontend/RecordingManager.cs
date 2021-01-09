@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    /// <summary>
+    /// This file contains a method that saves changes in the currently edited recording.
+    /// </summary>
     class RecordingManager
     {
         public static void SaveCurrentEdit(CurrentEdit edit)
