@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace Frontend.Forms
 {
     /// <summary>
-    /// This form contains Property Grid that is used to set properties of CodeGeneratorOptions object.
+    /// This form contains a Property Grid that is used to set properties of CodeGeneratorOptions object.
     /// </summary>
     public partial class CodeGeneratorSettingsForm : Form
     {

@@ -9,7 +9,7 @@
         public PuppeteerOptions PuppeteerOptions { get; set; }
 
         /// <summary>
-        /// Events that are captured.
+        /// Events that should be captured.
         /// </summary>
         public RecordedEvents RecordedEvents { get; set; }
     }

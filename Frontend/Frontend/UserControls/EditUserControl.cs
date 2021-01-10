@@ -55,7 +55,7 @@ namespace Frontend.UserControls
         //AUC that is highlighted when it's being replayed
         private ActionUserControl runningNowHighlightedAuc;
 
-        //Last AUC that is highlighted to show the connection between error message and AUC
+        //Last AUC that is highlighted to show the connection between the error message and AUC
         private ActionUserControl oldErrorHighlightedAuc;
 
         //defines whether the replay should be canceled as soon as possible
@@ -126,7 +126,7 @@ namespace Frontend.UserControls
 
         /// <summary>
         /// This method applies the activeFilter variable.
-        /// After this function is executed, actions will be filtered with respect to activeFilter.
+        /// After this function is executed, actions will be filtered with respect to the activeFilter.
         /// </summary>
         public void ApplyFilter()
         {
@@ -425,7 +425,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        /// Request a cancel then waits until the tasks end.
+        /// Request a cancel then waits until the end of the task.
         /// </summary>
         private void InterruptTasks()
         {
@@ -434,6 +434,10 @@ namespace Frontend.UserControls
             recordingTask?.Wait();
         }
 
+        /// <summary>
+        /// Gets the normalized name of all events that should be recorded.
+        /// </summary>
+        /// <returns></returns>
         private List<string> GetEventsToRecord()
         {
             List<string> events = new List<string>() { "urlHint", "startupHints" };
@@ -446,6 +450,9 @@ namespace Frontend.UserControls
             return events;
         }
 
+        /// <summary>
+        /// Converts given eventName string into a string with its first letter in lowercase. 
+        /// </summary>
         private string NormalizeEventName(string eventName)
         {
             if (eventName.StartsWith("page", StringComparison.OrdinalIgnoreCase))
@@ -454,6 +461,10 @@ namespace Frontend.UserControls
             return eventName.ToLower();
         }
 
+        /// <summary>
+        /// Cancels recordingTask if running and waits until it finishes.
+        /// Then checks whether the connection to the Backend is up and returns corresponding boolean.
+        /// </summary>
         private bool IsBrowserConnected()
         {
             if (pair == null)
@@ -462,7 +473,7 @@ namespace Frontend.UserControls
             if (recordingTask != null && recordingTask.Status == TaskStatus.Running)
             {
                 cts.Cancel();
-                while (!recordingTask.IsCompleted) { }
+                recordingTask.Wait();
             }
 
             pair.SendFrame("browserConnectionStatus");
@@ -486,6 +497,9 @@ namespace Frontend.UserControls
             return res;
         }
 
+        /// <summary>
+        /// Starts or stops the recording by sending an appropriate message to Backend.
+        /// </summary>
         private void recordButton_Click(object sender, EventArgs e)
         {
             bool connectionStatus = IsBrowserConnected();
@@ -510,6 +524,9 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Loads only the given action into UI. This method doesn't change any configuration of UI.
+        /// </summary>
         private void LoadAction(dynamic action)
         {
             int id;
@@ -554,6 +571,9 @@ namespace Frontend.UserControls
                 edit.Recordings.Insert(0, new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
         }
 
+        /// <summary>
+        /// Loads complete action with ui configuration into UI.
+        /// </summary>
         private void LoadRecording(Recording r)
         {
             if (r.Action.type == "urlHint")
@@ -577,6 +597,10 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// This method listens to captured actions. If a new action is found, UI is updated respectively.
+        /// Execution of this method is started by recordingTask.
+        /// </summary>
         private void RecordingTask()
         {
             while (!cancelToken.IsCancellationRequested)
@@ -606,6 +630,11 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Revalidates Enabled property of ↑ button and ↓ button of every action.
+        /// E.g. the first action should not allow clicking on ↑ button.
+        /// E.g. the last action should not allow clicking on ↓ button.
+        /// </summary>
         public void UpdateAllActionUpDownButtons()
         {
             foreach (ActionUserControl a in actionsFlowLayoutPanel.Controls)
@@ -627,6 +656,12 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Updates the actions selection checkbox:
+        /// if all actions are selected, its value should be ✓
+        /// if some actions are selected, its value should be ⬛
+        /// if no actions are selected, its value should be □
+        /// </summary>
         public void ActionUserControlCheckedChanged(ActionUserControl sender)
         {
             bool allChecked = true;
@@ -660,6 +695,10 @@ namespace Frontend.UserControls
             UpdateProcessButtons();
         }
 
+        /// <summary>
+        /// After a change of which actions should be processed (ActionUserControlEnableCheckedChanged),
+        /// this method disables buttons for processing actions if there are none of them.
+        /// </summary>
         private void UpdateProcessButtons()
         {
             if (WorkingState == State.Connected)
@@ -670,11 +709,18 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Change of processed actions.
+        /// E.g. Enabled -> Selected (and vice versa)
+        /// </summary>
         public void ActionUserControlEnableCheckedChanged(ActionUserControl sender)
         {
             UpdateProcessButtons();
         }
 
+        /// <summary>
+        /// UI logic for showing FilterForm on the "Filter" button click.
+        /// </summary>
         private void filterButton_Click(object sender, EventArgs e)
         {
             filterForm = new FilterForm(this);
@@ -684,6 +730,9 @@ namespace Frontend.UserControls
             filterForm.Show();
         }
 
+        /// <summary>
+        /// Gets all the JSON data of actions with their respective AUC in a tuple.
+        /// </summary>
         private Tuple<List<dynamic>, List<ActionUserControl>> GetRecordingActionsForOutput()
         {
             Tuple<List<dynamic>, List<ActionUserControl>> ret;
@@ -718,6 +767,9 @@ namespace Frontend.UserControls
             return ret;
         }
 
+        /// <summary>
+        /// Gets all the actions that should be sent to the Backend for optimization.
+        /// </summary>
         private List<Recording> GetRecordingsForOptimize()
         {
             List<Recording> outputActions = new List<Recording>();
@@ -739,6 +791,10 @@ namespace Frontend.UserControls
             return outputActions;
         }
 
+        /// <summary>
+        /// Sends the actions to the Backend that performs optimization (see Backend docs or text).
+        /// After backend replies with optimized actions, this method updates UI respectively.
+        /// </summary>
         private void optimizeButton_Click(object sender, EventArgs e)
         {
             if (actionsFlowLayoutPanel.Controls.Count == 0)
@@ -755,11 +811,19 @@ namespace Frontend.UserControls
             actions.ForEach(a => LoadRecording(a));
         }
 
+        /// <summary>
+        /// Change of processed actions.
+        /// E.g. Enabled -> Selected (and vice versa)
+        /// </summary>
         private void processRadioButtons_CheckedChanged(object sender, EventArgs e)
         {
             UpdateProcessButtons();
         }
 
+        /// <summary>
+        /// Serializes actions with options for code generation and sends those to the Backend.
+        /// After a reply from the Backend containing Puppeteer code, it shows it in a text editor.
+        /// </summary>
         private void codeGenButton_Click(object sender, EventArgs e)
         {
             string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput().Item1, ConfigManager.JsonSettings);
@@ -773,6 +837,9 @@ namespace Frontend.UserControls
             cge.Show();
         }
 
+        /// <summary>
+        /// Starts replaying: prepares UI and fires up the replayTask
+        /// </summary>
         private void replayButton_Click(object sender, EventArgs e)
         {
             if (IsBrowserConnected())
@@ -789,6 +856,11 @@ namespace Frontend.UserControls
 
         }
 
+        /// <summary>
+        /// Highlight the AUC given by the id, uses the given Color c.
+        /// </summary>
+        /// <param name="id">id of AUC to highlight</param>
+        /// <param name="c">Color to use for highlighting</param>
         public void HighlightActionUserControlById(int id, Color c)
         {
             lock (colorChangeLck)
@@ -822,6 +894,9 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Clears the highlighting of error highlighted AUC.
+        /// </summary>
         public void ClearErrorCustomColors()
         {
             lock (colorChangeLck)
@@ -842,6 +917,9 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Sets the UI to match the state of either replaying or not replaying.
+        /// </summary>
         private void SetReplayActiveUi(bool state)
         {
             UiSafeOperation(() =>
@@ -859,16 +937,27 @@ namespace Frontend.UserControls
             });
         }
 
+        /// <summary>
+        /// If an error occurs during replaying, this method adds the error to the error list.
+        /// </summary>
+        /// <param name="msg">Message to add to the error list</param>
+        /// <param name="id">Matching AUC id</param>
         private void AddErrorToReplayViewForm(string msg, int id)
         {
             UiSafeOperation(() => replayViewForm.AddError(msg, id));
         }
 
+        /// <summary>
+        /// Sets the visibility of the message "Replay Ended"
+        /// </summary>
         private void SetReplayEndedVisibility(bool visibility)
         {
             UiSafeOperation(() => replayViewForm.SetRecordingEnded(visibility));
         }
 
+        /// <summary>
+        /// Performs the given action that might be running on a different thread and updates UI safely.
+        /// </summary>
         private void UiSafeOperation(Action a)
         {
             if (InvokeRequired)
@@ -878,6 +967,9 @@ namespace Frontend.UserControls
                 a();
         }
 
+        /// <summary>
+        /// Clears highlighting of every action.
+        /// </summary>
         public void ClearAucCustomColors()
         {
             lock (colorChangeLck)
@@ -889,6 +981,11 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// Sends the message "finished" to the Backend, this message informs that there are no other actions to be replayed.
+        /// Then this method waits for the confirmation that the Backend finished replaying the last action.
+        /// Finally it changes UI that notifies about finished replaying.
+        /// </summary>
         private void FinishReplay()
         {
             pair.SendFrame("finished");
@@ -903,6 +1000,10 @@ namespace Frontend.UserControls
 
         }
 
+        /// <summary>
+        /// Called when the focused action should be deleted.
+        /// E.g. called after pressing Shift+Del.
+        /// </summary>
         public void DeleteRequested()
         {
             List<ActionUserControl> toRemove = new List<ActionUserControl>();
@@ -915,6 +1016,11 @@ namespace Frontend.UserControls
             selectedAllCheckBox.CheckState = CheckState.Unchecked;
         }
 
+        /// <summary>
+        /// Highlight the given AUC, uses the given Color c.
+        /// </summary>
+        /// <param name="id">id of AUC to highlight</param>
+        /// <param name="c">Color to use for highlighting</param>
         private void AucColorChangeSafe(ActionUserControl auc, Color c)
         {
             lock (colorChangeLck)
@@ -928,6 +1034,10 @@ namespace Frontend.UserControls
             }
         }
 
+        /// <summary>
+        /// This method sends actions to Backend to have them replayed.
+        /// Execution of this method is started by replayTask.
+        /// </summary>
         private void ReplayTask()
         {
             SetReplayActiveUi(true);

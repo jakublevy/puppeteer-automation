@@ -12,7 +12,7 @@ namespace Frontend
 {
     /// <summary>
     /// This is the main form of the Frontend application.
-    /// After the start the list of thumbnails (recording previews) are shown.
+    /// After the start, the list of thumbnails (recording previews) is shown.
     /// </summary>
     public partial class MainForm : Form
     {
@@ -231,7 +231,7 @@ namespace Frontend
         }
 
         /// <summary>
-        /// After clicking on "Add Recording" button, this method creates new thumbnails and switches to edit mode.
+        /// After clicking on the"Add Recording" button, this method creates new thumbnails and switches to edit mode.
         /// </summary>
         private void addNewRecordingButton_Click(object sender, EventArgs e)
         {
@@ -250,9 +250,8 @@ namespace Frontend
         }
 
         /// <summary>
-        /// Performs a given action that might be running on different thread and updates UI safely.
+        /// Performs a given action that might be running on a different thread and updates UI safely.
         /// </summary>
-        /// <param name="a"></param>
         private void UiSafeOperation(Action a)
         {
             if (InvokeRequired)
@@ -264,7 +263,7 @@ namespace Frontend
 
         /// <summary>
         /// Performs certain checks to know whether edit mode should be available.
-        /// E.g. checks whether path points to the correct Node.js interpreter.
+        /// E.g. checks whether the path points to the correct Node.js interpreter.
         /// </summary>
         public void PerformSettingsChecks()
         {

@@ -42,7 +42,7 @@ namespace Frontend.UserControls
 
         /// <summary>
         /// Binds the supplied parameters into action, uiConfig, and Id variables.
-        /// Then it call underlying methods that make sure the changes are reflected into UI.
+        /// Then it calls underlying methods that make sure the changes are reflected into UI.
         /// </summary>
         public void BindRecording(Recording r, int id)
         {
@@ -134,8 +134,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        /// Exports the current UI into action json object.
-        /// The exported object contains property "target" describing the chosen identifier as filled in UI.
+        /// Exports the current UI into an action json object.
+        /// The exported object contains the property "target" describing the chosen identifier as filled in UI.
         /// </summary>
         public dynamic ExportActionForOutputImpl()
         {
@@ -178,7 +178,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        /// On "JSON" button click, this method opens JSON editor that allows user to modify JSON data in action variable.
+        /// On the "JSON" button click, this method opens a JSON editor that allows the user to modify JSON data in the action variable.
         /// </summary>
         private void jsonEditButton_Click(object sender, EventArgs e)
         {

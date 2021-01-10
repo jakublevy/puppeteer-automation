@@ -97,7 +97,7 @@ namespace Frontend.Forms
         }
 
         /// <summary>
-        /// Gets from the supplied group box all text fields of unchecked check boxes and returns them in a List.
+        /// Gets from the supplied group box all text fields of unchecked checkboxes and returns them in a List.
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
@@ -115,7 +115,7 @@ namespace Frontend.Forms
         }
 
         /// <summary>
-        /// Notifies and supplies changed filter to the editation UI.
+        /// Notifies and supplies the changed filter to the edit UI.
         /// </summary>
         private void FilterChanged(object sender, EventArgs e)
         {
@@ -123,8 +123,8 @@ namespace Frontend.Forms
         }
 
 
-        //Following methods are called when checkboxes with "Enable" textfields are checked or unchecked.
-        //These methods enable group box with check boxes for filtering.
+        //Following methods are called when checkboxes with "Enable" text fields are checked or unchecked.
+        //These methods enable group box with checkboxes for filtering.
 
 
         private void typeEnabled_CheckedChanged(object sender, EventArgs e)

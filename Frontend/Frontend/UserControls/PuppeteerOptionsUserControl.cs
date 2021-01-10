@@ -142,7 +142,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        /// Changes the current BrowserMode based on selected value of combo box.
+        /// Changes the current BrowserMode based on the selected value of combo box.
         /// </summary>
         private void connectionTypeComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -177,7 +177,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        /// UI logic that enables or disables viewport group box.
+        /// UI logic that enables or disables the viewport group box.
         /// </summary>
         private void viewportEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {

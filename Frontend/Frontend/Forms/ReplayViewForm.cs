@@ -81,7 +81,7 @@ namespace Frontend.Forms
 
         /// <summary>
         /// Notification that the replaying has finished.
-        /// This methods sets the UI into replaying finished fashion.
+        /// This method sets the UI into replaying finished fashion.
         /// </summary>
         public void ReplayEndedNow()
         {
