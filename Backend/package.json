@@ -2,7 +2,7 @@
   "name": "puppeteer-automation-backend",
   "version": "1.0.0",
   "description": "Puppeteer automation backend",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {},
   "keywords": [

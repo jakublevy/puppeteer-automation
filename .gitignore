@@ -6,3 +6,12 @@ Frontend/Frontend/obj
 Backend/.idea/
 Backend/node_modules/
 Backend/package-lock.json
+
+text/*
+!text/figures/
+!text/bib.tex
+!text/bp.pdf
+!text/bp.tex
+!text/desky.tex
+!text/desky.pdf
+!text/titulka.tex

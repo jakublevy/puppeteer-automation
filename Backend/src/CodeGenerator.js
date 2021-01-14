@@ -456,7 +456,7 @@ class CodeGenerator {
     }
 
     /*
-    Description: Generates a waitForNavigation function call stripped of leading await
+    Description: Generates a Page.waitForNavigation function call stripped of leading await
      */
     _genWaitForNavCall() {
         return this._removeLeadingAwait(this._pageFuncCall('waitForNavigation', [this._options.waitForNavigationOptions]))
@@ -743,7 +743,7 @@ class CodeGenerator {
     }
 
     /*
-    Description: Generates page.evaluate ElementHandle.evaluate call that contains DOM event that will be executed on a page.
+    Description: Generates Page.evaluate or ElementHandle.evaluate call that contains DOM event that will be executed on a page.
                  page.evaluate or ElementHandle.evaluate will be selected based on the id parameter.
     id: identifier of an element that fires the event (either selector or locator)
     eventName: the name of the event that will be fired

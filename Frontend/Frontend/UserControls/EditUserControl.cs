@@ -65,7 +65,7 @@ namespace Frontend.UserControls
         private object colorChangeLck = new object();
 
         //NetMQ socket for communication with Backend.
-        private PairSocket pair = null;
+        private PairSocket sock = null;
 
         //This contains the recording this code works with.
         //It also contains other things like configuration.
@@ -227,8 +227,8 @@ namespace Frontend.UserControls
                 InterruptTasks();
                 if (NodeJsProcess != null && !NodeJsProcess.HasExited)
                     NodeJsProcess?.Kill();
-                pair?.Close();
-                pair = null;
+                sock?.Close();
+                sock = null;
 
             }
             else if (workingState == State.Recording)
@@ -356,35 +356,35 @@ namespace Frontend.UserControls
                     return;
                 }
 
-                if (pair == null)
-                    pair = new PairSocket("@tcp://127.0.0.1:3000");
+                if (sock == null)
+                    sock = new PairSocket("@tcp://127.0.0.1:3000");
 
 
                 string eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
-                bool b = pair.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
+                bool b = sock.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
                 if (!b)
                 {
                     HandleIncorrectProcess();
                     return;
                 }
-                pair.SendFrame(eventsToRecord);
+                sock.SendFrame(eventsToRecord);
 
                 if (edit.Config.PuppeteerConfig is LaunchPuppeteerOptions lpo)
                 {
-                    pair.SendFrame("launch");
-                    pair.SendFrame(JsonConvert.SerializeObject(lpo, ConfigManager.JsonSettings));
+                    sock.SendFrame("launch");
+                    sock.SendFrame(JsonConvert.SerializeObject(lpo, ConfigManager.JsonSettings));
 
 
                 }
                 else if (edit.Config.PuppeteerConfig is ConnectPuppeteerOptions cpo)
                 {
-                    pair.SendFrame("connect");
-                    pair.SendFrame(JsonConvert.SerializeObject(cpo, ConfigManager.JsonSettings));
+                    sock.SendFrame("connect");
+                    sock.SendFrame(JsonConvert.SerializeObject(cpo, ConfigManager.JsonSettings));
 
                 }
 
                 string response;
-                bool received = pair.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out response);
+                bool received = sock.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out response);
                 if (received)
                 {
                     if (response == "ACK")
@@ -420,7 +420,12 @@ namespace Frontend.UserControls
 
         private void HandleIncorrectProcess()
         {
-            NodeJsProcess?.Kill();
+            try
+            {
+                NodeJsProcess?.Kill();
+            }
+            catch(Exception){}
+
             MessageBox.Show("Node.js app is not responding. Check if node interpreter is running correct code (check backend path or remote connection if used).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -467,7 +472,7 @@ namespace Frontend.UserControls
         /// </summary>
         private bool IsBrowserConnected()
         {
-            if (pair == null)
+            if (sock == null)
                 return false;
 
             if (recordingTask != null && recordingTask.Status == TaskStatus.Running)
@@ -476,14 +481,14 @@ namespace Frontend.UserControls
                 recordingTask.Wait();
             }
 
-            pair.SendFrame("browserConnectionStatus");
+            sock.SendFrame("browserConnectionStatus");
 
             string bStr;
             bool res = false;
             int counter = 0;
-            while ((!pair.ReceiveFrameStringTimeout(out bStr, 100) || !bool.TryParse(bStr, out res)) && counter <= 4)
+            while ((!sock.ReceiveFrameStringTimeout(out bStr, 100) || !bool.TryParse(bStr, out res)) && counter <= 4)
             {
-                pair.SendFrame("browserConnectionStatus");
+                sock.SendFrame("browserConnectionStatus");
                 ++counter;
             }
 
@@ -508,7 +513,7 @@ namespace Frontend.UserControls
                 cts = new CancellationTokenSource();
                 cancelToken = cts.Token;
 
-                pair.SendFrame("start");
+                sock.SendFrame("start");
 
                 WorkingState = State.Recording;
                 recordingTask = Task.Factory.StartNew(RecordingTask, cancelToken);
@@ -520,7 +525,7 @@ namespace Frontend.UserControls
             else if (connectionStatus && workingState == State.Recording) //Stop recording
             {
                 WorkingState = State.Connected;
-                pair.SendFrame("stop");
+                sock.SendFrame("stop");
             }
         }
 
@@ -605,18 +610,18 @@ namespace Frontend.UserControls
         {
             while (!cancelToken.IsCancellationRequested)
             {
-                if (pair == null)
+                if (sock == null)
                     return;
 
-                if (!pair.HasIn)
+                if (!sock.HasIn)
                     continue;
 
-                if (pair.HasIn && cancelToken.IsCancellationRequested)
+                if (sock.HasIn && cancelToken.IsCancellationRequested)
                     break;
 
 
                 string json = null;
-                if (!pair.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out json))
+                if (!sock.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out json))
                 {
                     continue;
                 }
@@ -801,9 +806,9 @@ namespace Frontend.UserControls
                 return;
 
             string json = JsonConvert.SerializeObject(GetRecordingsForOptimize(), ConfigManager.JsonSettings);
-            pair.SendFrame("optimize");
-            pair.SendFrame(json);
-            json = pair.ReceiveFrameString();
+            sock.SendFrame("optimize");
+            sock.SendFrame(json);
+            json = sock.ReceiveFrameString();
             List<Recording> actions = JsonConvert.DeserializeObject<List<Recording>>(json, ConfigManager.JsonSettings);
             edit.Recordings = actions;
 
@@ -827,11 +832,11 @@ namespace Frontend.UserControls
         private void codeGenButton_Click(object sender, EventArgs e)
         {
             string actionsJson = JsonConvert.SerializeObject(GetRecordingActionsForOutput().Item1, ConfigManager.JsonSettings);
-            string codeGenOptsJson = JsonConvert.SerializeObject(edit.Config.CodeGeneratorConfig, ConfigManager.JsonSettings);
-            pair.SendFrame("codeGen");
-            pair.SendFrame(codeGenOptsJson);
-            pair.SendFrame(actionsJson);
-            string code = pair.ReceiveFrameString();
+            string codeGenOptsJson = JsonConvert.SerializeObject(edit.Config.CodeGenConfig, ConfigManager.JsonSettings);
+            sock.SendFrame("codeGen");
+            sock.SendFrame(codeGenOptsJson);
+            sock.SendFrame(actionsJson);
+            string code = sock.ReceiveFrameString();
             CodeGenEditor cge = new CodeGenEditor();
             cge.SetEditorText(code);
             cge.Show();
@@ -988,11 +993,11 @@ namespace Frontend.UserControls
         /// </summary>
         private void FinishReplay()
         {
-            pair.SendFrame("finished");
-            string msg = pair.ReceiveFrameString();
+            sock.SendFrame("finished");
+            string msg = sock.ReceiveFrameString();
             while (msg != "evaluated")
             {
-                msg = pair.ReceiveFrameString();
+                msg = sock.ReceiveFrameString();
             }
             runningNowHighlightedAuc = null;
             UiSafeOperation(() => replayViewForm.ReplayEndedNow());
@@ -1048,9 +1053,9 @@ namespace Frontend.UserControls
 
             string codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
             string actionsJson = JsonConvert.SerializeObject(actions, ConfigManager.JsonSettings);
-            pair.SendFrame("replay");
-            pair.SendFrame(codeGenConfig);
-            pair.SendFrame(actionsJson);
+            sock.SendFrame("replay");
+            sock.SendFrame(codeGenConfig);
+            sock.SendFrame(actionsJson);
 
             actions.RemoveAt(0); //startupHints
 
@@ -1070,12 +1075,12 @@ namespace Frontend.UserControls
                 }
                 AucColorChangeSafe(aucs[i], Color.DarkGoldenrod);
 
-                pair.SendFrame(i.ToString());
+                sock.SendFrame(i.ToString());
                 bool b;
                 string m = null;
-                b = pair.ReceiveFrameStringTimeout(out m, 100);
+                b = sock.ReceiveFrameStringTimeout(out m, 100);
                 while (!b && !cts.IsCancellationRequested)
-                    b = pair.ReceiveFrameStringTimeout(out m, 100);
+                    b = sock.ReceiveFrameStringTimeout(out m, 100);
 
 
                 if (cts.IsCancellationRequested)
@@ -1097,7 +1102,7 @@ namespace Frontend.UserControls
 
                     b = false;
                     while (!b && !cts.IsCancellationRequested)
-                        b = pair.ReceiveFrameStringTimeout(out m, 100);
+                        b = sock.ReceiveFrameStringTimeout(out m, 100);
 
 
                     if (cts.IsCancellationRequested)
@@ -1117,10 +1122,11 @@ namespace Frontend.UserControls
             }
 
             runningNowHighlightedAuc = null;
-            pair.SendFrame("finished");
+            sock.SendFrame("finished");
 
             SetReplayEndedVisibility(true);
             SetReplayActiveUi(false);
         }
+
     }
 }

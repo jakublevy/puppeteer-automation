@@ -45,6 +45,7 @@
             // 
             // eventsToRecordLabel
             // 
+            this.eventsToRecordLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.eventsToRecordLabel.AutoSize = true;
             this.eventsToRecordLabel.Location = new System.Drawing.Point(327, 9);
             this.eventsToRecordLabel.Name = "eventsToRecordLabel";

@@ -38,6 +38,7 @@
             // 
             // nameTextBox
             // 
+            this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nameTextBox.Location = new System.Drawing.Point(3, 18);
             this.nameTextBox.Name = "nameTextBox";
@@ -47,6 +48,7 @@
             // 
             // websitesListBox
             // 
+            this.websitesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.websitesListBox.FormattingEnabled = true;
             this.websitesListBox.Location = new System.Drawing.Point(128, 3);
             this.websitesListBox.Name = "websitesListBox";

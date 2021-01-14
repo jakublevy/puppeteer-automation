@@ -4,22 +4,22 @@ using System.Windows.Forms;
 namespace Frontend.Forms
 {
     /// <summary>
-    /// This form contains a Property Grid that is used to set properties of CodeGeneratorOptions object.
+    /// This form contains a Property Grid that is used to set properties of CodeGenOptions object.
     /// </summary>
-    public partial class CodeGeneratorSettingsForm : Form
+    public partial class CodeGenSettingsForm : Form
     {
-        private CodeGeneratorOptions cgo = null;
-        public CodeGeneratorSettingsForm()
+        private CodeGenOptions cgo = null;
+        public CodeGenSettingsForm()
         {
             InitializeComponent();
         }
 
-        public void BindCodeGeneratorOptions(CodeGeneratorOptions c)
+        public void BindCodeGeneratorOptions(CodeGenOptions c)
         {
             cgo = c;
         }
 
-        public CodeGeneratorOptions ExportCodeGeneratorOptions()
+        public CodeGenOptions ExportCodeGeneratorOptions()
         {
             return cgo;
         }

@@ -7,7 +7,7 @@ namespace Frontend
     /// <summary>
     /// Options that change the behaviour of a code generator.
     /// </summary>
-    public class CodeGeneratorOptions
+    public class CodeGenOptions
     {
         [JsonProperty(PropertyName = "addWaitFor")]
         [Description("Adds waitForSelector or waitForXPath before interacting with an element.")]

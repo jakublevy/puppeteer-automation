@@ -61,9 +61,6 @@
             // 
             // viewportGroupBox
             // 
-            this.viewportGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.viewportGroupBox.Controls.Add(this.viewportEnabledCheckBox);
             this.viewportGroupBox.Controls.Add(this.scaleNumericUpDown);
             this.viewportGroupBox.Controls.Add(this.label3);
@@ -257,6 +254,7 @@
             // 
             // browseButton
             // 
+            this.browseButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.browseButton.Location = new System.Drawing.Point(76, 261);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(75, 23);

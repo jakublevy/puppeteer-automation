@@ -67,36 +67,36 @@ namespace Frontend
         }
 
 
-        public static CodeGeneratorOptions GetCodeGeneratorOptions()
+        public static CodeGenOptions GetCodeGeneratorOptions()
         {
             if (File.Exists(Constants.CONF_FILE))
             {
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
-                if (dc.CodeGeneratorConfig != null)
-                    return dc.CodeGeneratorConfig;
+                if (dc.CodeGenConfig != null)
+                    return dc.CodeGenConfig;
                 return DefaultCodeGeneratorOptions();
 
             }
             else
             {
-                return new CodeGeneratorOptions();
+                return new CodeGenOptions();
             }
         }
 
-        public static void SaveCodeGeneratorOptions(CodeGeneratorOptions cgo)
+        public static void SaveCodeGeneratorOptions(CodeGenOptions cgo)
         {
             Configuration dc = null;
             if (File.Exists(Constants.CONF_FILE))
             {
                 string conf = File.ReadAllText(Constants.CONF_FILE);
                 dc = JsonConvert.DeserializeObject<Configuration>(conf, JsonSettings);
-                dc.CodeGeneratorConfig = cgo;
+                dc.CodeGenConfig = cgo;
                 File.WriteAllText(Constants.CONF_FILE, JsonConvert.SerializeObject(dc, JsonSettings));
             }
             else
             {
-                dc = new Configuration { CodeGeneratorConfig = cgo };
+                dc = new Configuration { CodeGenConfig = cgo };
                 File.WriteAllText(Constants.CONF_FILE, JsonConvert.SerializeObject(dc, JsonSettings));
             }
         }
@@ -146,9 +146,9 @@ namespace Frontend
             return DefaultPlayerOptions();
         }
 
-        private static CodeGeneratorOptions DefaultCodeGeneratorOptions()
+        private static CodeGenOptions DefaultCodeGeneratorOptions()
         {
-            return new CodeGeneratorOptions();
+            return new CodeGenOptions();
         }
 
         private static PuppeteerOptions DefaultPuppeteerOptions()

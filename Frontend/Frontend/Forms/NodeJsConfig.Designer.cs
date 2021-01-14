@@ -38,6 +38,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(70, 9);
             this.label1.Name = "label1";
@@ -47,6 +48,8 @@
             // 
             // interpreterTextBox
             // 
+            this.interpreterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.interpreterTextBox.Location = new System.Drawing.Point(12, 25);
             this.interpreterTextBox.Name = "interpreterTextBox";
             this.interpreterTextBox.Size = new System.Drawing.Size(258, 20);
@@ -56,6 +59,8 @@
             // 
             // browseInterpreterButton
             // 
+            this.browseInterpreterButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.browseInterpreterButton.Location = new System.Drawing.Point(99, 51);
             this.browseInterpreterButton.Name = "browseInterpreterButton";
             this.browseInterpreterButton.Size = new System.Drawing.Size(75, 23);
@@ -66,6 +71,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(87, 112);
             this.label2.Name = "label2";
@@ -75,6 +81,8 @@
             // 
             // nodeJsEntryPointTextBox
             // 
+            this.nodeJsEntryPointTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.nodeJsEntryPointTextBox.Location = new System.Drawing.Point(12, 128);
             this.nodeJsEntryPointTextBox.Name = "nodeJsEntryPointTextBox";
             this.nodeJsEntryPointTextBox.Size = new System.Drawing.Size(258, 20);
@@ -83,6 +91,8 @@
             // 
             // browseNodeJsEntryPointButton
             // 
+            this.browseNodeJsEntryPointButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.browseNodeJsEntryPointButton.Location = new System.Drawing.Point(99, 154);
             this.browseNodeJsEntryPointButton.Name = "browseNodeJsEntryPointButton";
             this.browseNodeJsEntryPointButton.Size = new System.Drawing.Size(75, 23);

@@ -1,6 +1,6 @@
 ﻿namespace Frontend.Forms
 {
-    partial class CodeGeneratorSettingsForm
+    partial class CodeGenSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -33,18 +33,21 @@
             // 
             // codeGeneratorpropertyGrid
             // 
+            this.codeGeneratorpropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.codeGeneratorpropertyGrid.Location = new System.Drawing.Point(12, 12);
             this.codeGeneratorpropertyGrid.Name = "codeGeneratorpropertyGrid";
             this.codeGeneratorpropertyGrid.Size = new System.Drawing.Size(312, 294);
             this.codeGeneratorpropertyGrid.TabIndex = 0;
             // 
-            // CodeGeneratorSettingsForm
+            // CodeGenSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 318);
             this.Controls.Add(this.codeGeneratorpropertyGrid);
-            this.Name = "CodeGeneratorSettingsForm";
+            this.Name = "CodeGenSettingsForm";
             this.Text = "CodeGeneratorSettings";
             this.Load += new System.EventHandler(this.CodeGeneratorSettings_Load);
             this.ResumeLayout(false);

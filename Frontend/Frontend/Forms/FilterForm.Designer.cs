@@ -94,6 +94,9 @@
             // 
             // viewportEventsGroupBox
             // 
+            this.viewportEventsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.viewportEventsGroupBox.Controls.Add(this.mouseoverCheckBox);
             this.viewportEventsGroupBox.Controls.Add(this.copyCheckBox);
             this.viewportEventsGroupBox.Controls.Add(this.submitCheckBox);
@@ -166,6 +169,9 @@
             // 
             // dblclickCheckBox
             // 
+            this.dblclickCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dblclickCheckBox.AutoSize = true;
             this.dblclickCheckBox.Checked = true;
             this.dblclickCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -255,6 +261,9 @@
             // 
             // puppeteerEventsGroupBox
             // 
+            this.puppeteerEventsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.puppeteerEventsGroupBox.Controls.Add(this.pageUrlChangedCheckBox);
             this.puppeteerEventsGroupBox.Controls.Add(this.pageOpenedCheckBox);
             this.puppeteerEventsGroupBox.Controls.Add(this.pageClosedCheckBox);
@@ -321,7 +330,7 @@
             // 
             // statusGroupBox
             // 
-            this.statusGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.statusGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusGroupBox.Controls.Add(this.uncheckedCheckBox);
             this.statusGroupBox.Controls.Add(this.checkedCheckBox);
@@ -389,6 +398,9 @@
             // 
             // targetGroupBox
             // 
+            this.targetGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.targetGroupBox.Controls.Add(this.selectorCheckBox);
             this.targetGroupBox.Controls.Add(this.locatorCheckBox);
             this.targetGroupBox.Enabled = false;
@@ -469,6 +481,7 @@
             this.Controls.Add(this.targetGroupBox);
             this.Controls.Add(this.statusGroupBox);
             this.Controls.Add(this.typeGroupBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FilterForm";
             this.Text = "FilterForm";
             this.typeGroupBox.ResumeLayout(false);

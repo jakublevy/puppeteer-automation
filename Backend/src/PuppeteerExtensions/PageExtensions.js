@@ -14,11 +14,12 @@ async function addPageExtensions(page) {
 }
 
 /*
-Description: browser.exponseFuction has not delete counterpart.
+Description: page.exponseFuction has not delete counterpart.
              This method fills the gap.
  */
 function _removeExposedFunctionByName(page, fName) {
     return page._pageBindings.delete(fName)
+
 }
 
 /*

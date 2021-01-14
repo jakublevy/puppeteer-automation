@@ -82,12 +82,12 @@ namespace Frontend
         /// </summary>
         private void codeGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CodeGeneratorSettingsForm cgs = new CodeGeneratorSettingsForm();
+            CodeGenSettingsForm cgs = new CodeGenSettingsForm();
             cgs.BindCodeGeneratorOptions(ConfigManager.GetCodeGeneratorOptions());
 
             cgs.Closing += (o, args) =>
             {
-                CodeGeneratorOptions cgo = cgs.ExportCodeGeneratorOptions();
+                CodeGenOptions cgo = cgs.ExportCodeGeneratorOptions();
                 ConfigManager.SaveCodeGeneratorOptions(cgo);
             };
             openedSettingForms.Add(cgs);
@@ -153,7 +153,7 @@ namespace Frontend
             currentEdit.Config = new Configuration
             {
                 PuppeteerConfig = ConfigManager.GetPuppeteerConfiguration(),
-                CodeGeneratorConfig = ConfigManager.GetCodeGeneratorOptions(),
+                CodeGenConfig = ConfigManager.GetCodeGeneratorOptions(),
                 PlayerOptions = ConfigManager.GetPlayerOptions(),
                 NodeJsOptions = ConfigManager.GetNodeJsOptions(),
                 RecordedEvents = ConfigManager.GetRecordedEventsOptions()

@@ -14,6 +14,6 @@ Object.assign(String.prototype, {
 
 Object.assign(String.prototype, {
     containsNumber() {
-        return /^-?\d+$/.test(this);
+        return /^-?\d+$/.test(this)
     }
 })

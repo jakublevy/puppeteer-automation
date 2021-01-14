@@ -40,6 +40,7 @@
             // 
             // replayEndedLabel
             // 
+            this.replayEndedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.replayEndedLabel.AutoSize = true;
             this.replayEndedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.replayEndedLabel.Location = new System.Drawing.Point(679, 6);
