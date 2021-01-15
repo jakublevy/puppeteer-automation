@@ -38,14 +38,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.codeGeneratorpropertyGrid.Location = new System.Drawing.Point(12, 12);
             this.codeGeneratorpropertyGrid.Name = "codeGeneratorpropertyGrid";
-            this.codeGeneratorpropertyGrid.Size = new System.Drawing.Size(312, 294);
+            this.codeGeneratorpropertyGrid.Size = new System.Drawing.Size(312, 300);
             this.codeGeneratorpropertyGrid.TabIndex = 0;
             // 
             // CodeGenSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 318);
+            this.ClientSize = new System.Drawing.Size(336, 324);
             this.Controls.Add(this.codeGeneratorpropertyGrid);
             this.Name = "CodeGenSettingsForm";
             this.Text = "CodeGeneratorSettings";

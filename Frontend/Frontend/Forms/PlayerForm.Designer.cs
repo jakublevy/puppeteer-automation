@@ -38,14 +38,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.codeGeneratorOptionsPropertyGrid.Location = new System.Drawing.Point(12, 12);
             this.codeGeneratorOptionsPropertyGrid.Name = "codeGeneratorOptionsPropertyGrid";
-            this.codeGeneratorOptionsPropertyGrid.Size = new System.Drawing.Size(259, 284);
+            this.codeGeneratorOptionsPropertyGrid.Size = new System.Drawing.Size(259, 157);
             this.codeGeneratorOptionsPropertyGrid.TabIndex = 1;
             // 
             // PlayerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 308);
+            this.ClientSize = new System.Drawing.Size(286, 181);
             this.Controls.Add(this.codeGeneratorOptionsPropertyGrid);
             this.Name = "PlayerForm";
             this.Text = "PlayerForm";

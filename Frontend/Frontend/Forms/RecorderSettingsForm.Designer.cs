@@ -69,7 +69,7 @@
             this.Controls.Add(this.recordedEventsPropertyGrid);
             this.Controls.Add(this.puppeteerOptionsUserControl);
             this.Name = "RecorderSettingsForm";
-            this.Text = "Recorder Settings";
+            this.Text = " ";
             this.Load += new System.EventHandler(this.RecorderSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

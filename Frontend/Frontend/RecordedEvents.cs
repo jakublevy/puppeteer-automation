@@ -22,7 +22,7 @@ namespace Frontend
         public bool PageOpened { get; set; } = true;
         public bool PageUrlChanged { get; set; } = true;
 
-        [Description("Press h while hovering when in browser to record")]
+        [Description("Hold 'h' key to record.")]
         public bool MouseOver { get; } = true;
     }
 }

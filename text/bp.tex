@@ -69,11 +69,19 @@
 }
 
 %repair cline - czech babel
-\usepackage{regexpatch}
+\usepackage{booktabs}
 \makeatletter
-% Change the `-` delimiter to an active character
-\xpatchparametertext\@@@cmidrule{-}{\cA-}{}{}
-\xpatchparametertext\@cline{-}{\cA-}{}{}
+\begingroup
+\toks0=\expandafter{\@cline{#1}-{#2}\@nil}
+\@ifpackageloaded{booktabs}{%
+	\toks2=\expandafter{\@@@cmidrule[{#1}-{#2}]{#3}{#4}}%
+}{}
+\catcode`-=\active
+\edef\x{\gdef\unexpanded{\@cline#1-#2\@nil}{\the\toks0}}\x
+\@ifpackageloaded{booktabs}{%
+	\edef\x{\gdef\unexpanded{\@@@cmidrule[#1-#2]#3#4}{\the\toks2}}\x
+}{}
+\endgroup
 \makeatother
 
 \usepackage{zref-savepos}
@@ -2328,39 +2336,157 @@ async function receiveMsg(sock) {
 	Upřesníme navíc ještě, že všechny formuláře se nachází v~adresáři \texttt{Forms\textbackslash} a~komponenty (user control) využité ve formulářích pak v~\texttt{UserControls\textbackslash}.
 	%Zde uvedeme strukturu a~význam celků frontendové části, oproti backendu tu navíc rozvedeme i~formuláře.
 	\subsubsubsection{Forms\textbackslash CodeGenEditor.cs}
-	Textový editor zobrazující vygenerovaný kód pro Puppeteer. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu \texttt{ScintillaNET} \cite{scintillaGithub} dostupného pod MIT licencí v~souladu s~kterou je komponenta využita. 
+	Textový editor zobrazující vygenerovaný kód pro Puppeteer. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu s~kterou je komponenta využita. 
 	\paragraph{Formuláře}
 	\begin{figure}[H]
 		\centering		\includegraphics[width=1.0\textwidth]{codeGenEditorDesc.png}
+		\captionsetup{justification=centering}
+		\caption{Formulář CodeGenEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{CodeGenEditor : Form}
 	\paragraph{Vybrané metody}
-	\begin{lstlisting}[style=MyCSharpDocs]
-public void SetEditorText(string txt) { textEditor.Text = txt; }
-	\end{lstlisting}
+	\lstinline[style=MyCSharpDocs]|public void SetEditorText(string txt)| nastaví textový řetězec \lstinline|txt| jako obsah textového editoru.
+	\newpage
 	\subsubsubsection{Forms\textbackslash CodeGenSettingsForm.cs}
 	Nastavení parametrů pro generování kódu.
+	\nopagebreak
 	\paragraph{Formuláře}
+%	\enlargethispage{\baselineskip}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.59\textwidth]{codeGeneratorSettingsForm.png}
+		\caption{Formulář CodeGenSettingsForm s~komponentou \texttt{PropertyGrid}}
+	\end{figure}
 	\paragraph{Třídy}
+	\texttt{CodeGenSettingsForm : Form}
 	\paragraph{Vybrané metody}
+	\begin{methods}
+\lstinline[style=MyCSharpDocs]|public void BindCodeGeneratorOptions(CodeGenOptions c)| nastaví parametr~\lstinline|c| do komponenty property grid jako objekt k~úpravě.
+
+\lstinline[style=MyCSharpDocs]|public CodeGenOptions ExportCodeGeneratorOptions()| vrátí objekt nastavený dle hodnot v~property gridu.
+	\end{methods}
+	\newpage
 	\subsubsubsection{Forms\textbackslash FilterForm.cs}
-	
+	Nastavení filtru.
+	\nopagebreak
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.51\textwidth]{filtrFormDocs.png}
+		\caption{Formulář FilterForm}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{FilterForm : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public Filter ExportFilter()| vrátí objekt odpovídající aktuálnímu formuláři.
+		
+		\lstinline[style=MyCSharpDocs]|public void SetFilter(Filter f)| nastaví UI formuláře podle parametru \lstinline|f|.
+	\end{methods}
 	\subsubsubsection{Forms\textbackslash JsonEditor.cs}
-	
+	Textový prohlížeč a~editor nezpracovaného JSONu akce. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu s~kterou je komponenta využita. 
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.97\textwidth]{jsonEditorDocs.png}
+		\caption{Formulář JSONEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{JsonEditor : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public string GetEditorText()| vrátí obsah textového editoru.
+		
+		\lstinline[style=MyCSharpDocs]|public void SetEditorText(string txt)| nastaví textový řetězec \lstinline|txt| jako obsah textového editoru. Hodnota vlastnosti \lstinline|ReadOnly| textového editoru zůstane zachována.
+	\end{methods}
 	\subsubsubsection{Forms\textbackslash MainForm.cs}
 	
 	\subsubsubsection{Forms\textbackslash NodeJsConfig.cs}
+	Nastavení cesty k~backendu a~interpreteru Node.js.
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.51\textwidth]{nodejsSettingsDocs.png}
+		\caption{Formulář NodeJsConfig}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{NodeJsConfig : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void BindNodeJsOptions(NodeJsOptions n)| nastaví UI formuláře podle parametru \lstinline|n|.
+		
+		\lstinline[style=MyCSharpDocs]|public NodeJsOptions ExportNodeJsOptions()| vrátí objekt odpovídající aktuálnímu formuláři.
+	\end{methods}
 	
 	\subsubsubsection{Forms\textbackslash PlayerForm.cs}
+	Nastavení parametrů pro přehrávání akcí.
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.52\textwidth]{playerFormDocs.png}
+		\caption{Formulář PlayerForm s~komponentou \texttt{PropertyGrid}}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{PlayerForm : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void BindNodeJsOptions(NodeJsOptions n)| nastaví parametr~\lstinline|n| do komponenty property grid jako objekt k~úpravě.
+		
+		\lstinline[style=MyCSharpDocs]|public NodeJsOptions ExportNodeJsOptions()| vrátí objekt nastavený dle hodnot v~property gridu.
+	\end{methods}
 	
 	\subsubsubsection{Forms\textbackslash RecorderSettingsForm.cs}
-	
+	Nastavení nahrávání a~prohlížeče.
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.90\textwidth]{recorderSettingsDocs.png}
+		\captionsetup{justification=centering}
+		\caption{Formulář RecorderSettingsForm s~user control \texttt{PuppeteerOptionsUserControl}}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{RecorderSettingsForm : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public RecorderConfiguration ExportRecorderOptions()| vrátí objekt nastavený dle aktuálních hodnot formuláře.
+		
+		\lstinline[style=MyCSharpDocs]|private void RecorderSettings_Load(object sender, EventArgs e)| spuštěna při načtení formuláře, vyplní UI dle uloženého nastavení.
+	\end{methods}
+
 	\subsubsubsection{Forms\textbackslash ReplayViewForm.cs}
+	Stav, informace a~chyby aktuálně probíhajícího přehrávání.
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.82\textwidth]{replayViewDocs.png}
+		\caption{Formulář ReplayView ve stavu ukončeného přehrávání s~jednou chybou}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{ReplayViewForm : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void AddError(string errorMsg, int id)| přidá chybu \lstinline|errorMsg| do data grid view a~spojí ji s~\lstinline|ActionUserControl| (\ref{docs:auc}) podle \lstinline|id|.
+		
+		\lstinline[style=MyCSharpDocs]|public void SetRecordingEnded(bool state)| podle parametru \lstinline|state| nastaví formulář do stavu probíhajícího přehrávání nebo ukončeného přehrávání. 
+		
+		Mnoho dalších metod zpracovávájících události UI: \lstinline|dataGridView_CellClick|, \lstinline|ReplayViewForm_FormClosing|, \lstinline|stopButton_Click|, ... Více informací o~těchto a~dalších metodách je uvedeno v~komentářích ve zdrojovém souboru.
+	\end{methods}
 	
 	\subsubsubsection{Forms\textbackslash WaitingWindow.cs}
-	
+	Formulář vyzývající k~čekání.
+	\paragraph{Formuláře}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.57\textwidth]{waitingWindow.png}
+		\caption{Formulář WaitingWindow}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{WaitingWindow : Form}
+	\paragraph{Vybrané metody}
+	\xmark
 	\subsubsubsection{UserControls\textbackslash ActionUserControl.cs}
+	\label{docs:auc}
 	
 	\subsubsubsection{UserControls\textbackslash EditUserControl.cs}
 	

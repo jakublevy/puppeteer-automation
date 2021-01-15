@@ -71,7 +71,7 @@ namespace Frontend.Forms
         }
 
         /// <summary>
-        /// Sets UI into recording is running state or recording has finished state.
+        /// Sets UI into recording state or idle state (recording has finished).
         /// </summary>
         public void SetRecordingEnded(bool state)
         {
