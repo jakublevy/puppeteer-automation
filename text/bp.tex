@@ -54,6 +54,7 @@
 \AtBeginEnvironment{codefigure}{\renewcommand\baselinestretch{1.2}}{}{}
 \newcommand{\codefigureSpacing}{1.2}
 \AtBeginEnvironment{subfigure}{\renewcommand\baselinestretch{1.2}}{}{}
+
 \usepackage{graphicx}
 \graphicspath{ {./figures/} }
 \usepackage{appendix}
@@ -2145,9 +2146,9 @@ v~\hyperref[tab:locatorsList]{\cref{tab:locatorsList} na straně \pageref{tab:lo
 	\end{figure}
 	\subsection{Detaily implementace}
 	\label{sub_sec:programmerDocs}
-	V~této podsekci se budeme zabývat konkrétněji backendem a~frontendem. Nebudeme se zde zabývat návrhem celého řešení, ten je popsán v~\fullNameref{sub_sec:design}, kam odkážeme případné zájemce.
+	V~této podsekci se budeme zabývat podrobněji backendem a~frontendem. Nebudeme se zde zabývat návrhem celého řešení, ten je popsán v~\fullNameref{sub_sec:design}, kam odkážeme případné zájemce.
 	
-	Součástí nebudou ani detailní rozbory zdrojových kódu a~dalších jiných technických aspektů. Tato sekce slouží pouze jako rozcestník, zájemci po jejím přečtení budou schopni nalézt zdrojový soubor s~hledanou funkcionalitou. Pro hladší pochopení jsou zdrojové soubory komentovány vždy na úrovni tříd a~většiny metod, zejména pak těch netriviálních.
+	Součástí nebudou detailní rozbory zdrojových kódu a~dalších jiných technických aspektů. Tato sekce slouží pouze jako rozcestník, zájemci po jejím přečtení budou schopni nalézt zdrojový soubor s~hledanou funkcionalitou. Pro hladší pochopení jsou zdrojové soubory komentovány vždy na úrovni tříd a~většiny metod, zejména pak těch netriviálních.
 	%nazev souboru
 	%obsazene tridy
 	%letmy popis
@@ -2155,7 +2156,7 @@ v~\hyperref[tab:locatorsList]{\cref{tab:locatorsList} na straně \pageref{tab:lo
 	%okno formulare
 	\subsubsection{Backend}
 	\label{subsub_sec:backendProgrammersDocs}
-	Backendová část se nachází v~adresáři \texttt{Backend\textbackslash}. Názvy podsekcí spadající pod tuto sekci odpovídají zdrojovým souborům, a~proto předpokládáme, že se nacházíme v~cestě \texttt{Backend\textbackslash src}. Zdrojové soubory jsou uvedeny v~abecedním pořadí počínaje nejprve soubory nacházející se v~podadresářích.
+	Backendová část se nachází v~adresáři \texttt{Backend\textbackslash}. Názvy podsekcí spadající pod tuto sekci odpovídají zdrojovým souborům, a~proto předpokládáme, že se nacházíme v~cestě \texttt{Backend\textbackslash src}. Zdrojové soubory jsou uvedeny v~abecedním pořadí počínaje soubory nacházejícími se v~podadresářích.
 	%Pro backendovou část vytvoříme primárně rozcestník, který bude sloužit pro rychlou orientaci ve zdrojových souborech.
 	\subsubsubsection{JsExtensions\textbackslash ArrayExtensions.js}
 	Jednoduché metody rozšiřující \texttt{Array} objekt JavaScriptu.
@@ -2191,7 +2192,7 @@ Object.assign(String.prototype, {
 	\end{lstlisting}
 	\subsubsubsection{PuppeteerExtensions\textbackslash BrowserExtensions.js}
 	\label{docs:browserExtensions}
-	Několik metod rozšiřující standardní funkcionalitu \texttt{Browser} objektu Puppeteeru. Součástí je i~kód redefinující zejména událost "tabcreated". Toho je využiváno pro inicializaci rozšíření nově otevřených stránek viz. \ref{docs:pageExtensions}.
+	Několik metod rozšiřujících standardní funkcionalitu \texttt{Browser} objektu Puppeteeru. Součástí je i~kód redefinující zejména událost "tabcreated". Toho je využíváno pro inicializaci rozšíření nově otevřených stránek viz. \ref{docs:pageExtensions}.
 	\paragraph{Třídy}
 	\xmark
 	\paragraph{Vybrané metody}
@@ -2202,7 +2203,7 @@ Object.assign(String.prototype, {
 	\end{methods}
 	\subsubsubsection{PuppeteerExtensions\textbackslash PageExtensions.js}
 	\label{docs:pageExtensions}
-	Několik metod rozšiřující standardní funkcionalitu \texttt{Page} objektu Puppeteeru.
+	Několik metod rozšiřujících standardní funkcionalitu \texttt{Page} objektu Puppeteeru.
 	\paragraph{Třídy}
 	\xmark
 	\paragraph{Vybrané metody}
@@ -2217,7 +2218,7 @@ Object.assign(String.prototype, {
 	\end{methods}
 	\subsubsubsection{selenium-ide-src\textbackslash LocatorPkg.js}
 	\label{docs:locatorsFile}
-	Funkcionalita lokátorů pochází ze zdrojového kódu projektu Selenium IDE \cite{seleniumIdeGithub}. Na~tento kód se vztahuje licence Apache 2.0 v~souladu s~kterou je kód využit.
+	Funkcionalita lokátorů pochází ze zdrojového kódu projektu Selenium IDE \cite{seleniumIdeGithub}. Na~tento kód se vztahuje licence Apache 2.0 v~souladu se~kterou je kód využit.
 	\paragraph{Třídy}
 	Jedná se sice o~velké množství kódu, většina ale pochází z~doby, kdy JavaScript neobsahoval klíčové slovo \texttt{class}. Pokud budeme brát v~potaz objekty vytvořené přes funkce, jak to bývalo tradiční v~JavaScriptu, pak do tohoto seznamu můžeme zahrnout \texttt{LocatorBuilders}.
 	\paragraph{Vybrané metody}
@@ -2249,7 +2250,7 @@ Object.assign(String.prototype, {
 		\lstinline[style=JSProgrammersDocs]|setNewPageCDPExecute(cmds)| nastaví volání CDP funkcí daných parametrem\linebreak\lstinline|cmds| pro každý nově otevřený tab.
 	\end{methods}
 	\subsubsubsection{CodeGenerator.js}
-	Logika pro generování kódu pro Puppeteer.
+	Logika generování kódu pro Puppeteer.
 	\paragraph{Třídy}
 	\texttt{CodeGenerator}
 	\paragraph{Vybrané metody}
@@ -2272,13 +2273,13 @@ Object.assign(String.prototype, {
 		
 		\lstinline|_identifier(action)| vrátí identifikátor akce \lstinline|action|, který byl vybrán ve frontendu.
 		
-		\lstinline|_plainCode(codeBlocks)| převede bloky kódy vygenerované metodou\linebreak\lstinline|_codeGenBlock| do kódu pro Puppeteer.
+		\lstinline|_plainCode(codeBlocks)| převede bloky kódu vygenerované metodou\linebreak\lstinline|_codeGenBlock| do kódu pro Puppeteer.
 		
 		\enlargethispage{\baselineskip}
 		Mnoho dalších metod generujících volání: \lstinline|_browserFuncCall|,\linebreak \lstinline|_genExecRawCodeInsidePage|, \lstinline|_genIdentifierFuncCall|, \lstinline|_pageFuncCall|, ... Více informací o~těchto a~dalších metodách je uvedeno v~komentářích ve zdrojovém\linebreak souboru.
 	\end{methods}
 	\subsubsubsection{main.js}
-	Spouštějící soubor backendové části, naslouchá na zprávy z~backendu, které předá ke zpracování.
+	Spouštějící soubor backendové části, čeká na zprávy z~backendu, které předá ke~zpracování.
 	\paragraph{Třídy}
 	\xmark
 	\paragraph{Vybrané metody}
@@ -2295,7 +2296,7 @@ Object.assign(String.prototype, {
 		\lstinline[style=JSProgrammersDocs]|optimizeRecordings(rec)| smaže nevýznamné, nadbytečné akce pole \lstinline|rec|, navrátí nové pole bez těchto akcí.
 	\end{methods}
 	\subsubsubsection{Recorder.js}
-	Logika pro nahrávání akcí pocházejících z~okna prohlížeče i~viewportu.
+	Logika nahrávání akcí pocházejících z~okna prohlížeče i~viewportu.
 	\paragraph{Třídy}
 	\texttt{Recorder}, dědí od třídy \texttt{BrowserConnectionLayer} viz \ref{docs:browserConnectionLayer}.
 	\paragraph{Vybrané metody}
@@ -2321,7 +2322,7 @@ Object.assign(String.prototype, {
 	\end{methods}
 	
 	\subsubsubsection{ZeroMQUtils.js}
-	Několik metod usnadňujících práci s~ZeroMQ.js.
+	Několik metod usnadňujících práci se~ZeroMQ.js.
 	\paragraph{Třídy}
 	\xmark
 	\paragraph{Vybrané metody}
@@ -2331,27 +2332,26 @@ async function receiveMsg(sock) {
 }
 	\end{lstlisting}
 	\subsubsection{Frontend}
-	Visual Studio projekt frontendové části se nachází v~adresáři \texttt{Frontend\textbackslash}. Zdrojový kód pak v~adresáři \texttt{Frontend\textbackslash Frontend}, který považuje nyní za aktuální cestu. Stejně jako v~předchozím \fullNameref{subsub_sec:backendProgrammersDocs}, i~zde jsou názvy podsekcí odpovídají názvům zdrojových souborů, které jsou uvedeny v~abecedním pořadí.
+	Visual Studio projekt frontendové části se nachází v~adresáři \texttt{Frontend\textbackslash}. Zdrojový kód pak v~adresáři \texttt{Frontend\textbackslash Frontend}, který považujeme nyní za aktuální cestu. Stejně jako v~předchozím \fullNameref{subsub_sec:backendProgrammersDocs}, i~zde názvy podsekcí odpovídají názvům zdrojových souborů, které jsou uvedeny v~abecedním pořadí.
 	
-	Upřesníme navíc ještě, že všechny formuláře se nachází v~adresáři \texttt{Forms\textbackslash} a~komponenty (user control) využité ve formulářích pak v~\texttt{UserControls\textbackslash}.
+	Upřesníme navíc ještě, že všechny formuláře se nachází v~adresáři \texttt{Forms\textbackslash} a~uživatelské komponenty (user control) využité ve formulářích pak v~\texttt{UserControls\textbackslash}.
 	%Zde uvedeme strukturu a~význam celků frontendové části, oproti backendu tu navíc rozvedeme i~formuláře.
 	\subsubsubsection{Forms\textbackslash CodeGenEditor.cs}
-	Textový editor zobrazující vygenerovaný kód pro Puppeteer. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu s~kterou je komponenta využita. 
-	\paragraph{Formuláře}
+	Textový editor zobrazující vygenerovaný kód pro Puppeteer. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu se~kterou je komponenta využita. 
+%	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering		\includegraphics[width=1.0\textwidth]{codeGenEditorDesc.png}
 		\captionsetup{justification=centering}
-		\caption{Formulář CodeGenEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
+		\caption[Formulář CodeGenEditor s~komponentou\newline \texttt{ScintillaNET.Scintilla}]{Formulář CodeGenEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{CodeGenEditor : Form}
 	\paragraph{Vybrané metody}
 	\lstinline[style=MyCSharpDocs]|public void SetEditorText(string txt)| nastaví textový řetězec \lstinline|txt| jako obsah textového editoru.
-	\newpage
 	\subsubsubsection{Forms\textbackslash CodeGenSettingsForm.cs}
 	Nastavení parametrů pro generování kódu.
 	\nopagebreak
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
 %	\enlargethispage{\baselineskip}
 	\begin{figure}[H]
 		\centering
@@ -2368,9 +2368,10 @@ async function receiveMsg(sock) {
 	\end{methods}
 	\newpage
 	\subsubsubsection{Forms\textbackslash FilterForm.cs}
+	\label{docs:filterForm}
 	Nastavení filtru.
 	\nopagebreak
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.51\textwidth]{filtrFormDocs.png}
@@ -2385,8 +2386,8 @@ async function receiveMsg(sock) {
 		\lstinline[style=MyCSharpDocs]|public void SetFilter(Filter f)| nastaví UI formuláře podle parametru \lstinline|f|.
 	\end{methods}
 	\subsubsubsection{Forms\textbackslash JsonEditor.cs}
-	Textový prohlížeč a~editor nezpracovaného JSONu akce. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu s~kterou je komponenta využita. 
-	\paragraph{Formuláře}
+	Textový prohlížeč a~editor nezpracovaného JSONu odpovídající akci. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu se~kterou je komponenta využita. 
+%	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.97\textwidth]{jsonEditorDocs.png}
@@ -2401,10 +2402,12 @@ async function receiveMsg(sock) {
 		\lstinline[style=MyCSharpDocs]|public void SetEditorText(string txt)| nastaví textový řetězec \lstinline|txt| jako obsah textového editoru. Hodnota vlastnosti \lstinline|ReadOnly| textového editoru zůstane zachována.
 	\end{methods}
 	\subsubsubsection{Forms\textbackslash MainForm.cs}
+	\label{docs:mainForm}
+	%TODO: write
 	
 	\subsubsubsection{Forms\textbackslash NodeJsConfig.cs}
 	Nastavení cesty k~backendu a~interpreteru Node.js.
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.51\textwidth]{nodejsSettingsDocs.png}
@@ -2420,8 +2423,9 @@ async function receiveMsg(sock) {
 	\end{methods}
 	
 	\subsubsubsection{Forms\textbackslash PlayerForm.cs}
+	\label{docs:playerForm}
 	Nastavení parametrů pro přehrávání akcí.
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.52\textwidth]{playerFormDocs.png}
@@ -2437,13 +2441,15 @@ async function receiveMsg(sock) {
 	\end{methods}
 	
 	\subsubsubsection{Forms\textbackslash RecorderSettingsForm.cs}
+	\label{docs:recorderSettings}
 	Nastavení nahrávání a~prohlížeče.
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
+	\nopagebreak
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.90\textwidth]{recorderSettingsDocs.png}
 		\captionsetup{justification=centering}
-		\caption{Formulář RecorderSettingsForm s~user control \texttt{PuppeteerOptionsUserControl}}
+		\caption[Formulář RecorderSettingsForm s~uživatelskou komponentou\newline\texttt{PuppeteerOptionsUserControl}]{Formulář RecorderSettingsForm s~uživatelskou komponentou \texttt{PuppeteerOptionsUserControl}}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{RecorderSettingsForm : Form}
@@ -2456,7 +2462,8 @@ async function receiveMsg(sock) {
 
 	\subsubsubsection{Forms\textbackslash ReplayViewForm.cs}
 	Stav, informace a~chyby aktuálně probíhajícího přehrávání.
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
+	\nopagebreak
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.82\textwidth]{replayViewDocs.png}
@@ -2475,7 +2482,8 @@ async function receiveMsg(sock) {
 	
 	\subsubsubsection{Forms\textbackslash WaitingWindow.cs}
 	Formulář vyzývající k~čekání.
-	\paragraph{Formuláře}
+%	\paragraph{Formulář}
+	\nopagebreak
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.57\textwidth]{waitingWindow.png}
@@ -2487,47 +2495,221 @@ async function receiveMsg(sock) {
 	\xmark
 	\subsubsubsection{UserControls\textbackslash ActionUserControl.cs}
 	\label{docs:auc}
+	%TODO: write
 	
 	\subsubsubsection{UserControls\textbackslash EditUserControl.cs}
+	%TODO: write
 	
 	\subsubsubsection{UserControls\textbackslash PuppeteerOptionsUserControl.cs}
-	
+	\label{docs:puppeteerOptionsUserControl}
+	Nastavení parametrů připojení k~prohlížeči, tato uživatelská komponenta je využitá ve formuláři \ref{docs:recorderSettings}.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.44\textwidth]{puppeteerUserControl.png}
+		\caption{Uživatelská komponenta PuppeteerOptionsUserControl}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{PuppeteerOptionsUserControl : UserControl}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void BindOptions(PuppeteerOptions opts)| nastaví UI komponenty podle parametru \lstinline|opts|.
+		
+		\lstinline[style=MyCSharpDocs]|public PuppeteerOptions ExportOptions()| vrátí objekt odpovídající aktuální komponentě.
+		
+		\lstinline[style=MyCSharpDocs]|private void SetBrowserMode(BrowserMode mode)| podle parametru \lstinline|mode| nabývající hodnotu \lstinline|Launch| nebo \lstinline|Connect| nastaví UI pro vyplnění cesty nebo IP adresy s~portem.
+	\end{methods}
+
 	\subsubsubsection{UserControls\textbackslash ThumbnailUserControl.cs}
+	\label{docs:thumbnailUserControl}
+	Náhled na uloženou nahrávku.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{thumbnailUserControl.png}
+		
+		\captionsetup{justification=centering}
+		\caption{Uživatelská komponenta ThumbnailUserControl zobrazující náhled nahrávky s~názvem "Webik" provedenou na stránce \href{https://webik.ms.mff.cuni.cz}{\nolinkurl{webik.ms.mff.cuni.cz}}}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{ThumbnailUserControl : UserControl}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void BindThumbnail(Thumbnail t)| nastaví UI komponenty podle\linebreak parametru \lstinline|t|.
+	\end{methods}
 	
 	\subsubsubsection{CodeGenOptions.cs}
+	\label{docs:codeGenOptions}
+	Parametry pro nastavení generátoru kódu.
+	\paragraph{Třidy}
+	\texttt{CodeGenOptions}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{ConfigManager.cs}
+	Nastavení, jeho načtení a~uložení, v~případě, že neexistuje i~generování výchozího.
+	\paragraph{Třidy}
+	\texttt{ConfigManager}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public static CodeGenOptions GetCodeGeneratorOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) generátoru kódu. 
+		
+		\lstinline[style=MyCSharpDocs]|public static NodeJsOptions GetNodeJsOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) obsahující cestu k~backendu a~interpreteru Node.js.
+		
+		\lstinline[style=MyCSharpDocs]|public static PlayerOptions GetPlayerOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) pro přehrávání akcí. 
+		
+		\lstinline[style=MyCSharpDocs]|public static PuppeteerOptions GetPuppeteerConfiguration()| vrátí uložené nastavení (výchozí pokud neexistuje) uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}. 
+		
+		\lstinline[style=MyCSharpDocs]|public static RecordedEvents GetRecordedEventsOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) obsahující typy akcí povolené k~nahrávání.
+		
+		\lstinline[style=MyCSharpDocs]|public static void SavePuppeteerConfiguration(PuppeteerOptions po)| uloží nastavení uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}.
+	
+		\lstinline[style=MyCSharpDocs]|public static void SaveCodeGeneratorOptions(CodeGenOptions cgo)| uloží nastavení generátoru kódu.
+		
+		\lstinline[style=MyCSharpDocs]|public static void SaveNodeJsOptions(NodeJsOptions no)| uloží nastavení obsahující cestu k~backendu a~interpreteru Node.js.
+		
+		\lstinline[style=MyCSharpDocs]|public static void SavePlayerOptions(PlayerOptions po)| uloží nastavení pro přehrávání akcí. 
+		
+		\lstinline[style=MyCSharpDocs]|public static void SaveRecordedEventsConfiguration(RecordedEvents po)|uloží nastavení obsahující typy akcí povolené k~nahrávání.
+	\end{methods}
 	
 	\subsubsubsection{Configuration.cs}
+	\label{docs:configuration}
+	Reprezentace celkového nastavení frontendu.
+	\paragraph{Třídy}
+	\texttt{Configuration}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{Constants.cs}
+	Konstatní cesty k~souborům obsahujícím nastavení.
+	\paragraph{Třídy}
+	\texttt{Constants}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{CurrentEdit.cs}
+	Reprezentace nahrávky včetně náhledu (\ref{docs:thumbnail}) a~kompletního nastavení (\ref{docs:configuration}).
+	
+	\paragraph{Třídy}
+	\texttt{CurrentEdit}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{Filter.cs}
+	Reprezentace filtru využitá v~kódu formuláře \ref{docs:filterForm}.
+	\paragraph{Třídy}
+	\texttt{Filter}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{NodeJsOptions.cs}
-	
+	Reprezentace nastavení cesty k~backendu a~interpreteru Node.js.
+	\paragraph{Třídy}
+	\texttt{NodeJsOptions}
+	\paragraph{Vybrané metody}
+	\xmark
 	\subsubsubsection{PairSocketExtensions.cs}
+	Rozšíření objektu \texttt{PairSocket} knihovny NetMQ.
+	\paragraph{Třídy}
+	\texttt{PairSocketExtensions}
+	\paragraph{Vybrané metody}
+	\lstinline[style=MyCSharpDocs, mathescape]|public static bool ReceiveFrameStringTimeout(this PairSocket pair, out string result, int timeoutMs)| čeká na textová data socketu \lstinline|pair| maximálně \lstinline|timeoutMs| milisekund.
 	
 	\subsubsubsection{PlayerOptions.cs}
-	
+	Reprezentuje nastavení pro přehrávání akcí.
+	\paragraph{Třídy}
+	\texttt{PlayerOptions}
+	\paragraph{Vybrané metody}
+	\xmark
 	\subsubsubsection{Program.cs}
-	
+	Spouštějící soubor frontendové části.
+	\paragraph{Třídy}
+	\texttt{Program}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|private static void Main()| spustí \texttt{MainForm} (\ref{docs:mainForm}).
+	\end{methods}
 	\subsubsubsection{PuppeteerOptions.cs}
+	Reprezetace nastavení uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}.
+	\paragraph{Třídy}
+	\begin{methods}
+		\texttt{PuppeteerOptions} obsahuje pouze nastavení prohlížeče (headless režim, nastavit specifický viewport, zobrazit devtools, ...). Součástí není typ připojení k~prohlížeči.
+		
+		\texttt{ConnectPuppeteerOptions : PuppeteerOptions} definuje navíc vlastnost \texttt{Uri EndPoint} obsahující IP adresu a~port.
+		
+		\texttt{LaunchPuppeteerOptions : PuppeteerOptions} definuje navíc vlastnost \texttt{string ExecutablePath} obsahující cestu ke spustitelnému souboru prohlížeče.
+		
+		\texttt{Viewport} popisuje specifický viewport.
+	\end{methods}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{RecordedEvents.cs}
+	Reprezentace nastavení typů akcí povolených k~nahrávání.
+	\paragraph{Třídy}
+	\texttt{RecordedEvents}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{RecorderConfiguration.cs}
+	Reprezentace nastavení formuláře \ref{docs:recorderSettings}.
+	\paragraph{Třídy}
+	\texttt{RecorderConfiguration}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{Recording.cs}
+	\label{docs:recording}
+	Reprezentace nahrané akce s~nastavením její uživatelské komponenty\linebreak\texttt{ActionUserControl} (\ref{docs:auc}).
+	\paragraph{Třídy}
+	\begin{methods}
+		\texttt{Recording}
+		
+		\texttt{UiConfig}
+	\end{methods}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{RecordingManager.cs}
+	Uložení nových nahrávek a~změny v~existujících.
+	\paragraph{Třídy}
+	\texttt{RecordingManager}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public static void SaveCurrentEdit(CurrentEdit edit)| uloží nahrávku reprezentovanou parametrem \lstinline|edit|.
+	\end{methods}
+	\subsubsubsection{Thumbnail.cs}
+	\label{docs:thumbnail}
+	Reprezentace náhledu na uloženou nahrávku, tyto náhledy se zobrazují pomocí uživatelské komponenty \ref{docs:thumbnailUserControl}.
+	\paragraph{Třídy}
+	\texttt{Thumbnail}
+	\paragraph{Vybrané metody}
+	\xmark
 	
 	\subsubsubsection{ThumbnailManager.cs}
 	
 	\subsubsubsection{WaitForNavigationEnum.cs}
+	Součástí je pouze jeden výčtový typ:
+	\begin{codefigure}[H]
+		\begin{lstlisting}[style=MyCSharpDocs]
+public enum WaitForNavigation {
+	networkidle0, networkidle2, domcontentloaded, load
+}
+		\end{lstlisting}
+	\end{codefigure}
+	Přípustné hodnoty výčtového typu \texttt{WaitForNavigation} odpovídají odlišným podmínkám čekání na dokončení navigace, detailně jsou vysvětleny v~dokumentaci Puppeteeru \cite{puppeteerApiPageWaitForNav}. 
 	
+	Tento výčtový typ je používán formulářem \ref{docs:playerForm} jak ukazuje následující obrázek:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.52\textwidth]{waitForNavVariants.png}
+		
+		\captionsetup{justification=centering}
+		\caption{Výčtový typ \texttt{WaitForNavigation} jako rozbalovací seznam v~property gridu formuláře \texttt{PlayerForm}}
+	\end{figure}
+	\paragraph{Třídy}
+	\xmark
+	\paragraph{Vybrané metody}
+	\xmark
 	\section{Závěr}
 	%TODO: zejmena vyhodnoceni miry splneni pozadavku
 	\newpage
@@ -2872,8 +3054,10 @@ console.log(dotnetVersion)
 	\sectionfont{}
 	\listoffigures
 	\addcontentsline{toc}{section}{Seznam obrázků}
+	\pagebreak
 	\listoftables
 	\addcontentsline{toc}{section}{Seznam tabulek}
+	\pagebreak
 	\listofcodefigures
 	\addcontentsline{toc}{section}{Seznam ukázek kódu}
 	\include{bib.tex}

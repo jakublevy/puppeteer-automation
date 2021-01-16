@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Frontend
+﻿namespace Frontend
 {
     /// <summary>
     /// One action with Id and current ui configuration
@@ -23,16 +20,5 @@ namespace Frontend
     public enum Target
     {
         Locator, Selector
-    }
-
-
-    public class Thumbnail
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public HashSet<string> Websites { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
-
     }
 }

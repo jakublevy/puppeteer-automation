@@ -350,7 +350,7 @@ namespace Frontend.UserControls
                 {
                     StartNodeJsProcess();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show("Node.js process cannot be started. Check whether Node.js interpreter path is correct.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -383,8 +383,7 @@ namespace Frontend.UserControls
 
                 }
 
-                string response;
-                bool received = sock.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out response);
+                bool received = sock.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out var response);
                 if (received)
                 {
                     if (response == "ACK")
@@ -483,10 +482,9 @@ namespace Frontend.UserControls
 
             sock.SendFrame("browserConnectionStatus");
 
-            string bStr;
             bool res = false;
             int counter = 0;
-            while ((!sock.ReceiveFrameStringTimeout(out bStr, 100) || !bool.TryParse(bStr, out res)) && counter <= 4)
+            while ((!sock.ReceiveFrameStringTimeout(out var bStr, 100) || !bool.TryParse(bStr, out res)) && counter <= 4)
             {
                 sock.SendFrame("browserConnectionStatus");
                 ++counter;
@@ -620,8 +618,7 @@ namespace Frontend.UserControls
                     break;
 
 
-                string json = null;
-                if (!sock.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out json))
+                if (!sock.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out var json))
                 {
                     continue;
                 }
@@ -1077,8 +1074,7 @@ namespace Frontend.UserControls
 
                 sock.SendFrame(i.ToString());
                 bool b;
-                string m = null;
-                b = sock.ReceiveFrameStringTimeout(out m, 100);
+                b = sock.ReceiveFrameStringTimeout(out var m, 100);
                 while (!b && !cts.IsCancellationRequested)
                     b = sock.ReceiveFrameStringTimeout(out m, 100);
 

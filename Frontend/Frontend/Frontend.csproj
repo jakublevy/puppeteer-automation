@@ -157,6 +157,7 @@
     <Compile Include="RecorderConfiguration.cs" />
     <Compile Include="Recording.cs" />
     <Compile Include="RecordingManager.cs" />
+    <Compile Include="Thumbnail.cs" />
     <Compile Include="ThumbnailManager.cs" />
     <Compile Include="UserControls\ActionUserControl.cs">
       <SubType>UserControl</SubType>
