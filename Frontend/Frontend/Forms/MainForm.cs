@@ -126,7 +126,7 @@ namespace Frontend
         }
 
         /// <summary>
-        /// Creates corresponding UIs to passed thumbnails list
+        /// Creates corresponding UIs for the passed thumbnails list
         /// </summary>
         private void LoadThumbnailsUi(List<Thumbnail> thumbnails)
         {
@@ -140,7 +140,7 @@ namespace Frontend
         }
 
         /// <summary>
-        /// Changes UI and prepares for editing passed thumbnail
+        /// Changes UI and prepares for editing the passed thumbnail
         /// </summary>
         public void SwitchToEditMode(Thumbnail t)
         {

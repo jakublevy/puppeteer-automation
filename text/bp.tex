@@ -487,6 +487,12 @@
 \righthyphenmin=4
 \lefthyphenmin=4
 
+%adjust hyphenation 2
+%\tolerance=9999
+%\emergencystretch=10pt
+%\hyphenpenalty=10000
+%\exhyphenpenalty=100
+
 
 \setromanfont{Times New Roman}
 \setsansfont{Arial}
@@ -622,6 +628,7 @@
 		\multicolumn{1}{l}{\textbf{Název}} & \multicolumn{1}{l}{\textbf{Verze}} \\
 		Headless Recorder & 0.8.1 \\ 
 		Katalon Recorder & 5.3.22 \\ 
+		Node.js & 15.5.0\\
 		PhantomJS & 2.1.1 \\
 		Playwright & 1.3.0  \\
 		Puppeteer & 5.0.0 \\
@@ -1498,8 +1505,7 @@ page.type(selector, text, {delay: durationMs})
 	Řešení se skládá ze dvou celků. Prvním je knihovna pro přehrávání a~nahrávání akcí vytvořená s~běhovým prostředím Node.js v~JavaScriptu, dále označovaná jako backend. Vzhledem k~implementaci Puppeteeru v~TypeScriptu\footnote{JavaScript se statickým typováním spravovaný firmou Microsoft \cite{typeScript}.} jsme se rozhodli pro JavaScript. Druhým celkem je okenní WinForms aplikace implementovaná v~C\# pro poskytnutí UI, tu nazveme frontend. C\# a~WinForms jsme vybrali z~těchto důvodů:
 	\begin{enumerate}[leftmargin=*]
 		\item \paragraph{Jednoduchost}
-		Jak uvádí dokumentace firmy Microsoft \cite{csharpHistory}, která stojí za vznikem C\#, jedním z~designových cílů již od verze 1.0 byla snaha o~"jednoduchý, moderní, univerzální objektově orientovaný jazyk". Stejně jako C\# i~návrh UI ve WinForms považujeme za jednoduchý, a~to zejména díky obrovskému množství již existujících komponent (ProgressBar, PropertyGrid, ...) a~vývoji pomocí drag and drop. Cílem této práce není vytvářet UI podle grafického návrhu a~navíc WinForms obsahuje většinu námi potřebných komponent a~všechny nutné funkce.
-		%TODO: více o chybějících komponentách viz programatorska dokumentace
+		Jak uvádí dokumentace firmy Microsoft \cite{csharpHistory}, která stojí za vznikem C\#, jedním z~designových cílů již od verze 1.0 byla snaha o~"jednoduchý, moderní, univerzální objektově orientovaný jazyk". Stejně jako C\# i~návrh UI ve WinForms považujeme za jednoduchý, a~to zejména díky obrovskému množství již existujících komponent (ProgressBar, PropertyGrid, ...) a~vývoji pomocí drag and drop. Cílem této práce není vytvářet UI podle grafického návrhu a~navíc WinForms obsahuje většinu námi potřebných komponent\footnote{Chybí pouze textový editor se zvýrazňováním syntaxe, a~tak využijeme externí viz \ref{docs:codeGenEditor}, \ref{docs:jsonEditor}.} a~všechny nutné funkce.
 		\item \paragraph{Přenositelnost}
 		Jazyk C\# byl vydán s~vývojovým prostředím Visual Studio .NET 2002 \cite{csharpHistory}, současná verze Visual Studio 2019 je stále  kompatibilní pouze s~Windows \cite{visualStudioMainPage}, zatímco programy vytvořené v~C\# s~WinForms je možné spouštět i~na jiných platformách (Linux, macOS, BSD a~další), díky projektu Mono\footnote{Multiplatformní implementace .NET Framework s~otevřeným zdrojovým kódem \cite{monoProject}.} \cite{monoProject}.
 		\item \paragraph{Vyzrálost}
@@ -2337,12 +2343,13 @@ async function receiveMsg(sock) {
 	Upřesníme navíc ještě, že všechny formuláře se nachází v~adresáři \texttt{Forms\textbackslash} a~uživatelské komponenty (user control) využité ve formulářích pak v~\texttt{UserControls\textbackslash}.
 	%Zde uvedeme strukturu a~význam celků frontendové části, oproti backendu tu navíc rozvedeme i~formuláře.
 	\subsubsubsection{Forms\textbackslash CodeGenEditor.cs}
+	\label{docs:codeGenEditor}
 	Textový editor zobrazující vygenerovaný kód pro Puppeteer. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu se~kterou je komponenta využita. 
 %	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering		\includegraphics[width=1.0\textwidth]{codeGenEditorDesc.png}
 		\captionsetup{justification=centering}
-		\caption[Formulář CodeGenEditor s~komponentou\newline \texttt{ScintillaNET.Scintilla}]{Formulář CodeGenEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
+		\caption[Formulář \texttt{CodeGenEditor} s~komponentou\newline \texttt{ScintillaNET.Scintilla}]{Formulář \texttt{CodeGenEditor} s~komponentou \texttt{ScintillaNET.Scintilla}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{CodeGenEditor : Form}
@@ -2356,7 +2363,7 @@ async function receiveMsg(sock) {
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.59\textwidth]{codeGeneratorSettingsForm.png}
-		\caption{Formulář CodeGenSettingsForm s~komponentou \texttt{PropertyGrid}}
+		\caption{Formulář \texttt{CodeGenSettingsForm} s~komponentou \texttt{PropertyGrid}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{CodeGenSettingsForm : Form}
@@ -2375,7 +2382,7 @@ async function receiveMsg(sock) {
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.51\textwidth]{filtrFormDocs.png}
-		\caption{Formulář FilterForm}
+		\caption{Formulář \texttt{FilterForm}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{FilterForm : Form}
@@ -2385,13 +2392,16 @@ async function receiveMsg(sock) {
 		
 		\lstinline[style=MyCSharpDocs]|public void SetFilter(Filter f)| nastaví UI formuláře podle parametru \lstinline|f|.
 	\end{methods}
+	\newpage
 	\subsubsubsection{Forms\textbackslash JsonEditor.cs}
+	\label{docs:jsonEditor}
 	Textový prohlížeč a~editor nezpracovaného JSONu odpovídající akci. Použitý textový editor je komponenta \texttt{ScintillaNET.Scintilla} projektu ScintillaNET \cite{scintillaGithub} dostupného pod MIT licencí v~souladu se~kterou je komponenta využita. 
 %	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.97\textwidth]{jsonEditorDocs.png}
-		\caption{Formulář JSONEditor s~komponentou \texttt{ScintillaNET.Scintilla}}
+		\captionsetup{justification=centering}
+		\caption[Formulář \texttt{JSONEditor} s~komponentou\newline\texttt{ScintillaNET.Scintilla}]{Formulář \texttt{JSONEditor} s~komponentou \texttt{ScintillaNET.Scintilla}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{JsonEditor : Form}
@@ -2401,17 +2411,49 @@ async function receiveMsg(sock) {
 		
 		\lstinline[style=MyCSharpDocs]|public void SetEditorText(string txt)| nastaví textový řetězec \lstinline|txt| jako obsah textového editoru. Hodnota vlastnosti \lstinline|ReadOnly| textového editoru zůstane zachována.
 	\end{methods}
+	\newpage
 	\subsubsubsection{Forms\textbackslash MainForm.cs}
 	\label{docs:mainForm}
-	%TODO: write
-	
+	Hlavní spouštějící formulář frontendu, nachází se v~jednou ze dvou stavů~--~po spuštění je vždy ve stavu \texttt{AppMode.List}, kdy zobrazuje náhledy všech uložených nahrávek. Při vytvoření nové nahrávky nebo editaci existující se stav přepne do \texttt{AppMode.Edit}. Tyto dva stavy zobrazuje následující obrázek:
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{1.0\textwidth}
+			\includegraphics*[width=1.0\textwidth]{mainListState.png}
+			\caption{\texttt{AppMode.List}}
+		\end{subfigure}
+	\end{figure}
+	\begin{figure}[H]\ContinuedFloat
+		\begin{subfigure}[t]{1.0\textwidth}
+			\includegraphics*[width=1.0\textwidth]{mainEditState.png}
+			\caption{\texttt{AppMode.Edit}}
+		\end{subfigure}
+	\caption{Stavy \texttt{AppMode.List} a~\texttt{AppMode.Edit} formuláře \texttt{MainForm}}
+	\end{figure}
+	\paragraph{Třidy}
+	\texttt{MainForm : Form}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\enlargethispage{\baselineskip}
+		\lstinline[style=MyCSharpDocs]|private void MainForm_Load(object sender, EventArgs e)| spuštěna při\linebreak načtení formuláře, načte uložené náhledy nahrávek a~zkontroluje existenci interpreteru Node.js.
+		
+		\lstinline[style=MyCSharpDocs]|protected override bool ProcessCmdKey(ref Message msg, Keys keyData)|
+		
+		\lstinline[style=MyCSharpDocs]|public void SwitchToEditMode(Thumbnail t)| přetížení definující klávesovou zkratku Shift+Delete při editaci nahrávky. Tato zkratka odstraní akci s~vlastností \lstinline|Focus = true|.
+		
+		Další metody zpracovávající události UI: \lstinline|addNewRecordingButton_Click|,\linebreak\lstinline|MainForm_FormClosing|, \lstinline|recorderToolStripMenuItem_Click|, ...
+		
+		A~metody upravující UI: \lstinline|LoadThumbnailsUi|, \lstinline|NodeInterpterNotWorking|,\linebreak\lstinline|PerformSettingsChecks|, \lstinline|SetEditUiVisiblity|, \lstinline|SwitchToEditMode|, \lstinline|UiChange| ...
+		
+		Více informací o~všech těchto dalších metodách je uvedeno v~komentářích ve zdrojovém souboru.
+	\end{methods}
 	\subsubsubsection{Forms\textbackslash NodeJsConfig.cs}
 	Nastavení cesty k~backendu a~interpreteru Node.js.
+	\nopagebreak
 %	\paragraph{Formulář}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.51\textwidth]{nodejsSettingsDocs.png}
-		\caption{Formulář NodeJsConfig}
+		\caption{Formulář \texttt{NodeJsConfig}}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{NodeJsConfig : Form}
@@ -2429,7 +2471,7 @@ async function receiveMsg(sock) {
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.52\textwidth]{playerFormDocs.png}
-		\caption{Formulář PlayerForm s~komponentou \texttt{PropertyGrid}}
+		\caption{Formulář \texttt{PlayerForm} s~komponentou \texttt{PropertyGrid}}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{PlayerForm : Form}
@@ -2449,7 +2491,7 @@ async function receiveMsg(sock) {
 		\centering
 		\includegraphics[width=0.90\textwidth]{recorderSettingsDocs.png}
 		\captionsetup{justification=centering}
-		\caption[Formulář RecorderSettingsForm s~uživatelskou komponentou\newline\texttt{PuppeteerOptionsUserControl}]{Formulář RecorderSettingsForm s~uživatelskou komponentou \texttt{PuppeteerOptionsUserControl}}
+		\caption[Formulář \texttt{RecorderSettingsForm} s~uživatelskou komponentou\newline\texttt{PuppeteerOptionsUserControl}]{Formulář \texttt{RecorderSettingsForm} s~uživatelskou komponentou \texttt{PuppeteerOptionsUserControl}}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{RecorderSettingsForm : Form}
@@ -2467,7 +2509,7 @@ async function receiveMsg(sock) {
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.82\textwidth]{replayViewDocs.png}
-		\caption{Formulář ReplayView ve stavu ukončeného přehrávání s~jednou chybou}
+		\caption{Formulář \texttt{ReplayView} ve stavu ukončeného přehrávání s~jednou chybou}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{ReplayViewForm : Form}
@@ -2487,7 +2529,7 @@ async function receiveMsg(sock) {
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.57\textwidth]{waitingWindow.png}
-		\caption{Formulář WaitingWindow}
+		\caption{Formulář \texttt{WaitingWindow}}
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{WaitingWindow : Form}
@@ -2495,18 +2537,83 @@ async function receiveMsg(sock) {
 	\xmark
 	\subsubsubsection{UserControls\textbackslash ActionUserControl.cs}
 	\label{docs:auc}
-	%TODO: write
+	UI pro \ref{docs:recording} zobrazené v~jiné uživatelské komponentě \ref{docs:editUserControl}.
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{actionUserControl.png}
+		\captionsetup{justification=centering}
+		\caption{Uživatelská komponenta \texttt{ActionUserControl} pro akci typu "click"}
+		\label{fig:actionUserControl}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{ActionUserControl : UserControl}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public void BindAction(dynamic a, int id)| nastaví akci \lstinline|a| do uživatelské komponenty, kterou obnoví do výchozího stavu. Nastavenou akci bude možné identifikovat pomocí \lstinline|id|.
+		
+		\lstinline[style=MyCSharpDocs]|public void BindRecording(Recording r, int id)| nastaví akci a~UI z~parametru \lstinline|r|. Nastavenou akci bude možné identifikovat pomocí \lstinline|id|.
+		
+		\lstinline[style=MyCSharpDocs]|public dynamic ExportActionForOutput()| vrátí akci v~JSONu dle aktuální komponenty. Objekt v~JSONu bude navíc obsahovat parametr "target" definující vybraný identifikátor.
+		
+		\lstinline[style=MyCSharpDocs]|public Recording ExportRecordingForSave()| vrátí objekt odpovídající aktuální komponentě.
+		
+		Metody obsahující logiku prohazování pořadí akcí\footnote{Tyto metody jsou využity při stisku tlačítek \includegraphics{upArrow.png} a~\includegraphics{downArrow.png} nacházejících se na \cref{fig:actionUserControl}.}.: \lstinline|downButton_Click|,\linebreak\lstinline|GetNextVisiblePosition|, \lstinline|GetPreviousVisiblePosition|, \lstinline|UpdateUpDownButtons|, \lstinline|upButton_Click|.
+		
+		A~metody zpracovávající další události UI: \lstinline|deleteButton_Click|,\linebreak\lstinline|jsonEditButton_Click|, \lstinline|selectorTextBox_TextChanged|,\newline \lstinline|typeComboBox_SelectedValueChanged|, \lstinline|valueTextBox_TextChanged|, ...
+		
+		Více informací o~všech těchto dalších metodách je uvedeno v~komentářích ve~zdrojovém souboru.
+		
+		
+	\end{methods}
 	
 	\subsubsubsection{UserControls\textbackslash EditUserControl.cs}
-	%TODO: write
-	
+	\label{docs:editUserControl}
+	Uživatelská komponenta pro práci s~nahrávkou: nahrávání, přehrávání, generování kódu,... Pokud se hlavní okno \ref{docs:mainForm} nachází ve stavu \texttt{AppMode.Edit}, tato uživatelská komponenta vyplňuje celé okno.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{editUserControl.png}
+		\captionsetup{justification=centering}
+		\caption{Uživatelská komponenta \texttt{EditUserControl} jako součást formuláře \texttt{MainWindow}}
+	\end{figure}
+	\paragraph{Třídy}
+	\texttt{EditUserControl : UserControl}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|private void AddErrorToReplayViewForm(string msg, int id)|
+		
+		\lstinline[style=MyCSharpDocs]|public void BindEdit(CurrentEdit ce)|
+		
+		\lstinline[style=MyCSharpDocs]|private void FinishReplay()|
+		
+		\lstinline[style=MyCSharpDocs]|private List<Recording> GetAllActions()|
+		
+		\lstinline[style=MyCSharpDocs]|private List<string> GetEventsToRecord()|
+		
+		\lstinline[style=MyCSharpDocs]|private List<Recording> GetRecordingsForOptimize()|
+		
+		\lstinline[style=MyCSharpDocs]|private void LoadAction(dynamic action)|
+		
+		\lstinline[style=MyCSharpDocs]|private void LoadRecording(Recording r)|
+		
+		\lstinline[style=MyCSharpDocs]|private void RecordingTask()|
+		
+		\lstinline[style=MyCSharpDocs]|private void ReplayTask()|
+		
+		\lstinline[style=MyCSharpDocs]|private HashSet<string> ScrapeWebsitesFromRecordings(List<Recording> recordings)|
+		
+		
+		\lstinline[style=MyCSharpDocs]|private void StartNodeJsProcess()|
+		
+		
+		%TODO: dalsi udalosti plus funkce menici ui
+	\end{methods}
 	\subsubsubsection{UserControls\textbackslash PuppeteerOptionsUserControl.cs}
 	\label{docs:puppeteerOptionsUserControl}
 	Nastavení parametrů připojení k~prohlížeči, tato uživatelská komponenta je využitá ve formuláři \ref{docs:recorderSettings}.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.44\textwidth]{puppeteerUserControl.png}
-		\caption{Uživatelská komponenta PuppeteerOptionsUserControl}
+		\caption{Uživatelská komponenta \texttt{PuppeteerOptionsUserControl}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{PuppeteerOptionsUserControl : UserControl}
@@ -2527,7 +2634,7 @@ async function receiveMsg(sock) {
 		\includegraphics[width=1.0\textwidth]{thumbnailUserControl.png}
 		
 		\captionsetup{justification=centering}
-		\caption{Uživatelská komponenta ThumbnailUserControl zobrazující náhled nahrávky s~názvem "Webik" provedenou na stránce \href{https://webik.ms.mff.cuni.cz}{\nolinkurl{webik.ms.mff.cuni.cz}}}
+		\caption{Uživatelská komponenta \texttt{ThumbnailUserControl} zobrazující náhled nahrávky s~názvem "Webik" provedenou na stránce \href{https://webik.ms.mff.cuni.cz}{\nolinkurl{webik.ms.mff.cuni.cz}}}
 	\end{figure}
 	\paragraph{Třídy}
 	\texttt{ThumbnailUserControl : UserControl}
@@ -2686,6 +2793,21 @@ async function receiveMsg(sock) {
 	\xmark
 	
 	\subsubsubsection{ThumbnailManager.cs}
+	Správa náhledů nahrávek: vytváření nových, odstranění a~načítání existujících.
+	\paragraph{Třídy}
+	\texttt{ThumbnailManager}
+	\paragraph{Vybrané metody}
+	\begin{methods}
+		\lstinline[style=MyCSharpDocs]|public static List<Thumbnail> Init()| načte uložené náhledy nahrávek, pokud soubor s~náhledy neexistuje, tak ho vytvoří.
+		
+		\lstinline[style=MyCSharpDocs]|public static List<Thumbnail> LoadThumbnails()| načte náhledy ze souboru, předpokládá, že existuje.
+		
+		\lstinline[style=MyCSharpDocs]|public static Thumbnail NewThumbnail()| vytvoří náhled nové nepojmenované nahrávky s~aktuálním datem vytvoření.
+		
+		\lstinline[style=MyCSharpDocs]|public static void SaveThumbnail(Thumbnail t)| uloží náhled \lstinline|t| do souboru všech náhledů.
+		
+		\lstinline[style=MyCSharpDocs]|public static void RemoveThumbnail(Thumbnail t)| odstraní náhled \lstinline|t| ze souboru všech náhledů.
+	\end{methods}
 	
 	\subsubsubsection{WaitForNavigationEnum.cs}
 	Součástí je pouze jeden výčtový typ:
