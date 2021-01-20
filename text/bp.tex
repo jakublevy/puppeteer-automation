@@ -355,8 +355,6 @@
 	name={DevTools (Developer Tools)},
 	description={Sada nástrojů vestavěná ve Chromu umožňující de\-bu\-ggo\-vá\-ní a~diagnostiku stránek~\cite{devtools}.}}
 
-\newglossaryentry{latex}{name={},description={}}
-
 \newglossaryentry{extensionAPI}{
 	name={Extension API (Extension Application Programming Interface)},
 	description={Rozhraní pro programování rozšíření do Chromu~\cite{extensionAPI1, extensionAPI2}.}}
@@ -372,9 +370,11 @@
 \newglossaryentry{nodejs}{
 	name={Node.js},
 	description={Běhové prostředí JavaScriptu běžící vně prohlížeče~\cite{nodejs}.}}
+
 \newglossaryentry{player}{name={
 		Přehrávač (player)},
 	description={Nástroj pro přehrávání.}}
+
 \newglossaryentry{playwright}{
 	name={Playwright},
 	description={Fork Puppeteeru spravovaná firmou Microsoft~\cite{playwrightMainPage}.}}
@@ -545,11 +545,10 @@
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
 \def\Abstrakt{%
-	Abstrakt.
-	%TODO: abstrakt
+	V~této práci se zabýváme automatickým ovládáním webových prohlížečů. Naším cílem je vytvořit řešení umožňující zaznamenat akce, které bude možné uložit a~opětovně vykonat. Vzhledem k~tomu, že takových produktů existuje již řada, zejména pro ustálený framework Selenium, je pro nás zásadní využít novější a~modernější knihovnu Puppeteer, pro kterou tyto nástroje neexistují. Práce začíná rešeršní částí některých knihoven a~produktů, následně jsou na stanoveny požadavky kladené na~naše řešení, mezi které patří připojení ke vzdálené instanci prohlížeče a~uživatelské rozhraní. Řešení bylo implementováno podle těchto požadavků. Součástí práce je i~zhodnocení a~porovnání funkcionality oproti konkurenčním produktům. Krátce můžeme zhodnotit -- výhoda našeho řešení oproti produktům Selenium IDE a~Katalon Recorder vytvořených nad Seleniem je možnost připojení na vzdálenou instanci prohlížeče. Nevýhodou je chybějící podpora podmínek a~cyklů, které nebyly stanoveny v~požadavcích, a~proto nebyly implementovány. 
 }
 \def\AbstraktEN{%
-	Abstract.
+	In this thesis, we deal with the automatic control of web browsers. Our aim is to create a~solution to record actions that can be saved and re-executed. As there is already a~number of such products, especially for the established Selenium framework, it is crucial for us to use the newer and modern Puppeteer library for which these tools do not exist. The thesis begins with the research part of libraries and products, then the requirements for our solution are determined, which include remote browser connection and user interface. The solution was implemented according to these requirements. Part of the thesis involves evaluating and comparing functionality against competing products. We can briefly evaluate---the advantage of our solution over Selenium IDE and Katalon Recorder products built on Selenium is the ability to connect to a~remote instance of a~browser. The drawback is the lack of support for conditions and cycles that have not been determined as a~requirement, and, therefore, have not been implemented.
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
