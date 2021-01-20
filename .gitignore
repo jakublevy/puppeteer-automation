@@ -7,12 +7,17 @@ Frontend/Frontend/obj
 Backend/.idea/
 Backend/node_modules/
 Backend/package-lock.json
+Backend/src/unused/
+
+verapdf/
 
 text/*
 !text/figures/
 !text/bib.tex
 !text/bp.pdf
+!text/bp-2u.pdf
 !text/bp.tex
 !text/desky.tex
 !text/desky.pdf
 !text/titulka.tex
+!text/popis.txt
