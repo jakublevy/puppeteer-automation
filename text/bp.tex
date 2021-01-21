@@ -12,6 +12,7 @@
 \usepackage{afterpage}
 \usepackage{fontspec}
 \usepackage{xevlna}
+\usepackage{verbatim}
 %enable section specific figure numbering
 %\usepackage{chngcntr}
 %\counterwithin{figure}{section}
@@ -64,10 +65,20 @@
 \raggedbottom
 
 %force left page
-\newcommand*\cleartoleftpage{%
+\makeatletter
+\newcommand*{\cleartoleftpage}{%
 	\clearpage
-	\ifodd\value{page}\hbox{}\newpage\fi
+	\if@twoside
+	\ifodd\c@page
+	\hbox{}\thispagestyle{empty}\newpage
+	\if@twocolumn
+	\hbox{}\newpage
+	\fi
+	\fi
+	\fi
 }
+\makeatother
+
 
 %repair cline - czech babel
 \usepackage{booktabs}
@@ -328,6 +339,9 @@
 \newcommand*{\fullref}[2]{\hyperref[{#1}]{\ref{#2}~\nameref{#2} na~straně \pageref{#1}}}
 \newcommand*{\partialref}[2]{\hyperref[{#1}]{\ref{#2}~na~straně \pageref{#1}}}
 
+%enable print version
+\def\printVersion{}
+
 %environment for method description
 \newenvironment{methods}{
 	\parindent0pt
@@ -450,7 +464,7 @@
 
 \newglossaryentry{mono}{
 	name={Mono},
-	description={Implementace .NET Framework s~otevřeným zdrojovým kódem podporující platformy: Linux, macOS, BSD a~Windows.}
+	description={Implementace .NET Framework s~otevřeným zdrojovým kódem podporující platformy: Linux, macOS, BSD a~Windows \cite{monoProject,monoSupported}.}
 }
 
 \newglossaryentry{messageBroker}{
@@ -544,11 +558,12 @@
 }
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
-\def\Abstrakt{%
-	V~této práci se zabýváme automatickým ovládáním webových prohlížečů. Naším cílem je vytvořit řešení umožňující zaznamenat akce, které bude možné uložit a~opětovně vykonat. Vzhledem k~tomu, že takových produktů existuje již řada, zejména pro ustálený framework Selenium, je pro nás zásadní využít novější a~modernější knihovnu Puppeteer, pro kterou tyto nástroje neexistují. Práce začíná rešeršní částí některých knihoven a~produktů, následně jsou na stanoveny požadavky kladené na~naše řešení, mezi které patří připojení ke vzdálené instanci prohlížeče a~uživatelské rozhraní. Řešení bylo implementováno podle těchto požadavků. Součástí práce je i~zhodnocení a~porovnání funkcionality oproti konkurenčním produktům. Krátce můžeme zhodnotit -- výhoda našeho řešení oproti produktům Selenium IDE a~Katalon Recorder vytvořených nad Seleniem je možnost připojení na vzdálenou instanci prohlížeče. Nevýhodou je chybějící podpora podmínek a~cyklů, které nebyly stanoveny v~požadavcích, a~proto nebyly implementovány. 
+\def\Abstrakt{
+	\input{abstrakt-cs.txt}
 }
-\def\AbstraktEN{%
-	In this thesis, we deal with the automatic control of web browsers. Our aim is to create a~solution to record actions that can be saved and re-executed. As there is already a~number of such products, especially for the established Selenium framework, it is crucial for us to use the newer and modern Puppeteer library for which these tools do not exist. The thesis begins with the research part of libraries and products, then the requirements for our solution are determined, which include remote browser connection and user interface. The solution was implemented according to these requirements. Part of the thesis involves evaluating and comparing functionality against competing products. We can briefly evaluate---the advantage of our solution over Selenium IDE and Katalon Recorder products built on Selenium is the ability to connect to a~remote instance of a~browser. The drawback is the lack of support for conditions and cycles that were not determined as a~requirement, and, therefore, have not been implemented.
+
+\def\Abstract{
+	\input{abstrakt-en.txt}
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
@@ -602,8 +617,12 @@
 	\setstretch{1.2}
 	\include{titulka.tex}
 	
-	%\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
-	%\afterpage{\aftergroup\restoregeometry}
+	\ifdefined\printVersion
+	\else
+		\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
+		\afterpage{\aftergroup\restoregeometry}
+	\fi
+		
 	\tableofcontents
 	\onehalfspacing
 	\newpage
@@ -1531,10 +1550,9 @@ page.type(selector, text, {delay: durationMs})
 		Implementace musí být provedena s~použitím knihovny Puppeteer, jedná se o~jádro práce, pro ostatní knihovny a~technologie existuje již mnoho automatizačních produktů viz \fullNameref{sub_sec:existingSolutions}.
 		\item \label{item:ui} \paragraph{UI \normalfont{odp. \cref{item:recordingReq,item:replayingReq,item:codeGenReq,item:idReq,item:connectionReq,item:settingsReq}}}
 		Celé řešení bude možné ovládat z~uživatelského rozhraní.
-		\item \label{item:compatibility} \paragraph{Kompatibilita napříč platformami}
-		Technologie pro implementaci musí být zvoleny tak, aby byla zajištěna kompatibilita alespoň s~OS Windows a~Linux.
+	%	\item \label{item:compatibility} \paragraph{Kompatibilita napříč platformami}
+	%	Technologie pro implementaci musí být zvoleny tak, aby byla zajištěna kompatibilita alespoň s~OS Windows a~Linux.
 	\end{enumerate}
-	\vfill
 	\subsection{Design}
 	\label{sub_sec:design}
 	Řešení se skládá ze dvou celků. Prvním je knihovna pro přehrávání a~nahrávání akcí vytvořená s~běhovým prostředím Node.js v~JavaScriptu, dále označovaná jako backend. Vzhledem k~implementaci Puppeteeru v~TypeScriptu\footnote{JavaScript se statickým typováním spravovaný firmou Microsoft~\cite{typeScript}.} jsme se rozhodli pro JavaScript. 
@@ -1543,10 +1561,10 @@ page.type(selector, text, {delay: durationMs})
 	\begin{enumerate}[leftmargin=*]
 		\item \paragraph{Jednoduchost}
 		Jak uvádí dokumentace firmy Microsoft~\cite{csharpHistory}, která stojí za vznikem C\#, jedním z~designových cílů již od verze 1.0 byla snaha o~"jednoduchý, moderní, univerzální objektově orientovaný jazyk". Stejně jako C\# i~návrh UI ve WinForms považujeme za jednoduchý, a~to zejména díky obrovskému množství již existujících komponent (ProgressBar, PropertyGrid, ...) a~vývoji pomocí drag and drop. Cílem této práce není vytvářet UI podle grafického návrhu a~navíc WinForms obsahuje většinu námi potřebných komponent\footnote{Chybí pouze textový editor se zvýrazňováním syntaxe, a~tak využijeme externí viz \ref{docs:codeGenEditor}, \ref{docs:jsonEditor}.} a~všechny nutné funkce.
-		\item \paragraph{Přenositelnost}
-		Jazyk C\# byl vydán s~vývojovým prostředím Visual Studio .NET 2002~\cite{csharpHistory}, současná verze Visual Studio 2019 je stále  kompatibilní pouze s~Windows~\cite{visualStudioMainPage}, zatímco programy vytvořené v~C\# s~WinForms je možné spouštět i~na jiných platformách (Linux, macOS, BSD a~další), díky projektu Mono\footnote{Multiplatformní implementace .NET Framework s~otevřeným zdrojovým kódem~\cite{monoProject}.}~\cite{monoProject}.
+	%	\item \paragraph{Přenositelnost}
+	%	Jazyk C\# byl vydán s~vývojovým prostředím Visual Studio .NET 2002~\cite{csharpHistory}, současná verze Visual Studio 2019 je stále  kompatibilní pouze s~Windows~\cite{visualStudioMainPage}, zatímco programy vytvořené v~C\# s~WinForms je možné spouštět i~na jiných platformách (Linux, macOS, BSD a~další), díky projektu Mono\footnote{Multiplatformní implementace .NET Framework s~otevřeným zdrojovým kódem~\cite{monoProject}.}~\cite{monoProject}.
 		\item \paragraph{Vyzrálost}
-		Součástí první verze .NET Framework vydané v~únoru 2002 byl WinForms. Dnes je stále její součástí, ač je tomu nyní již 19 let. O~výběru technologie pro UI by se jistě dalo diskutovat -- pouze samotný Microsoft stihl vydat WPF a~UWP, WPF slouží výhradně pro vývoj UI~\cite{wpfDocs} a~UWP je, spolu s~vývojem UI, přímo univerzální platforma pro vývoj Windows aplikací~\cite{uwpDocs}. Narozdíl od WinForms, WPF i~UWP fungují pouze na Windows\footnote{WPF (Windows Presentation Foundation) vyžadují ke svému běhu .NET Framework 3.0, jeho otevřená implementace Mono sice na svém webu deklaruje kompatibilitu s~verzí 4.7, explicitně však uvádí, že WPF nepodporuje~\cite{monoCompatibility}.
+		Součástí první verze .NET Framework vydané v~únoru 2002 byl WinForms. Dnes je stále její součástí, ač je tomu nyní již 19 let. O~výběru technologie pro UI by se jistě dalo diskutovat -- pouze samotný Microsoft stihl vydat WPF a~UWP, WPF slouží výhradně pro vývoj UI~\cite{wpfDocs} a~UWP je, spolu s~vývojem UI, přímo univerzální platforma pro vývoj Windows aplikací~\cite{uwpDocs}. Narozdíl od WinForms, WPF i~UWP fungují pouze na Windows\footnote{WPF (Windows Presentation Foundation) vyžadují ke svému běhu .NET Framework 3.0, jeho otevřená implementace Mono \cite{monoProject} sice na svém webu deklaruje kompatibilitu s~verzí 4.7, explicitně však uvádí, že WPF nepodporuje~\cite{monoCompatibility}.
 			
 			UWP (Universal Windows Platform) je z~hlediska osobních počítačů dle oficiální dokumentace~\cite{uwpSupportedPlatforms} kompatibilní pouze s~Windows~10.
 		}. 
@@ -1558,6 +1576,7 @@ page.type(selector, text, {delay: durationMs})
 	\end{enumerate}
 	Backend a~frontend mezi sebou potřebují vzájemně komunikovat. Např. frontend spouští nahrávání, tj. odesílá pokyn ke spuštění nahrávání backendu. Naopak backend při nahrávání ohlašuje zachycenou událost do frontendu. Pro komunikaci mezi dvěma procesy bychom mohli využít BSD sockety, které mají nativní podporu v~API Node.js~\cite{nodejsApi} i~v~API .NET Frameworku~\cite{dotnetApi}, avšak pro tyto účely již existuje řada knihoven. 
 	
+	\newpage
 	Vybrali jsme knihovnu ZeroMQ~\cite{zeromq} pro tyto její výhody:
 	\begin{itemize}
 		\item[--] Existence mnoha nativních portů, případně language bindingů pro spoustu jazyků~\cite{zeromqDocs}. Pro nás zásadní je existence portu NetMQ~\cite{netmqGithub} pro C\#\footnote{Existuje i~binding clrzmq4~\cite{crlzmq4}, dokumentace~\cite{zeromqCSharp} ale doporučuje použít NetMQ.} a~bindingu ZeroMQ.js~\cite{zeromqJs} pro JavaScript.
@@ -2890,7 +2909,7 @@ public enum WaitForNavigation {
 	
 	Součástí implementace je generátor kódu, který vygeneruje skript pro Puppeteer dle nahraných akcí. Uživatel může skript exportovat a~využít ho jako součást své vlastní aplikace. Řešení nabízí ale i~možnost pouze přehrát nahrané akce, což se provede jednoduše voláním metody \texttt{eval} na vygenerovaný kód. Tímto jsou splněny požadavky~\crefrange{item:replayingReq}{item:codeGenReq}.
 	
-	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, což spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
+	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, což znamená splnění požadavku \cref{item:ui}.% spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
 	
 	V~uživatelském rozhraní jsou k~dispozici různorodá nastavení, uvedeme ty zásadní.
 	\begin{itemize}

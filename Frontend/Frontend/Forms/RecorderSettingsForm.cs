@@ -25,12 +25,26 @@ namespace Frontend.Forms
 
         public RecorderConfiguration ExportRecorderOptions()
         {
-            RecorderConfiguration rc = new RecorderConfiguration
+            RecordedEvents r = (RecordedEvents) recordedEventsPropertyGrid.SelectedObject;
+            try
             {
-                PuppeteerOptions = puppeteerOptionsUserControl.ExportOptions(),
-                RecordedEvents = (RecordedEvents) recordedEventsPropertyGrid.SelectedObject
-            };
-            return rc;
+                PuppeteerOptions p = puppeteerOptionsUserControl.ExportOptions();
+                RecorderConfiguration rc = new RecorderConfiguration
+                {
+                    PuppeteerOptions = p,
+                    RecordedEvents = r
+                };
+                return rc;
+            }
+            catch (ArgumentException e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new RecorderConfiguration
+                {
+                    PuppeteerOptions = ConfigManager.GetPuppeteerConfiguration(),
+                    RecordedEvents = r
+                };
+            }
         }
     }
 }

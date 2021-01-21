@@ -13,9 +13,22 @@ verapdf/
 
 text/*
 !text/figures/
+!text/abstrakt-cs.txt
+!text/abstrakt-en.txt
+
+!text/abstrakt-cs.tex
+!text/abstrakt-cs.pdf
+
+!text/abstrakt-en.tex
+!text/abstrakt-en.pdf
+
+!text/abstrakt-cs-en.tex
+!text/abstrakt-cs-en.pdf
+
 !text/bib.tex
 !text/bp.pdf
 !text/bp-2u.pdf
+!text/bp-tisk.pdf
 !text/bp.tex
 !text/desky.tex
 !text/desky.pdf

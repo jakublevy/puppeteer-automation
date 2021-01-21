@@ -2,7 +2,8 @@
 
 %%% Titulní strana práce
 
-\pagestyle{empty}
+%\pagestyle{empty}
+\pagenumbering{gobble}
 \hypersetup{pageanchor=false}
 
 \begin{center}
@@ -46,12 +47,24 @@ Studijní obor:&\StudijniObor \cr
 % Zde doplňte rok
 Praha \RokOdevzdani
 \end{center}
+
+\ifdefined\printVersion
+	\cleardoublepage
+\else
+\fi
+
 \newpage
 
 %%% Následuje vevázaný list -- kopie podepsaného "Zadání bakalářské práce".
 %%% Toto zadání NENÍ součástí elektronické verze práce, nescanovat.
 
 %%% Strana s čestným prohlášením k bakalářské práci
+
+\ifdefined\printVersion
+\else
+	\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
+	\afterpage{\aftergroup\restoregeometry}
+\fi
 
 \hypersetup{pageanchor=true}
 \pagestyle{plain}
@@ -90,17 +103,41 @@ práce jako školního díla podle §60 odst. 1 autorského zákona.
 }
 
 \vspace{20mm}
-\newpage
+
+\ifdefined\printVersion
+	\cleardoublepage
+\else
+\fi
 
 %%% Poděkování
+\newpage
+
+\ifdefined\printVersion
+\else
+\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
+\afterpage{\aftergroup\restoregeometry}
+\fi
+
 \begin{center}
-\noindent
-\Podekovani
+	\noindent
+	\Podekovani
 \end{center}
+
+\ifdefined\printVersion
+	\cleardoublepage
+\else
+\fi
 
 \newpage
 
 %%% Povinná informační strana bakalářské práce
+
+\ifdefined\printVersion
+\else
+	\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
+	\afterpage{\aftergroup\restoregeometry}
+\fi
+
 
 \vbox to 0.5\vsize{
 \setlength\parindent{0mm}
@@ -128,10 +165,15 @@ Klíčová slova:
 
 \newpage
 
+\ifdefined\printVersion
+\else
+	\newgeometry{left=2.5cm,top=2.5cm,right=4cm,bottom=2.5cm}
+	\afterpage{\aftergroup\restoregeometry}
+\fi
+
 \nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
 \setlength\parskip{5mm}
-
 
 Title:
 \NazevPraceEN
@@ -146,7 +188,7 @@ Supervisor:
 \Vedouci%, \KatedraVedoucihoEN
 
 Abstract:
-\AbstraktEN
+\Abstract
 
 Keywords:
 \KlicovaSlovaEN

@@ -1,0 +1,28 @@
+% !TeX spellcheck = cs_CZ
+% !TeX program = xelatex
+\documentclass[12pt, a4paper]{article}
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{sectsty}
+\sectionfont{\centering}
+\usepackage[left=2.5cm,top=2.5cm,right=2.5cm,bottom=2.5cm]{geometry}
+
+\pagenumbering{gobble}
+\setromanfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+
+%adjust hypnetation
+\tolerance=9999
+\emergencystretch=10pt
+\hyphenpenalty=10000
+\exhyphenpenalty=100
+
+\setstretch{1.2}
+\begin{document}
+	\section*{Abstrakt}
+	\input{abstrakt-cs.txt}
+\end{document}

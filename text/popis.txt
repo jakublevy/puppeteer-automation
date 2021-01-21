@@ -1,11 +1,7 @@
-Čísla stránek odpovídají pozici v PDF dokumentu (nikoliv číslu stránky v zápatí).
+Dokument je připraven pro oboustranný tisk.
 
+Za prvním listem (za stranou 2 PDF dokumentu) je vložen vezázaný list s kopií podepsaného "Zadání bakalářské práce".
 
-První stránka je tištěna jednostranně. 
-Všechny další oboustranně.
-
-Za první stranu je vložen vezázaný list s kopií podepsaného "Zadání bakalářské práce".
-
-Barevné stránky:
-1,13,16-21,23-28,30-37,52-93,95-96,98-104
+Barevné stránky (stránky odpovídají pozici v PDF dokumentu, nikoliv číslu stránku uvedenému v zápatí):
+1,16,19-24,26-31,33-40,55-96,98-99,101-107
 

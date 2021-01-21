@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Frontend.UserControls
@@ -66,18 +67,36 @@ namespace Frontend.UserControls
             PuppeteerOptions po = null;
             if (connectionTypeComboBox.SelectedItem.ToString() == "Connect")
             {
-                po = new ConnectPuppeteerOptions
+                bool succ = Uri.TryCreate($"http://{hostTextBox.Text}:{portTextBox.Text}", UriKind.Absolute, out var endPoint);
+                if (succ)
                 {
-                    EndPoint = new Uri($"http://{hostTextBox.Text}:{portTextBox.Text}")
-                };
+                    po = new ConnectPuppeteerOptions
+                    {
+                        EndPoint = endPoint
+                    };
+                }
+                else
+                {
+                    throw new ArgumentException("IP address or port is invalid. Changes not saved.");
+                }
+
 
             }
             else if (connectionTypeComboBox.SelectedItem.ToString() == "Launch")
             {
-                po = new LaunchPuppeteerOptions
+                if (File.Exists(pathTextBox.Text) || pathTextBox.Text == "")
                 {
-                    ExecutablePath = pathTextBox.Text
-                };
+                    po = new LaunchPuppeteerOptions
+                    {
+                        ExecutablePath = pathTextBox.Text
+                    };
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        "The filled path does not point to the actual file. Changes not saved.");
+                }
+                
             }
 
             po.DevTools = devtoolsCheckBox.Checked;
