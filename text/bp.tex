@@ -340,7 +340,7 @@
 \newcommand*{\partialref}[2]{\hyperref[{#1}]{\ref{#2}~na~straně \pageref{#1}}}
 
 %enable print version
-\def\printVersion{}
+%\def\printVersion{}
 
 %environment for method description
 \newenvironment{methods}{
@@ -568,7 +568,7 @@
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
 \def\KlicovaSlova{%
-	{Puppeteer,} {automatizace prohlížeče} 
+	{Puppeteer,} {automatizace webového prohlížeče} 
 	%{nahrávání,} {přehrávání}
 }
 \def\KlicovaSlovaEN{%
@@ -629,7 +629,7 @@
 	\printglossary[title=Seznam nestandardních a~méně známých zkratek, toctitle=Seznam nestandardních a~méně známých zkratek, type=\acronymtype]
 	\newpage
 	\section{Úvod}
-	V~dnešní době se potýkáme s~trendem přesunu vývoje. Místo klasických aplikací se vyvíjí aplikace webové, jejichž hlavní výhoda je kompatibilita -- fungují na všech platformách, kde je k~dispozici webový prohlížeč. Tento trend přispívá k~rychlejšímu vývoji, protože ubyla potřeba vyvíjet a~udržovat více různých verzí stejné aplikace pro různé platformy. 
+	V~dnešní době se potýkáme s~trendem přesunu vývoje. Místo klasických aplikací se vyvíjí aplikace webové, jejichž hlavní výhodou je kompatibilita -- fungují na všech platformách, kde je k~dispozici webový prohlížeč. Tento trend přispívá k~rychlejšímu vývoji, protože ubyla potřeba vyvíjet a~udržovat více různých verzí stejné aplikace pro různé platformy. 
 	
 	Problém se však objevil v~samotném automatickém testování aplikace, které není možné provést rychle a~spolehlivě automaticky kvůli povaze webu, bez patřičných odborných znalostí je to téměř nemožné. Pro tyto účely existuje mnoho produktů, z~nichž většina je postavena nad Seleniem (\ref{sec:selenium}). 
 	
@@ -642,7 +642,7 @@
 	\end{itemize}
 	\subsection{Cíle práce}
 	Cílem práce je analyzovat, navrhnout, implementovat a~zdokumentovat software pro automatizaci akcí prováděných ve webovém prohlížeči Chrome pomocí existující knihovny Puppeteer~\cite{puppeteerApi}.
-	Tato moderní knihovna pro JavaScript s~běhovým prostředním Node.js disponuje vysokoúrovňovým API implementující podmnožinu funkcí CDP~\cite{devtoolsProtocol}.
+	Tato moderní knihovna pro JavaScript s~běhovým prostředním Node.js disponuje vysokoúrovňovým API implementujícím podmnožinu funkcí CDP~\cite{devtoolsProtocol}.
 	Řešitel se seznámí s~dalšími knihovnami a~technologiemi pro ovládání webových prohlížečů a~srovná je s~možnostmi Puppeteeru.
 	Součástí práce bude rešerše alternativních řešení umožňujících automatizaci a~jejich porovnání oproti vlastnímu navrženému řešení.
 	%Cílem této práce je analyzovat technologie pro automatizaci běžných úkonů s~prohlížeči, prozkoumat jednotlivá existující řešení pro nahrávání a~přehrávání akcí, následně zjistit možnosti Puppeteeru, zejména jeho využitelnost pro nahrávání akcí a~navrhnout vlastní řešení využívající k~nahrávání a~přehrávání akcí Puppeteer.
@@ -655,7 +655,7 @@
 	Nejdůležitější částí této práce je \cref{section:ourSolution}. Zde se zabýváme vlastním řešením, nejprve stanovíme požadavky kladené na naše řešení, které jsou získané na základě zkušeností z~kapitol \ref{section:introToBrowserAut} a~\ref{section:browserAutomation}. Následují diagramy zobrazující možnosti uživatelů při práci s~řešením, nechybí ani komplexní porovnání oproti řešením představeným v~\hyperref[section:browserAutomation]{kapitole~\ref{section:browserAutomation}}. Za samozřejmost považujeme dokumentaci pro uživatele a~programátora.
 
 	%	Poslední číslovanou kapitolou je \fullNameref{section:conclusion}.
-	\Cref{section:conclusion} je poslední číslovaná kapitola této práce, její hlavní přínos je zhodnocení splnění požadavků definovaných v~\hyperref[section:ourSolution]{kapitole \ref{section:ourSolution}}.
+	Poslední číslovaná kapitola této práce je \cref{section:conclusion}, její hlavní přínos je zhodnocení splnění požadavků definovaných v~\hyperref[section:ourSolution]{kapitole \ref{section:ourSolution}}.
 	
 	Za zmínku stojí ještě \hyperref[appx:puppeteerCode]{appendix \ref{appx:puppeteerCode}}, který obsahuje fragmenty kódu pro Pupppeteer, které jsou příliš dlouhé nebo nejsou nutné pro pochopení textu. Na tyto fragmenty budeme v~textu několikrát odkazovat, slouží zejména jako důkaz pro ověření některých tvrzení, které vyslovíme.
 	
@@ -672,7 +672,7 @@
 		Node.js & 15.5.0\\
 		PhantomJS & 2.1.1 \\
 		Playwright & 1.3.0  \\
-		Puppeteer & 5.0.0 \\
+		Puppeteer & 5.1.0 \\
 		Ranorex Recorder & 9.3.4 \\
 		Selenium IDE & 3.17.0 \\
 	\end{tabular}
@@ -681,7 +681,7 @@
 	%headless recorder, katalon recorder, phantomjs, playwright, puppeteer, ranorex recorder, selenium ide
 	\section{Seznámení s~technologiemi k~ovládání prohlížečů}
 	\label{section:introToBrowserAut}
-	V~této části popíšeme a~částečně porovnáme vybrané technologie k~ovládání prohlížečů. Význam této kapitoly je ryze informativní, čtenářům znalích těch technologií je doporučeno přečtení alespoň \refAddedText{sub_sec:Puppeteer}{podsekce~}{}, která popisuje knihovnu Puppeteer~--~zásadní stavební blok této práce.
+	V~této části popíšeme a~částečně porovnáme vybrané technologie k~ovládání prohlížečů. Význam této kapitoly je ryze informativní, čtenářům znalých těchto technologií je doporučeno přečtení alespoň \refAddedText{sub_sec:Puppeteer}{podsekce~}{}, která popisuje knihovnu Puppeteer~--~zásadní stavební blok této práce.
 	\subsection{Selenium}
 	\label{sec:selenium}
 	Selenium je sada nástrojů pro automatizaci prohlížečů. Jeho historie sahá až do roku 2004, kdy Jason Huggins vytvořil "JavascriptTestRunner" pro testování webových aplikací v~Pythonu. Během dalšího vývoje byl "JavascriptTestRunner" přejmenován na~Selenium (česky selen), který snižuje toxicitu rtuti. Nové jméno mělo zesměšnit tehdejší konkurenční společnost Mercury (česky rtuť). Později vznikl celý ekosystém Selenia, který zahrnuje browser drivers, selenium drivers, language bindings a~testing frameworks~\cite{seleniumAbout, seleniumWiki}.
@@ -698,16 +698,16 @@
 		\caption{Komunikace Selenia s~prohlížečem}
 	\end{figure}
 
-	\noindent Přesuneme se ke~způsobu identifikace elementů na stránce. Dnes jsou v~selektorech verze 3 definovány rozmanitější selektory jako např. E\textasciitilde F, který vybere element F, kterému předchází element E~\cite{selectors3W3c}. Stále však není možné napsat selektor podle vlastnosti \texttt{textContent} elementu~\cite{selectors4W3c}. Může se to sice zdát zprvu nedůležité, avšak často se jedná o~dobrou identifikaci tlačítka, která je jednoznačná a~uživatelsky přívětivá.
+	\noindent Přesuneme se ke~způsobu identifikace elementů na stránce. Dnes jsou v~selektorech verze 3 definovány rozmanitější selektory např. E\textasciitilde F, který vybere element F, kterému předchází element E~\cite{selectors3W3c}. Stále však není možné napsat selektor podle vlastnosti \texttt{textContent} elementu~\cite{selectors4W3c}. Může se to sice zdát zprvu nedůležité, avšak často se jedná o~dobrou identifikaci tlačítka, která je jednoznačná a~uživatelsky přívětivá.
 	\begin{codefigure}[H]
 		\renewcommand\baselinestretch{\codefigureSpacing}
 		\begin{lstlisting}[style=MyHTML]
 <button class="h51n1h-0" type="submit">Přihlásit se</button>
 		\end{lstlisting}
-		\caption{HTML kod tlačítka pro přihlášení}
+		\caption{HTML kód tlačítka pro přihlášení}
 		\label{codefig:loginButton}
 	\end{codefigure}
-	Předpokládejme, že tlačítko obsahuje jednoznačný text uvnitř tagů, pak bychom ho mohli identifikovat textem "Přihlásit se", namísto třídy, která může být generována na~session.
+	Předpokládejme, že tlačítko obsahuje jednoznačný text uvnitř tagů, pak bychom ho mohli identifikovat textem "Přihlásit se", místo třídy, která může být generována na~session.
 	
 	\newpage
 	Problém identifikace elementů byl v~Seleniu vyřešen pomocí rozšíření selektorů na tzv.~lokátory~\cite{seleniumDocs}.
@@ -721,8 +721,8 @@
 	class name &  jehož třída obsahuje hledanou hodnotu.\\ 
 	css selector & odpovídající hledanému selektoru. \\ 
 	id & jehož atribut id odpovídá hledané hodnotě. \\
-	name & jehož atribut name odpovídající hledané hodnotě. \\
-	link text & jehož viditelný text odpovídající hledané hodnotě. \\
+	name & jehož atribut name je odpovídající hledané hodnotě. \\
+	link text & jehož viditelný text odpovídá hledané hodnotě. \\
 	partial link text & jehož viditelný text obsahuje hledanou hodnotu.  \\
 	tag name & jehož název tagu odpovídá hledané hodnotě. \\
 	xpath & odpovídající XPath dotazu. \\
@@ -732,9 +732,10 @@
 	\label{tab:locatorsList}
 	\end{table}
 	}
-	Tlačítko z~\cref{codefig:loginButton} bychom lokátory identifikovali jako \texttt{link text="Přihlásit se"}. Jediným však nezbytným lokátorem je XPath, s~jehož pouhým využitím je možné přepsat všechny ostatní lokátory.
 
-	Mezi výhody Selenia patří podpora mnoha jazyků mezi kterými nechybí i~specifičtější jazyky jako např. Dart, Haskell a~R. Další výhodou je dobrá podpora napříč spektrem prohlížečů, obvykle včetně podpory všech OS, na kterých daný jazyk a~prohlížeč běží~\cite{seleniumDocs, seleniumEcosystem}.
+	Pomocí lokátorů bychom mohli identifikovat tlačítko z~\cref{codefig:loginButton}. Vhodným lokátorem je \texttt{link text="Přihlásit se"}. Nejuniverzálnější lokátor je ale XPath, s jehož využitím je možné přepsat všechny ostatní lokátory.
+
+	Mezi výhody Selenia patří podpora mnoha jazyků, mezi kterými nechybí i~specifičtější jazyky např. Dart, Haskell a~R. Další výhodou je dobrá podpora napříč spektrem prohlížečů, obvykle včetně podpory všech OS, na kterých daný jazyk a~prohlížeč běží~\cite{seleniumDocs, seleniumEcosystem}.
 	
 	\begin{table}[H]
 		\centering
@@ -749,20 +750,20 @@
 			Safari & macOS El Capitan a~novejší & Apple \\
 			Opera & Windows/macOS/Linux & Opera
 		\end{tabular}
-		\caption{Podporované prohlížeče Seleniem~\cite{seleniumDocs}}
+		\caption{Prohlížeče podporované Seleniem~\cite{seleniumDocs}}
 	\end{table}
 	
-	Hlavní nevýhodou, částečně vyplývající z~již zmíněných výhod, je omezená funkcionalita selenia API, podporující pouze to, co umí všechny prohlížeče, potažmo všechny browser drivery.
+	Hlavní nevýhodou, částečně vyplývající z~již zmíněných výhod, je omezená funkcionalita selenia API podporující pouze to, co umí všechny prohlížeče resp. všechny browser drivery.
 	\subsection{Puppeteer}
 	\label{sub_sec:Puppeteer}
-	Puppeteer je moderní Node.js knihovna, její počátky sahají pouze do roku 2017, kdy byla vydána první verze~\cite{puppeteerFirstRelease}. Puppeteer poskytuje API pro ovládání Chromu\footnote{Aktuálně již existují nightly verze Firefoxu s~FRP, jehož implementace je založená na~CDP. Platí, že FRP $\subset$ CDP. Je možné použít Puppeteer s~Firefoxem, ačkoliv se zatím jedná pouze o~experimentální podporu~\cite{firefoxRemoteProtocol, firefoxRemoteProtocol2}.}, narozdíl od Selenia se s~prohlížečem komunikuje pomocí Chrome DevTools Protocol (CDP). To hned nabízí jednu výhodu a~nevýhodu. Onou výhodou je podpora specifických a~proprietárních funkcí Chromu. Nevýhodou je právě však podpora pouze Chromu~\cite{puppeteerMainPage}.
+	Puppeteer je moderní Node.js knihovna, její počátky sahají pouze do roku 2017, kdy byla vydána první verze~\cite{puppeteerFirstRelease}. Puppeteer poskytuje API pro ovládání Chromu\footnote{Aktuálně již existují nightly verze Firefoxu s~FRP, jehož implementace je založená na~CDP. Platí, že FRP $\subset$ CDP. Je možné použít Puppeteer s~Firefoxem, ačkoliv se zatím jedná pouze o~experimentální podporu~\cite{firefoxRemoteProtocol, firefoxRemoteProtocol2}.}, narozdíl od Selenia s~prohlížečem komunikuje pomocí Chrome DevTools Protocol (CDP). To hned nabízí jednu výhodu a~nevýhodu. Onou výhodou je podpora specifických a~proprietárních funkcí Chromu. Nevýhodou je, že Chrome je jediným podporovaným prohlížečem~\cite{puppeteerMainPage}.
 	\begin{figure}[H]
 		\centering	
 		\includegraphics[width=1.0\textwidth]{puppeteerCom.pdf}
 		\caption{Komunikace Puppeteeru s~Chromem}
 	\end{figure}
 
-	Puppeteer nelze zcela považovat za~konkurenci Selenia. Selenium se zaměřuje na~ automatizaci nezávisle na~prohlížeči. Jeho hodnotou je standardní API, které funguje ve všech hlavních prohlížečích. Puppeteer se narozdíl od toho zaměřuje na~Chrome. Hodnotou Puppeteeru je bohatší funkcionalita a~jednodušší API~\cite{puppeteerMainPage}. 
+	Puppeteer nelze považovat za~konkurenci Selenia. Selenium se zaměřuje na~ automatizaci nezávisle na~prohlížeči. Jeho hodnotou je standardní API, které funguje ve všech hlavních prohlížečích. Puppeteer se narozdíl od toho zaměřuje na~Chrome. Hodnotou Puppeteeru je bohatší funkcionalita a~jednodušší API~\cite{puppeteerMainPage}. 
 	
 	Pro každou verzi Puppeteeru existuje právě jedna verze Chromu, se kterou je garantována funkčnost. 
 	\begin{table}[H]
@@ -779,7 +780,7 @@
 		\caption{Několik odpovídajících verzí Chromu a~Puppeteeru~\cite{puppeteerApi}}
 	\end{table}
 
-	Z~tohoto důvodu existují dva balíčky. Prvním je balíček "puppeteer", který obsahuje kromě knihovny i~vestavěný Chrome odpovídající verze. Druhý balíček "puppeteer-core" obsahuje pouze knihovnu. "puppeteer-core", která se může hodit, pokud si chceme Chrome spravovat sami nebo se Puppeteerem chceme připojit na~vzdálený Chrome na~jiném počítači a~vestavěný by nám tak zabíral zbytečně místo~\cite{puppeteerMainPage}.
+	Z~tohoto důvodu existují dva balíčky. Prvním je balíček "puppeteer", který obsahuje kromě knihovny i~vestavěný Chrome kompatibilní verze. Druhý balíček "puppeteer-core" obsahuje pouze knihovnu. "puppeteer-core" se může hodit pokud si chceme Chrome spravovat sami nebo se Puppeteerem chceme připojit na~vzdálený Chrome na~jiném počítači a~vestavěný by nám tak zabíral zbytečně místo~\cite{puppeteerMainPage}.
 	
 	Podíváme se na~několik ukázek porovnání Node.js kódu Puppeteeru a~Selenia. První ukázkou bude vytvoření screenshotu stránky \href{https://seznam.cz}{\nolinkurl{seznam.cz}}.
 	 \begin{codefigure}[H]
@@ -823,9 +824,9 @@ const puppeteer = require('puppeteer');
 		\caption{Screenshot v~Node.js kódu}
 	\end{codefigure}
 
-	Kód \subref{subfig:seleniumScreenshot} i~\subref{subfig:puppeteerScreenshot} spustí Chrome v~headless režimu, načtou \href{https://seznam.cz}{\nolinkurl{seznam.cz}} a~uloží screenshot do souboru \path{C:\scrnshot.png}. Jediný rozdíl je ten, že kód \subref{subfig:puppeteerScreenshot} provede screenshot celé stránky, jak je nastaveno argumentem \texttt{fullPage: true}. Selenium API narozdíl od Puppeteeru neumožnuje provést screenshot celé stránky~\cite{seleniumNodeJsDocs} \label{text:seleniumFullPageScreenshot}.
+	Kód \subref{subfig:seleniumScreenshot} i~\subref{subfig:puppeteerScreenshot} spustí Chrome v~headless režimu, načte \href{https://seznam.cz}{\nolinkurl{seznam.cz}} a~uloží screenshot do souboru \path{C:\scrnshot.png}. Jediný rozdíl je ten, že kód \subref{subfig:puppeteerScreenshot} provede screenshot celé stránky, jak je nastaveno argumentem \texttt{fullPage: true}. Selenium API narozdíl od Puppeteeru neumožnuje provést screenshot celé stránky~\cite{seleniumNodeJsDocs} \label{text:seleniumFullPageScreenshot}.
 	
-	Druhá ukázka nechá vyhodnotit JavaScript uvnitř stránky prohlížeče a~výsledek vypíše na~výstup. Pro ušetření místa vynecháme v~této a~v~následující ukázkách této podsekce nedůležitý kód, zejména kód inicializující a~uklízející.
+	Druhá ukázka nechá vyhodnotit JavaScript uvnitř stránky prohlížeče a~výsledek vypíše na~výstup. Pro ušetření místa vynecháme v~této a~v~následujících ukázkách této podsekce nedůležitý kód, zejména kód inicializující a~uklízející.
 	\newpage
 		 \begin{codefigure}[H]
 		\begin{subfigure}[t]{\textwidth}
@@ -847,7 +848,7 @@ console.log(name)
 		\caption{Node.js kód pro vyhodnocení JavaScriptu prohlížeče}
 	\end{codefigure}
 
-	V~tomto případě si můžeme všimnout, že se kód pro Selenium a~Puppeteer příliš neliší. Oba fragmenty kódu vypíšou textový řetězec "Netscape", protože hodnota \texttt{navigator.appName} je takto definována~\cite{navigator.appName}.
+	V~tomto případě si můžeme všimnout, že se kód pro Selenium a~Puppeteer příliš neliší. Oba fragmenty kódu vypíší textový řetězec "Netscape", protože hodnota \texttt{navigator.appName} je takto definována~\cite{navigator.appName}.
 	
 	Existují však i~situace, kdy je jednodušší napsat kód pro Selenium, než pro Puppeteer, viz následující ukázka.
 \begin{codefigure}[H]
@@ -870,12 +871,12 @@ await page.$x("//*[@name = 'options']").then(es => es[0].click())
 	\caption{Node.js kód pro kliknutí na~element}
 \end{codefigure}
 
-První řádek i~druhý řádek vždy obsahují kód, který nalezne a~stiskne element. V~případě prvního řádku se stiskne element s~textovým popiskem "About". Na~druhém řádku se stiskne element obsahující atribut \texttt{name} s~hodnotou "options". Puppeteer narozdíl od Selenia nemá lokátory, elementy můžeme hledat pouze pomocí selektoru a~naštěstí i~XPathu\label{text:puppeteerLocatorSupport}~\cite{puppeteerApi}.
+První řádek i~druhý řádek vždy obsahují kód, který nalezne a~stiskne element. V~případě prvního řádku se stiskne element s~textovým popiskem "About". Na~druhém řádku se stiskne element obsahující atribut \texttt{name} s~hodnotou "options". Puppeteer narozdíl od Selenia nemá lokátory, elementy můžeme hledat pouze pomocí selektoru a~naštěstí i~XPath\label{text:puppeteerLocatorSupport}~\cite{puppeteerApi}.
 
 	\newpage
 	\subsection{Playwright}
 	\label{sub_sec:Playwright}
-	Playwright je ryze moderní záležitostí vyvíjenou společností Microsoft vydanou teprve v~druhém měsici roku 2020~\cite{playwrightFirstRelease}. Původně jde pouze o~fork knihovny Puppeteer. Playwright však dává důraz na jiné aspekty funkcionality~\cite{playwrightGithub}.
+	Playwright je ryze moderní záležitostí vyvíjenou společností Microsoft vydanou teprve v~druhém měsíci roku 2020~\cite{playwrightFirstRelease}. Projekt začal jako fork knihovny Puppeteer. Playwright však dává důraz na jiné aspekty funkcionality~\cite{playwrightGithub}.
 	
 	\paragraph{Rozdíly proti Puppeteeru}
 	Playwright nabízí jednotné API pro automatizaci Chromu, Firefoxu a~prohlížečů postavených na jádře WebKit~\cite{playwrightMainPage}. Aktuálně však je bez úprav podporovaný pouze Chrome. Ostatní prohlížeče musí být speciálně upraveny pomocí patchů, aby bylo možné jejich použití s~Playwrightem. Pro Playwright by bylo ideální sloučení těchto patchů se zdrojovými kódy prohlížečů, v~budoucnu by k~tomu mohlo dojít. Některé patche již byly přijaty.~\cite{playwrightBrowserPatches}.
@@ -952,7 +953,7 @@ await page.check((*@\label{line:check1}@*)
 		\end{lstlisting}
 		\caption{Akce se specificky identifikovanými elementy}
 	\end{codefigure}
-	Na \ref{line:bananaClick}. řádku se provede stisknutí elementu s~textovým popiskem "banán". Další řádek "napíše" hodnotu 42 do~elementu s~atributem \foreignlanguage{english}{\texttt{data-purpose = "amount"}}. Poslední nejdelší řádek obsahuje speciální binární, zleva asociativní operátor \texttt{>>}. Pravý operand se vyhodnotí vzhledem k~elementům splňující levý operand~\cite{playwrightApi}. V~tomto případě se hledá checkbox pro zaškrtnutí pouze uvnitř formuláře odesílaného POST metodou. Ekvivalentně bychom mohli použít XPath:
+	Na \ref{line:bananaClick}. řádku se provede stisknutí elementu s~textovým popiskem "banán". Další řádek "napíše" hodnotu 42 do~elementu s~atributem \foreignlanguage{english}{\texttt{data-purpose = "amount"}}. Poslední nejdelší řádek obsahuje speciální binární, zleva asociativní operátor \texttt{>>}. Pravý operand se vyhodnotí vzhledem k~elementům splňujícím levý operand~\cite{playwrightApi}. V~tomto případě se hledá checkbox pro zaškrtnutí pouze uvnitř formuláře odesílaného POST metodou. Ekvivalentně bychom mohli použít XPath:
 	\begin{codefigure}[H]
 		\renewcommand\baselinestretch{\codefigureSpacing}
 		\begin{lstlisting}[style=MyXPath]
@@ -965,7 +966,7 @@ await page.check((*@\label{line:check1}@*)
 	\begin{enumerate}
 		\item Stránka, potažmo kontext\footnote{Prostředí jedné i~více stránek prohlížeče. Obvykle se sdíleným nastavením, např. neukládat historii. Při používání Chromu můžeme vytvořit nový kontext otevřením prvního okna anonymního režimu, zkratka CTRL+Shift+N. Pokud takto otevřeme další okna, nevytvoří se nový anonymní kontext, pouze se nová stránka přidá do již existujícího anonymního kontextu.} prohlížeče, ve kterém stránka běží, musí mít nastavený parametr \texttt{acceptDownloads: true}.
 		\item Při provedení akce, která způsobí stažení souboru musíme počkat na~událost "download" a~zachytit zachytit objekt \texttt{Download}. 
-		\item Nyní již libovolně můžeme využít API objektu \texttt{Download} a~stažený soubor např. uložit do libovolného adresáře. 
+		\item Nyní můžeme využít API objektu \texttt{Download} a~stažený soubor např. uložit do libovolného adresáře. 
 	\end{enumerate}
 
 	Uvedeme jednoduchý příklad, který stáhne instalátor Firefoxu a~uloží ho na~disk C s~původním názvem.
@@ -986,7 +987,7 @@ await download.saveAs('C:\\' + download.suggestedFilename())
 \end{codefigure}
 	\newpage
 	\subsection{PhantomJS}
-	Podíváme se ještě krátce na~značně odlišnou záležitost, která již není od března roku 2018 aktivně vyvíjena~\cite{phantomJsArchiving}. Zatím jsme v~\refAddedText{section:introToBrowserAut}{kapitole }{} rozebírali jednotlivé technologie pro automatizaci existujících standardních prohlížečů. PhantomJS je však kompletní prohlížeč navržený tak, aby byl skriptovatelný. Jednou z~jeho přednosti ve své době patřilo headless spouštění~\cite{phantomJsMainPage}, které se ve~Chromu objevilo až s~verzí 59 pro macOS a~Linux, podpora Windowsu pak byla přidána ve~verzi 60~\cite{headlessChromeGettingStarted}. Firefox jednotně podporoval headless režim na macOS/Linuxu/Windowsu od verze 56~\cite{headlessFirefox}.
+	Podíváme se ještě krátce na~značně odlišnou záležitost, která již není od března roku 2018 aktivně vyvíjena~\cite{phantomJsArchiving}. Zatím jsme v~\refAddedText{section:introToBrowserAut}{kapitole }{} rozebírali jednotlivé technologie pro automatizaci existujících standardních prohlížečů. PhantomJS je však kompletní prohlížeč navržený tak, aby byl skriptovatelný. Jednou z~jeho předností ve své době bylo headless spouštění~\cite{phantomJsMainPage}, které se ve~Chromu objevilo až s~verzí 59 pro macOS a~Linux, podpora Windowsu pak byla přidána ve~verzi 60~\cite{headlessChromeGettingStarted}. Firefox jednotně podporoval headless režim na macOS/Linuxu/Windowsu od verze 56~\cite{headlessFirefox}.
 	
 	\begin{table}[H]
 		\centering
@@ -1021,7 +1022,7 @@ const phantom = require('phantom');
 		\caption{Uložení screenshotu celé stránky do PDF s~využítím PhantomJS}
 	\end{codefigure}
 	
-	Obdobně jednoduchým způsobem je možné vytvořit screenshot s~uložením do PDF i~s~použitím Puppeteeru nebo Playwrightu. V~případě použití Selenia je nutné se omezit pouze výstup v~obrázkovém formátu\cite{seleniumDocs} a~na~screenshot viewportu, jak již bylo zmíněno ve~\fullref{text:seleniumFullPageScreenshot}{sub_sec:Puppeteer}.
+	Obdobně jednoduchým způsobem je možné vytvořit screenshot s~uložením do PDF i~s~použitím Puppeteeru nebo Playwrightu. V~případě použití Selenia je nutné se omezit pouze na výstup v~obrázkovém formátu\cite{seleniumDocs} a~na~screenshot viewportu, jak již bylo zmíněno ve~\fullref{text:seleniumFullPageScreenshot}{sub_sec:Puppeteer}.
 	\section{Automatizace prohlížeče}
 	\label{section:browserAutomation}
 	V~této kapitole se podíváme na řešení sloužící k~zaznamenávání uživatelských akcí v~prohlížeči s~možností následného opětovného vykonání, dále pouze uváděno jako řešení k~nahrávání a~přehrávání akcí nebo pouze řešení.
