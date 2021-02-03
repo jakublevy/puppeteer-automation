@@ -40,8 +40,8 @@
             this.websitesLabel = new System.Windows.Forms.Label();
             this.createdLabel = new System.Windows.Forms.Label();
             this.updatedLabel = new System.Windows.Forms.Label();
-            this.editUserControl = new Frontend.UserControls.EditUserControl();
             this.nodeInterpreterVersionLabel = new System.Windows.Forms.Label();
+            this.editUserControl = new Frontend.UserControls.EditUserControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,6 +110,7 @@
             this.thumbnailsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.thumbnailsFlowLayoutPanel.AutoScroll = true;
             this.thumbnailsFlowLayoutPanel.Enabled = false;
             this.thumbnailsFlowLayoutPanel.Location = new System.Drawing.Point(12, 87);
             this.thumbnailsFlowLayoutPanel.Name = "thumbnailsFlowLayoutPanel";
@@ -152,18 +153,6 @@
             this.updatedLabel.TabIndex = 6;
             this.updatedLabel.Text = "Updated";
             // 
-            // editUserControl
-            // 
-            this.editUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.editUserControl.Location = new System.Drawing.Point(15, 7);
-            this.editUserControl.Name = "editUserControl";
-            this.editUserControl.WorkingState = Frontend.UserControls.EditUserControl.State.Disconnected;
-            this.editUserControl.Size = new System.Drawing.Size(804, 415);
-            this.editUserControl.TabIndex = 7;
-            this.editUserControl.Visible = false;
-            // 
             // nodeInterpreterVersionLabel
             // 
             this.nodeInterpreterVersionLabel.AutoSize = true;
@@ -173,13 +162,25 @@
             this.nodeInterpreterVersionLabel.TabIndex = 8;
             this.nodeInterpreterVersionLabel.Text = "node -v: ";
             // 
+            // editUserControl
+            // 
+            this.editUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editUserControl.Location = new System.Drawing.Point(4, 2);
+            this.editUserControl.Name = "editUserControl";
+            this.editUserControl.Size = new System.Drawing.Size(822, 428);
+            this.editUserControl.TabIndex = 7;
+            this.editUserControl.Visible = false;
+            this.editUserControl.WorkingState = Frontend.UserControls.EditUserControl.State.Disconnected;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 434);
-            this.Controls.Add(this.nodeInterpreterVersionLabel);
             this.Controls.Add(this.editUserControl);
+            this.Controls.Add(this.nodeInterpreterVersionLabel);
             this.Controls.Add(this.updatedLabel);
             this.Controls.Add(this.createdLabel);
             this.Controls.Add(this.websitesLabel);
@@ -213,8 +214,8 @@
         private System.Windows.Forms.Label createdLabel;
         private System.Windows.Forms.Label updatedLabel;
         private System.Windows.Forms.ToolStripMenuItem nodejsToolStripMenuItem;
-        private UserControls.EditUserControl editUserControl;
         private System.Windows.Forms.Label nodeInterpreterVersionLabel;
+        private UserControls.EditUserControl editUserControl;
     }
 }
 

@@ -156,17 +156,9 @@ namespace Frontend
             return new LaunchPuppeteerOptions
             {
                 DevTools = false,
-                ExecutablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                ExecutablePath = "",
                 SlowMo = 100,
-                Viewport = new Viewport
-                {
-                    DeviceScaleFactor = 1.0,
-                    HasTouch = false,
-                    Height = 1080,
-                    Width = 1920,
-                    IsLandscape = false,
-                    IsMobile = false
-                }
+                Viewport = null
             };
         }
 

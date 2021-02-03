@@ -12,11 +12,10 @@
   "author": "Jakub Levý",
   "license": "GPLv3",
   "dependencies": {
-    "@medv/finder": "latest",
+    "@medv/finder": "^2.0.0",
     "async-mutex": "^0.2.6",
     "clipboardy": "^2.3.0",
     "css.escape": "^1.5.1",
-    "js-string-escape": "^1.0.1",
     "puppeteer": "^5.1.0",
     "zeromq": "^6.0.0-beta.6"
   }

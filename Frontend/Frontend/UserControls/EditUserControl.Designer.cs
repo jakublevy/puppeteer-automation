@@ -30,7 +30,6 @@
         {
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.saveAndExitButton = new System.Windows.Forms.Button();
-            this.actionsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.codeGenButton = new System.Windows.Forms.Button();
             this.replayButton = new System.Windows.Forms.Button();
             this.recordButton = new System.Windows.Forms.Button();
@@ -45,6 +44,7 @@
             this.addAsFirst = new System.Windows.Forms.RadioButton();
             this.addAsLast = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.actionsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.processGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,17 +65,6 @@
             this.saveAndExitButton.Text = "Save && Exit";
             this.saveAndExitButton.UseVisualStyleBackColor = true;
             this.saveAndExitButton.Click += new System.EventHandler(this.saveAndExitButton_Click);
-            // 
-            // actionsFlowLayoutPanel
-            // 
-            this.actionsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.actionsFlowLayoutPanel.AutoScroll = true;
-            this.actionsFlowLayoutPanel.Location = new System.Drawing.Point(3, 64);
-            this.actionsFlowLayoutPanel.Name = "actionsFlowLayoutPanel";
-            this.actionsFlowLayoutPanel.Size = new System.Drawing.Size(709, 291);
-            this.actionsFlowLayoutPanel.TabIndex = 2;
             // 
             // codeGenButton
             // 
@@ -230,10 +219,22 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Add as";
             // 
+            // actionsFlowLayoutPanel
+            // 
+            this.actionsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.actionsFlowLayoutPanel.AutoScroll = true;
+            this.actionsFlowLayoutPanel.Location = new System.Drawing.Point(2, 63);
+            this.actionsFlowLayoutPanel.Name = "actionsFlowLayoutPanel";
+            this.actionsFlowLayoutPanel.Size = new System.Drawing.Size(817, 362);
+            this.actionsFlowLayoutPanel.TabIndex = 2;
+            // 
             // EditUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.actionsFlowLayoutPanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.addAsFirst);
             this.Controls.Add(this.addAsLast);
@@ -243,12 +244,12 @@
             this.Controls.Add(this.selectedAllCheckBox);
             this.Controls.Add(this.browserConnection);
             this.Controls.Add(this.recordButton);
-            this.Controls.Add(this.actionsFlowLayoutPanel);
             this.Controls.Add(this.processGroupBox);
             this.Controls.Add(this.saveAndExitButton);
             this.Controls.Add(this.nameTextBox);
             this.Name = "EditUserControl";
-            this.Size = new System.Drawing.Size(715, 358);
+            this.Size = new System.Drawing.Size(822, 428);
+            this.Resize += new System.EventHandler(this.EditUserControl_Resize);
             this.processGroupBox.ResumeLayout(false);
             this.processGroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -260,7 +261,6 @@
 
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Button saveAndExitButton;
-        private System.Windows.Forms.FlowLayoutPanel actionsFlowLayoutPanel;
         private System.Windows.Forms.Button codeGenButton;
         private System.Windows.Forms.Button replayButton;
         private System.Windows.Forms.Button recordButton;
@@ -275,5 +275,6 @@
         private System.Windows.Forms.RadioButton addAsFirst;
         private System.Windows.Forms.RadioButton addAsLast;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel actionsFlowLayoutPanel;
     }
 }

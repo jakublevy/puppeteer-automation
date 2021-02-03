@@ -43,7 +43,6 @@
             this.connectionTypeComboBox = new System.Windows.Forms.ComboBox();
             this.pathLabel = new System.Windows.Forms.Label();
             this.pathTextBox = new System.Windows.Forms.TextBox();
-            this.browseButton = new System.Windows.Forms.Button();
             this.hostLabel = new System.Windows.Forms.Label();
             this.portLabel = new System.Windows.Forms.Label();
             this.hostTextBox = new System.Windows.Forms.TextBox();
@@ -52,6 +51,7 @@
             this.slowMoLabel = new System.Windows.Forms.Label();
             this.slowMoNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.headlessCheckBox = new System.Windows.Forms.CheckBox();
+            this.browseButton = new System.Windows.Forms.Button();
             this.viewportGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumericUpDown)).BeginInit();
@@ -252,17 +252,6 @@
             this.pathTextBox.Size = new System.Drawing.Size(228, 20);
             this.pathTextBox.TabIndex = 4;
             // 
-            // browseButton
-            // 
-            this.browseButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.browseButton.Location = new System.Drawing.Point(76, 261);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 5;
-            this.browseButton.Text = "Browse";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
-            // 
             // hostLabel
             // 
             this.hostLabel.AutoSize = true;
@@ -341,10 +330,20 @@
             this.headlessCheckBox.Text = "Headless";
             this.headlessCheckBox.UseVisualStyleBackColor = true;
             // 
+            // browseButton
+            // 
+            this.browseButton.Location = new System.Drawing.Point(81, 261);
+            this.browseButton.Name = "browseButton";
+            this.browseButton.Size = new System.Drawing.Size(75, 23);
+            this.browseButton.TabIndex = 15;
+            this.browseButton.Text = "Browse";
+            this.browseButton.UseVisualStyleBackColor = true;
+            // 
             // PuppeteerOptionsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.browseButton);
             this.Controls.Add(this.headlessCheckBox);
             this.Controls.Add(this.slowMoNumericUpDown);
             this.Controls.Add(this.slowMoLabel);
@@ -353,7 +352,6 @@
             this.Controls.Add(this.hostTextBox);
             this.Controls.Add(this.portLabel);
             this.Controls.Add(this.hostLabel);
-            this.Controls.Add(this.browseButton);
             this.Controls.Add(this.pathTextBox);
             this.Controls.Add(this.pathLabel);
             this.Controls.Add(this.connectionTypeComboBox);
@@ -389,7 +387,6 @@
         private System.Windows.Forms.ComboBox connectionTypeComboBox;
         private System.Windows.Forms.Label pathLabel;
         private System.Windows.Forms.TextBox pathTextBox;
-        private System.Windows.Forms.Button browseButton;
         private System.Windows.Forms.Label hostLabel;
         private System.Windows.Forms.Label portLabel;
         private System.Windows.Forms.TextBox hostTextBox;
@@ -399,5 +396,6 @@
         private System.Windows.Forms.NumericUpDown slowMoNumericUpDown;
         private System.Windows.Forms.CheckBox viewportEnabledCheckBox;
         private System.Windows.Forms.CheckBox headlessCheckBox;
+        private System.Windows.Forms.Button browseButton;
     }
 }

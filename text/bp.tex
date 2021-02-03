@@ -340,7 +340,7 @@
 \newcommand*{\partialref}[2]{\hyperref[{#1}]{\ref{#2}~na~straně \pageref{#1}}}
 
 %enable print version
-\def\printVersion{}
+%\def\printVersion{}
 
 %environment for method description
 \newenvironment{methods}{
@@ -629,9 +629,9 @@
 	\printglossary[title=Seznam nestandardních a~méně známých zkratek, toctitle=Seznam nestandardních a~méně známých zkratek, type=\acronymtype]
 	\newpage
 	\section{Úvod}
-	V~dnešní době se potýkáme s~trendem přesunu vývoje. Místo klasických aplikací se vyvíjí aplikace webové, jejichž hlavní výhodou je kompatibilita -- fungují na všech platformách, kde je k~dispozici webový prohlížeč. Tento trend přispívá k~rychlejšímu vývoji, protože ubyla potřeba vyvíjet a~udržovat více různých verzí stejné aplikace pro různé platformy. 
+	V~dnešní době se potýkáme s~trendem přesunu vývoje uživatelských rozhraní. Místo klasických aplikací se vyvíjí aplikace webové, jejichž hlavní výhodou je kompatibilita~--~fungují na všech platformách, na kterých je k~dispozici webový prohlížeč. Tento trend přispívá k~rychlejšímu vývoji, protože ubyla potřeba vyvíjet a~udržovat více různých verzí stejné aplikace pro různé platformy. 
 	
-	Problém se však objevil v~samotném automatickém testování aplikace, které není možné provést rychle a~spolehlivě automaticky kvůli povaze webu, bez patřičných odborných znalostí je to téměř nemožné. Pro tyto účely existuje mnoho produktů, z~nichž většina je postavena nad Seleniem (\ref{sec:selenium}). 
+	Problém se však objevil v~samotném automatickém testování aplikací, které není možné provést rychle a~spolehlivě automaticky kvůli povaze webu, bez patřičných odborných znalostí je to téměř nemožné. Pro tyto účely existuje mnoho produktů, z~nichž většina je postavena nad Seleniem (\ref{sec:selenium}). 
 	
 	V~nedávné době se ale začaly objevovat další konkurenční knihovny a~technologie: Pupppeteer (\ref{sub_sec:Puppeteer}) a~Playwright (\ref{sub_sec:Playwright}), které zatím nejsou rozšířené a~neexistují pro ně nástroje na automatizaci webu.
 	
@@ -641,7 +641,7 @@
 		\item[--] CDP (Chrome Devtools Procotol) považujeme za neznámý pojem, ale v~textu je několikrát zmíněn, ve slovníčku je uveden
 	\end{itemize}
 	\subsection{Cíle práce}
-	Cílem práce je analyzovat, navrhnout, implementovat a~zdokumentovat software pro automatizaci akcí prováděných ve webovém prohlížeči Chrome pomocí existující knihovny Puppeteer~\cite{puppeteerApi}.
+	Cílem práce je analyzovat, navrhnout, implementovat, zdokumentovat a~otestovat software pro automatizaci akcí prováděných ve webovém prohlížeči Chrome pomocí existující knihovny Puppeteer~\cite{puppeteerApi}.
 	Tato moderní knihovna pro JavaScript s~běhovým prostředním Node.js disponuje vysokoúrovňovým API implementujícím podmnožinu funkcí CDP~\cite{devtoolsProtocol}.
 	Řešitel se seznámí s~dalšími knihovnami a~technologiemi pro ovládání webových prohlížečů a~srovná je s~možnostmi Puppeteeru.
 	Součástí práce bude rešerše alternativních řešení umožňujících automatizaci a~jejich porovnání oproti vlastnímu navrženému řešení.
@@ -652,7 +652,7 @@
 	
 	V~\hyperref[section:browserAutomation]{kapitole \ref{section:browserAutomation}} se nejprve přesuneme k~produktům postaveným nad nástroji popsanými v~\hyperref[section:introToBrowserAut]{kapitole \ref{section:introToBrowserAut}}. S~těmito produkty se seznámíme a~popíšeme si jejich specifika. Nejzásadnější produkt pro nás bude Headless Recorder, protože je jako jediný postavený nad Puppeteerem. Další významnou částí této kapitoly je rozbor možností Puppeteeru pro nahrávání a~přehrávání akcí. Její součástí jsou kromě popisu i~ukázky kódu demonstrující nahrávání a~přehrávání jednotlivých akcí.
 	
-	Nejdůležitější částí této práce je \cref{section:ourSolution}. Zde se zabýváme vlastním řešením, nejprve stanovíme požadavky kladené na naše řešení, které jsou získané na základě zkušeností z~kapitol \ref{section:introToBrowserAut} a~\ref{section:browserAutomation}. Následují diagramy zobrazující možnosti uživatelů při práci s~řešením, nechybí ani komplexní porovnání oproti řešením představeným v~\hyperref[section:browserAutomation]{kapitole~\ref{section:browserAutomation}}. Za samozřejmost považujeme dokumentaci pro uživatele a~programátora.
+	Nejdůležitější částí této práce je \cref{section:ourSolution}. Zde se zabýváme vlastním řešením, nejprve stanovíme požadavky kladené na naše řešení, které jsou získané na základě zkušeností z~kapitol \ref{section:introToBrowserAut} a~\ref{section:browserAutomation}. Následují diagramy zobrazující možnosti uživatelů při práci s~řešením, nechybí ani komplexní porovnání oproti řešením představeným v~\hyperref[section:browserAutomation]{kapitole~\ref{section:browserAutomation}}. Část Vývoj je zaměřená na nástroje použité během vývoje, dále následuje Testování, kde se dozvíme, jak bylo řešení testováno a~jaké problémy byly při testování odhaleny. Na konci této kapitoly samozřejmě nechybí ani dokumentace pro administrátora, uživatele a~programátora.
 
 	%	Poslední číslovanou kapitolou je \fullNameref{section:conclusion}.
 	Poslední číslovaná kapitola této práce je \cref{section:conclusion}, její hlavní přínos je zhodnocení splnění požadavků definovaných v~\hyperref[section:ourSolution]{kapitole \ref{section:ourSolution}}.
@@ -677,6 +677,7 @@
 		Selenium IDE & 3.17.0 \\
 	\end{tabular}
 	\caption{Využitý software a~technologie včetně verzí}
+	\label{tab:usedSoftware}
 \end{table}
 	%headless recorder, katalon recorder, phantomjs, playwright, puppeteer, ranorex recorder, selenium ide
 	\section{Seznámení s~technologiemi k~ovládání prohlížečů}
@@ -1051,6 +1052,7 @@ const phantom = require('phantom');
 	
 	V~roce 2017, kdy byla aktuální v2 Selenia IDE, se projekt dostal do problémů, kód v~té době fungoval pouze s~Firefoxem a~byl závislý na specifickém API Firefoxu pro add-ony~\cite{seleniumWhyUse}. Těmto add-onům se dnes říká "legacy extensions", ve Firefoxu byla jejich podpora úplně odstraněna s~verzí 57~\cite{firefoxLegacyExtensions}, která vyšla ve stejném roce~\cite{firefoxReleaseCalendar}. Projekt se ale díky práci vývojářů podařilo udržet naživu.
 	
+	\newpage
 	Aktuálně existují dvě vyvíjené větve, první je v3, ve které se stále ještě přepisují některé části kódu starého Selenia IDE v2. Cílem v3, postaveného na extension API, je podpora aktuálních verzí prohlížečů Chrome a~Firefox včetně všech funkcí původního Selenia IDE v2~\cite{seleniumIdeGithub}.
 	
 	Druhou větví je master, ve které se pracuje na přechodu z~rozšíření Chromu a~Firefoxu na Electron. V~současné době zatím nebyla vydána žádná verze fungující s~Electronem. Zájemci o~vyzkoušení mají možnost si zdrojový kód zkompilovat sami~\cite{seleniumIdeGithub}.
@@ -1297,6 +1299,8 @@ browser.on('targetchanged', async target => {
 		\caption{Zachycení změny adresy URL tabu}
 	\end{codefigure}
 	Provedení změny adresy URL jsme už viděli v~\cref{codefig:openNewTab}. Pro připomenutí: stačí zavolat členskou metodu \texttt{goto} objektu \texttt{page} a~jako jediný parametr předat adresu URL.
+	
+	\newpage
 	\paragraph{Změna aktivního tabu}
 	Pro zachycení změny aktivního tabu bohužel neexistuje žádné API v~Puppeteeru. Dokonce ani není možné zjistit, který tab je momentálně aktivní. Puppeteer alespoň umožňuje spustit vlastní JavaScript uvnitř stránky s~vrácením výsledku. Toho můžeme využít a~na všech otevřených stránkách zavolat \texttt{document.visibilityState === 'visible'}, aktivní stránka by nám měla vrátit \texttt{true}. Problémem stále zůstává, jak se o~změně aktivního tabu dozvědět v~okamžiku změny. To s~pouhým využitím Puppeteeru nejde a~musíme se spokojit s~následujícím:
 	\begin{itemize}
@@ -1321,6 +1325,7 @@ await page.bringToFront()
 	
 	Případné zájemce o~kód odkážeme do appendixu -- \ref{sub_sec:captureViewportEvents} obsahuje společnou kostru pro zachycení všech akcí. Součástí \ref{sub_sec:captureViewportEvents} je i~popis částí kostry. Upozorňujeme však, že kód postrádá zejména algoritmy pro získání identifikátorů elementů jakými jsou selektory nebo lokátory.
 	
+	\newpage
 	Přesuneme se ke způsobům přehrávání získaných akcí, jak množné číslo naznačuje, způsoby se budou lišit, a~to nejen podle druhu akce. API Puppeteeru umí pracovat pouze se selektory, pokud chceme pracovat s~lokátory, musíme si vytvořit vlastní metody, které je převádějí na XPath. Neexistence jednotného API pro různě identifikované elementy vyžaduje neustále dodávat vlastní rozšíření do standardní verze Puppeteeru, nebo využívat nestandardní vlastní verzi Puppeteeru opatřenou o~tato rozšíření. Ani jedna z~těchto variant není ideální, s~využitím první varianty alespoň nepřijdeme o~kompatibilitu, z~tohoto důvodu se domníváme, že první varianta je lepší volbou.
 
 	Nyní ukážeme konkrétní způsoby přehrávání akcí, pro jednoduchost se omezíme pouze na identifikaci pomocí selektorů. Metody převádějící vybrané lokátory na XPath s~návratovou hodnotou odpovídajících elementů jsou k~nahlédnutí v~\ref{sub_sec:locators2xpath}.
@@ -1468,9 +1473,9 @@ page.type(selector, text, {delay: durationMs})
 	Experimentálním ověřením s~nahlédnutím do zdrojového kódu Pupppeteeru a~online dokumentace CDP~\cite{devtoolsProtocol} jsme zjistili, že:
 	\begin{itemize}[leftmargin=*]
 		\item[--] Při neudělení žádného oprávnění je možné zapisovat do schránky, při pokusu o~čtení se zobrazí výzva pro udělení/neudělení oprávnění pro čtení. Připravený kód, kterým je možné toto ověřit se nachází v~\ref{sub_sec:accessClipboardWithoutPermission}.
+		\newpage
 		\item[--] Puppeteer nabízí oprávnění "clipboard-read" a~"clipboard-write", CDP definuje oprávnění "clipboardReadWrite" a~"clipboardSanitizedWrite". Při pokusu získání oprávnění "clipboard-read" nebo "clipboard-write" Puppeteer vždy zavolá CDP funkci \texttt{Browser.grantPermissions} s~parametrem \texttt{permissions} obsahujícím pouze "clipboardReadWrite".
 		
-		\newpage
 		Volání této funkce, ať už přímo nativně, nebo nepřímo s~použitím Puppeteeru, má za efekt to, že při pokusu zápisu do schránky se program ukončí s~výjimkou "Error: Evaluation failed: DOMException: Write permission denied.", více viz \ref{sub_sec:permissionsProblems}. Čtení naopak funguje bezproblémů viz \ref{sub_sec:readClipboardTest}. 
 		\item[--] API Puppeteeru, resp.~Puppeteer nijak nevyužívá oprávnění "clipboardSanitizedWrite" definované CDP, avšak udělením tohoto oprávnění získáme práva k~zápisu. Konečná funkční ukázka se nachází v~\ref{sub_sec:readingWritingClipboard}. 
 	\end{itemize}
@@ -1532,7 +1537,7 @@ page.type(selector, text, {delay: durationMs})
 		\item \label{item:replayingReq} \paragraph{Přehrávání (opětovné vykonání) akcí}
 		Všechny akce, které je možné nahrát, musí být možné i~přehrát.
 		\item \label{item:codeGenReq} \paragraph{Generování kódu}
-		Řešení musí umožnit, mimo okamžitého přehrávání i~vygenerovat skript, který je funkčně ekvivalentní s~přehráváním.
+		Řešení musí umožnit, mimo okamžitého přehrávání i~vygenerovat skript kompatibilní s~Puppeteerem, který je funkčně ekvivalentní s~přehráváním.
 		\item \label{item:idReq} \paragraph{Použitelná identifikace elementů}
 		Řešení musí podporovat nalezení dalších identifikátorů elementu mimo běžně používané (jednoznačná kombinace CSS tříd, argument id, absolutní popis cesty pomocí XPath, ...). 
 		\newpage
@@ -1554,20 +1559,22 @@ page.type(selector, text, {delay: durationMs})
 		\item \label{item:puppeteerUsage} \paragraph{Využití Pupppeteeru \normalfont{odp. \cref{item:recordingReq,item:replayingReq,item:codeGenReq}}}
 		Implementace musí být provedena s~použitím knihovny Puppeteer, jedná se o~jádro práce, pro ostatní knihovny a~technologie existuje mnoho automatizačních produktů viz \fullNameref{sub_sec:existingSolutions}.
 		\item \label{item:ui} \paragraph{UI \normalfont{odp. \cref{item:recordingReq,item:replayingReq,item:codeGenReq,item:idReq,item:connectionReq,item:settingsReq}}}
-		Celé řešení bude možné ovládat z~uživatelského rozhraní.
+		Celé řešení bude možné ovládat z~uživatelského rozhraní vhodně škálovaného i~na~high DPI monitorech.
+		%, které se bude vhodně škálovat na high DPI monitorech.
 	%	\item \label{item:compatibility} \paragraph{Kompatibilita napříč platformami}
 	%	Technologie pro implementaci musí být zvoleny tak, aby byla zajištěna kompatibilita alespoň s~OS Windows a~Linux.
 	\end{enumerate}
 	\subsection{Design}
 	\label{sub_sec:design}
 	Řešení se skládá ze dvou celků. Prvním je knihovna pro přehrávání a~nahrávání akcí vytvořená s~běhovým prostředím Node.js v~JavaScriptu, dále označovaná jako backend. Vzhledem k~implementaci Puppeteeru v~TypeScriptu\footnote{JavaScript se statickým typováním spravovaný firmou Microsoft~\cite{typeScript}.} jsme se rozhodli pro JavaScript. 
-	\newpage
-	Druhým celkem je okenní WinForms aplikace implementovaná v~C\# poskytující UI, tu nazveme frontend. C\# a~WinForms jsme vybrali z~těchto důvodů:
+	Druhým celkem je okenní WinForms aplikace implementovaná v~C\# poskytující UI, tu nazveme frontend.\newpage \noindent C\# a~WinForms jsme vybrali z~těchto důvodů:
 	\begin{enumerate}[leftmargin=*]
 		\item \paragraph{Jednoduchost}
 		Jak uvádí dokumentace firmy Microsoft~\cite{csharpHistory}, která stojí za vznikem C\#, jedním z~designových cílů od verze 1.0 byla snaha o~"jednoduchý, moderní, univerzální objektově orientovaný jazyk". Stejně jako C\# i~návrh UI ve WinForms považujeme za jednoduchý, a~to zejména díky obrovskému množství vestavěných komponent (ProgressBar, PropertyGrid, ...) a~vývoji pomocí drag and drop. Cílem této práce není vytvářet UI podle grafického návrhu a~navíc WinForms obsahuje většinu námi potřebných komponent\footnote{Chybí pouze textový editor se zvýrazňováním syntaxe, a~tak využijeme externí viz \ref{docs:codeGenEditor}, \ref{docs:jsonEditor}.} a~všechny nutné funkce.
 	%	\item \paragraph{Přenositelnost}
 	%	Jazyk C\# byl vydán s~vývojovým prostředím Visual Studio .NET 2002~\cite{csharpHistory}, současná verze Visual Studio 2019 je stále  kompatibilní pouze s~Windows~\cite{visualStudioMainPage}, zatímco programy vytvořené v~C\# s~WinForms je možné spouštět i~na jiných platformách (Linux, macOS, BSD a~další), díky projektu Mono\footnote{Multiplatformní implementace .NET Framework s~otevřeným zdrojovým kódem~\cite{monoProject}.}~\cite{monoProject}.
+		\item \paragraph{Podpora vysokého DPI}
+		Vysoká dostupnost cenově příznivých monitorů s~řádově vyšším DPI než standardních 96 si žádá vytvářet škálovatelné aplikace. Tyto však nejsou pro WinForms žádný problém, škálování je možné zapnout voláním systémové metody \texttt{SetProcessDpiAwareness}~\cite{dpiawarenessWinApi} z~konstruktoru hlavního formuláře~\cite{winformsDpiScaling}.
 		\item \paragraph{Vyzrálost}
 		Součástí první verze .NET Framework vydané v~únoru 2002 byl WinForms. Dnes je stále její součástí, ač je tomu nyní 19 let. O~výběru technologie pro UI by se jistě dalo diskutovat -- pouze samotný Microsoft stihl vydat WPF a~UWP, WPF slouží výhradně pro vývoj UI~\cite{wpfDocs} a~UWP je, spolu s~vývojem UI, přímo univerzální platforma pro vývoj Windows aplikací~\cite{uwpDocs}. Narozdíl od WinForms, WPF i~UWP fungují pouze na Windows\footnote{WPF (Windows Presentation Foundation) vyžadují ke svému běhu .NET Framework 3.0, jeho otevřená implementace Mono \cite{monoProject} sice na svém webu deklaruje kompatibilitu s~verzí 4.7, explicitně však uvádí, že WPF nepodporuje~\cite{monoCompatibility}.
 			
@@ -1583,7 +1590,6 @@ page.type(selector, text, {delay: durationMs})
 	
 	Pro komunikaci mezi dvěma procesy bychom mohli využít BSD sockety, které mají nativní podporu v~API Node.js~\cite{nodejsApi} i~v~API .NET Frameworku~\cite{dotnetApi}, pro tyto účely ale existuje řada knihoven. 
 	
-	\newpage
 	Vybrali jsme knihovnu ZeroMQ~\cite{zeromq} pro tyto její výhody:
 	\begin{itemize}
 		\item[--] Existence mnoha nativních portů, případně language bindingů pro spoustu jazyků~\cite{zeromqDocs}. Pro nás zásadní je existence portu NetMQ~\cite{netmqGithub} pro C\#\footnote{Existuje i~binding clrzmq4~\cite{crlzmq4}, dokumentace~\cite{zeromqCSharp} ale doporučuje použít NetMQ.} a~bindingu ZeroMQ.js~\cite{zeromqJs} pro JavaScript.
@@ -1761,12 +1767,106 @@ page.type(selector, text, {delay: durationMs})
 		\caption{Porovnání dalších pokročilých funkcí napříč řešeními}
 	\end{longtable}
 }
-	\newpage
+
+	\subsection{Vývoj}
+	Mimo software, uvedený v~\cref{tab:usedSoftware}, bylo k~vývoji použito několik nástrojů. 
+	\paragraph{Visual Studio 2019 16.0.17}
+	Celá frontendová část je projektem Visual Studia 2019, ve kterém taktéž probíhal její vývoj. Vzhledem k~tomu, že využíváme WinForms, bylo Visual Studio jasnou volbou díky existenci designeru.
+	\paragraph{WebStorm 2020.2.2}
+	Pro vývoj backendové části jsme použili WebStorm. Hlavním důvodem výběru byla podpora refactoringu a~debuggeru.
+	
+	\paragraph{npm 7.5.1}
+	K~práci s~balíčky pro Node.js jsme použili výchozího správce npm. Frontendová část obsahuje několik málo jednoduchých závislostí, které nejsou pro npm problémem, navíc pro pokročilé funkce (workspaces), kterými disponuje konkurenční yarn, nemáme využití.
+	
+	\subsection{Testování}
+	\noindent Již od začátku vývoje jsme řešení testovali na více počítačích s~různými verzemi OS Windows, obvykle jsme distribuovali binární soubory spolu se přenositelnou verzí Chromu a~Node.js pro jednoduché použití. Převážná většina testování byla provedena PC s~nainstalovaným OS Windows 10 20H2 se starším hardwarem:
+	\begin{itemize}[itemsep=0pt]
+		\item[--] CPU: AMD Athlon 64 X2 5600+
+		\item[--] RAM: 6GB
+		\item[--] GPU: NVIDIA Geforce 8800 GTS
+	\end{itemize}
+	Pro úplnost přikládáme tabulku testovaných/netestovaných verzí Windows s~nastavením DPI.
+	\begin{table}[H]
+		\centering
+		\rowcolors{2}{alternatingRow}{white}
+		\begin{tabular}{ p{2.4cm}|c|c } 
+			\rowcolor{tableHeadingBackground}
+			\multicolumn{1}{p{2.4cm}}{\textbf{Verze\newline OS Windows}} & \multicolumn{1}{l}{\textbf{= 96 DPI}} & \multicolumn{1}{l}{\textbf{> 96 DPI}}  \\
+			7 SP1 & \xmark & \xmark \\ 
+			8 & \cmark & \xmark \\ 
+			8.1 & \cmark & \cmark \\ 
+			10 & \cmark & \cmark \\
+		\end{tabular}
+		\caption{Otestované verze OS Windows rozdělené podle nastavení DPI}
+	\end{table}
+	\subsubsection{Odhalené problémy}
+	Testovali jsme všechny funkce našeho řešení, na některých počítačích jsme objevili problémy, které jsme opravili.
+	\paragraph{Spouštění backendu}
+	Na jednom z~testovaných počítačů s~OS Windows 8.1 se standardním DPI nebylo možné stisknutím tlačítka "Connect/Start Browser" spustit backend a~prohlížeč. Zjistili jsme, že z~nějakého důvodu se vůbec nespustil Node.js proces, který by měl vykonávat kód backendu. Cesty a~parametry pro spuštění procesu byly správné, na jiných počítačích se problémy nevyskytovaly. 
+	
+	V~té době jsme Node.js proces spouštěli pomocí relativní cesty k~interpreteru vůči cestě spustitelného souboru frontendu. Jako spolehlivější se ukázalo použití absolutní cesty místo relativní. Použili jsme naši původní relativní cestu, kterou jsme navíc pomocí metody \texttt{Path.GetFullPath} převedli na absolutní a~problém byl vyřešen.
+	\paragraph{High DPI monitory}
+	Při zapnutém škálování se na všech počítačích objevil problém s~komponentou \texttt{FlowLayoutPanel}, která měla nastavenou vlastnost \texttt{Anchor} do všech rohů.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{scaling.png}
+		\caption{Škálování nastavené na 150\%}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}[t]{1.0\textwidth}
+			\includegraphics*[width=1.0\textwidth]{anchorProblem.png}
+			\caption{Editační UI při 150\% škálování}
+		\end{subfigure}
+	\end{figure}
+	\begin{figure}[H]\ContinuedFloat
+		\begin{subfigure}[t]{1.0\textwidth}
+			\includegraphics*[width=1.0\textwidth]{scaling100correct.png}
+			\caption{Editační UI při 100\% škálování}
+		\end{subfigure}
+		\caption{Porovnání editačního UI při zapnutém/vypnutém škálování}
+	\end{figure}
+	Po bádání jsme přišli na to, že z~neznámého důvodu se při zapnutém škálování přestane měnit velikost \texttt{FlowLayoutPanel}u spolu se změnou velikosti jeho rodiče \texttt{EditUserControl}. Problém jsme vyřešili vytvořením události \texttt{Resize} pro \texttt{EditUserControl}, kde se upravuje velikost \texttt{FlowLayoutPanel}u odpovídajícím způsobem.
+	
+	\subsection{Administrátorská dokumentace}%[leftmargin=*]
+	Před tutoriály demonstrujícími ovládání našeho řešení definujeme systémové požadavky, závislosti a~připravíme prostředí pro prvotní spuštění. 
+	\paragraph{Systémové požadavky}
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{ ll }
+			\rowcolor{tableHeadingBackground}
+			\multicolumn{1}{l}{\textbf{Backend}} & \multicolumn{1}{l}{\textbf{Frontend}} \\
+			 Node.js 15.5.0 (dle \cref{tab:usedSoftware}) & .NET Framework 4.5 (dle nastavení projektu)  \\
+		\end{tabular}
+		\caption{Systémové požadavky backendu a~frontendu}
+	\end{table}
+	Node.js od verze 14.xx.x není na Windows 7 testováno~\cite{nodejsCompatibility}, z~toho důvodu je zaručena kompatibilita s~Windows 8 a~vyšší. .NET Framework 4.5, případně jeho novější verze, je předinstalovaný na všech verzích Windows 8 a~vyšších. Z~těchto důvodů definujeme kompatibilitu s~OS Windows 8/8.1/10.
+	\paragraph{Závislosti}
+	Backend i~frontend vyžadují ke svému běhu další knihovny dostupné z~\href{https://nuget.org}{\nolinkurl{nuget.org}} a~\href{https://npmjs.com}{\nolinkurl{npmjs.com}}. Všechny jsou ale součástí přílohy. Pro informaci uvádíme soubory, které závislosti popisují.
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{ ll }
+			\rowcolor{tableHeadingBackground}
+			\multicolumn{1}{l}{\textbf{Backend}} & \multicolumn{1}{l}{\textbf{Frontend}} \\
+			\path{Backend\package.json} & \path{Frontend\Frontend\Frontend.csproj} \\
+		\end{tabular}
+		\caption{Závislosti backendu a~frontendu}
+	\end{table}
+	\paragraph{Příprava prostředí}
+	\begin{enumerate}
+		\item Stáhneme přílohu práce\footnote{Příloha je dostupná i~na GitHubu~\cite{projectGithub}, commit ID ... odpovídá verzi, která byla odevzdána s~tímto textem.}
+		\item Nainstalujeme Node.js\footnote{Mohli bychom distribuovat interpreter přímo se zdrojovým kódem, nicméně nepříjde nám jako dobrý nápad zmrazovat závislost o~velikosti \textasciitilde~68~MB. Lepší varianta podle nás je, když všechny aplikace vyžadující Node.js používají jeden systémový.} 15.5.0 (dle~\cref{tab:usedSoftware}) odpovídající architektuře OS
+		\begin{itemize}[leftmargin=0pt,label={}, align=left,topsep=0pt]
+			\item 64bit instalátor: \url{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x64.msi}
+			\item 32bit instalátor: \url{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x86.msi}
+		\end{itemize}
+	\end{enumerate}
+	Spustitelný soubor se nachází v~adresáři \path{Frontend\Frontend\bin\Release\Frontend.exe}
 	\subsection{Tutoriály}
 	\label{sub_sec:usersDocs}
 	Nyní se podíváme na UI frontendové části přes kterou se naše řešení ovládá. Využití uživatelského rozhraní bude demonstrováno několika tutoriály.
 	
-	Tutoriály jsou vytvořené tak, aby ukazovaly základní funkcionalitu řešení, případně vysvětlovali neintuitivní části UI. Velká část zřejmých komponent UI je pro přehlednost v~dokumentaci vynechána.
+	Tutoriály jsou vytvořené tak, aby ukazovaly základní funkcionalitu řešení, případně vysvětlovaly neintuitivní části UI. Velká část zřejmých komponent UI je pro přehlednost v~dokumentaci vynechána.
 	 %Součástí uživatelské příručky je i podsekce chybových hlášek \ref{subsub_sec:troubleshooting} obsahující jejich důvod a řešení.
 	\subsubsection{Prvotní spuštění}
 	\label{subsub_sec:firstRun}
@@ -2217,7 +2317,7 @@ v~\hyperref[tab:locatorsList]{\cref{tab:locatorsList} na straně \pageref{tab:lo
 		\caption{Přidání nového lokátoru}
 	\end{figure}
 	\newpage
-	\subsection{Detaily implementace}
+	\subsection{Programátorská dokumentace}
 	\label{sub_sec:programmerDocs}
 	V~této podsekci se budeme zabývat podrobněji backendem a~frontendem. Nebudeme se zde zabývat návrhem celého řešení, ten je popsán ve~\fullNameref{sub_sec:design}, kam odkážeme případné zájemce.
 	
@@ -2368,6 +2468,7 @@ Object.assign(String.prototype, {
 	\begin{methods}
 		\lstinline[style=JSProgrammersDocs]|optimizeRecordings(rec)| smaže nevýznamné, nadbytečné akce pole \lstinline|rec|, navrátí nové pole bez těchto akcí.
 	\end{methods}
+	\newpage
 	\subsubsubsection{Recorder.js}
 	Logika nahrávání akcí pocházejících z~okna prohlížeče i~viewportu.
 	\paragraph{Třídy}
@@ -2399,6 +2500,7 @@ Object.assign(String.prototype, {
 	\paragraph{Třídy}
 	\xmark
 	\paragraph{Vybrané metody}
+	\enlargethispage{\baselineskip}
 	\begin{lstlisting}[style=JSProgrammersDocs]
 async function receiveMsg(sock) {
 	return (await sock.receive()).toString('utf-8')
@@ -2500,6 +2602,7 @@ async function receiveMsg(sock) {
 	\end{figure}
 	\paragraph{Třidy}
 	\texttt{MainForm : Form}
+	\newpage
 	\paragraph{Vybrané metody}
 	\begin{methods}
 		\enlargethispage{\baselineskip}
@@ -2794,7 +2897,7 @@ async function receiveMsg(sock) {
 	\paragraph{Třídy}
 	\texttt{PairSocketExtensions}
 	\paragraph{Vybrané metody}
-	\lstinline[style=MyCSharpDocs, mathescape]|public static bool ReceiveFrameStringTimeout(this PairSocket pair, out string result, int timeoutMs)| čeká na textová data socketu \lstinline|pair| maximálně \lstinline|timeoutMs| milisekund.
+	\lstinline[style=MyCSharpDocs]|public static bool ReceiveFrameStringTimeout(this PairSocket pair, out string result, int timeoutMs)| čeká na textová data socketu \lstinline|pair| maximálně \lstinline|timeoutMs| milisekund.
 	
 	\subsubsubsection{PlayerOptions.cs}
 	Reprezentuje nastavení pro přehrávání akcí.
@@ -2918,7 +3021,7 @@ public enum WaitForNavigation {
 	
 	Součástí implementace je generátor kódu, který vygeneruje skript pro Puppeteer dle nahraných akcí. Uživatel může skript exportovat a~využít ho jako součást své vlastní aplikace. Řešení nabízí ale i~možnost pouze přehrát nahrané akce, což se provede jednoduše voláním metody \texttt{eval} na vygenerovaný kód. Tímto jsou splněny požadavky~\crefrange{item:replayingReq}{item:codeGenReq}.
 	
-	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, což znamená splnění požadavku \cref{item:ui}.% spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
+	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, GUI podporuje škálování na high DPI monitorech, což společně znamená splnění požadavku \cref{item:ui}.% spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
 	
 	V~uživatelském rozhraní jsou k~dispozici různá nastavení, uvedeme ty zásadní.
 	\begin{itemize}

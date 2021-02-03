@@ -1124,5 +1124,9 @@ namespace Frontend.UserControls
             SetReplayActiveUi(false);
         }
 
+        private void EditUserControl_Resize(object sender, EventArgs e)
+        {
+            actionsFlowLayoutPanel.Size = new Size(Width - 5, Height - 95);
+        }
     }
 }

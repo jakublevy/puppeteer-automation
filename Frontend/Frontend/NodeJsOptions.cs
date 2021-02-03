@@ -14,7 +14,7 @@
         /// Relative path from Frontend executable to Backend entry point file.
         /// This path is valid if the project structure is not changed.
         /// </summary>
-        public string NodeJsEntryPoint { get; set; } = "..\\..\\..\\..\\Backend\\src\\index.js";
+        public string NodeJsEntryPoint { get; set; } = "..\\..\\..\\..\\Backend\\src\\main.js";
 
     }
 }
