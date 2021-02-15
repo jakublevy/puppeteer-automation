@@ -20,7 +20,7 @@ namespace Frontend
         public bool DevTools { get; set; }
 
         [JsonProperty(PropertyName = "slowMo")]
-        public int SlowMo { get; set; }
+        public decimal SlowMo { get; set; }
     }
 
     class ConnectPuppeteerOptions : PuppeteerOptions

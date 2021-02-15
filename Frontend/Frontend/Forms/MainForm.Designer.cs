@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +42,10 @@
             this.createdLabel = new System.Windows.Forms.Label();
             this.updatedLabel = new System.Windows.Forms.Label();
             this.nodeInterpreterVersionLabel = new System.Windows.Forms.Label();
+            this.sortByName = new System.Windows.Forms.Button();
+            this.sortByCreated = new System.Windows.Forms.Button();
+            this.sortByUpdated = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.editUserControl = new Frontend.UserControls.EditUserControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -115,7 +120,7 @@
             this.thumbnailsFlowLayoutPanel.Location = new System.Drawing.Point(12, 87);
             this.thumbnailsFlowLayoutPanel.Name = "thumbnailsFlowLayoutPanel";
             this.thumbnailsFlowLayoutPanel.Size = new System.Drawing.Size(807, 336);
-            this.thumbnailsFlowLayoutPanel.TabIndex = 2;
+            this.thumbnailsFlowLayoutPanel.TabIndex = 5;
             // 
             // nameLabel
             // 
@@ -162,6 +167,46 @@
             this.nodeInterpreterVersionLabel.TabIndex = 8;
             this.nodeInterpreterVersionLabel.Text = "node -v: ";
             // 
+            // sortByName
+            // 
+            this.sortByName.Location = new System.Drawing.Point(61, 56);
+            this.sortByName.Name = "sortByName";
+            this.sortByName.Size = new System.Drawing.Size(26, 24);
+            this.sortByName.TabIndex = 2;
+            this.toolTip.SetToolTip(this.sortByName, "Sort by the name\r\n^ ascending \r\nv descending");
+            this.sortByName.UseVisualStyleBackColor = true;
+            this.sortByName.Click += new System.EventHandler(this.sortButton_Clicked);
+            // 
+            // sortByCreated
+            // 
+            this.sortByCreated.Location = new System.Drawing.Point(337, 57);
+            this.sortByCreated.Name = "sortByCreated";
+            this.sortByCreated.Size = new System.Drawing.Size(26, 24);
+            this.sortByCreated.TabIndex = 3;
+            this.toolTip.SetToolTip(this.sortByCreated, "Sort by the created time\r\n^ ascending \r\nv descending");
+            this.sortByCreated.UseVisualStyleBackColor = true;
+            this.sortByCreated.Click += new System.EventHandler(this.sortButton_Clicked);
+            // 
+            // sortByUpdated
+            // 
+            this.sortByUpdated.Location = new System.Drawing.Point(463, 56);
+            this.sortByUpdated.Name = "sortByUpdated";
+            this.sortByUpdated.Size = new System.Drawing.Size(26, 24);
+            this.sortByUpdated.TabIndex = 4;
+            this.sortByUpdated.Text = "v";
+            this.toolTip.SetToolTip(this.sortByUpdated, "Sort by the updated time\r\n^ ascending \r\nv descending");
+            this.sortByUpdated.UseVisualStyleBackColor = true;
+            this.sortByUpdated.Click += new System.EventHandler(this.sortButton_Clicked);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 2147483647;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 0;
+            this.toolTip.ShowAlways = true;
+            // 
             // editUserControl
             // 
             this.editUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -170,7 +215,7 @@
             this.editUserControl.Location = new System.Drawing.Point(4, 2);
             this.editUserControl.Name = "editUserControl";
             this.editUserControl.Size = new System.Drawing.Size(822, 428);
-            this.editUserControl.TabIndex = 7;
+            this.editUserControl.TabIndex = 6;
             this.editUserControl.Visible = false;
             this.editUserControl.WorkingState = Frontend.UserControls.EditUserControl.State.Disconnected;
             // 
@@ -179,6 +224,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 434);
+            this.Controls.Add(this.sortByUpdated);
+            this.Controls.Add(this.sortByCreated);
+            this.Controls.Add(this.sortByName);
             this.Controls.Add(this.editUserControl);
             this.Controls.Add(this.nodeInterpreterVersionLabel);
             this.Controls.Add(this.updatedLabel);
@@ -216,6 +264,10 @@
         private System.Windows.Forms.ToolStripMenuItem nodejsToolStripMenuItem;
         private System.Windows.Forms.Label nodeInterpreterVersionLabel;
         private UserControls.EditUserControl editUserControl;
+        private System.Windows.Forms.Button sortByName;
+        private System.Windows.Forms.Button sortByCreated;
+        private System.Windows.Forms.Button sortByUpdated;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

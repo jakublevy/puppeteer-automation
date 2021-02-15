@@ -98,7 +98,7 @@
             this.stopButton.Location = new System.Drawing.Point(12, 3);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(88, 23);
-            this.stopButton.TabIndex = 3;
+            this.stopButton.TabIndex = 0;
             this.stopButton.Text = "Stop Replaying";
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -108,7 +108,7 @@
             this.clearErrorSelection.Location = new System.Drawing.Point(160, 3);
             this.clearErrorSelection.Name = "clearErrorSelection";
             this.clearErrorSelection.Size = new System.Drawing.Size(111, 23);
-            this.clearErrorSelection.TabIndex = 4;
+            this.clearErrorSelection.TabIndex = 1;
             this.clearErrorSelection.Text = "Clear Error Selection";
             this.clearErrorSelection.UseVisualStyleBackColor = true;
             this.clearErrorSelection.Click += new System.EventHandler(this.clearErrorSelection_Click);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.viewportGroupBox = new System.Windows.Forms.GroupBox();
             this.viewportEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.scaleNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -52,6 +53,7 @@
             this.slowMoNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.headlessCheckBox = new System.Windows.Forms.CheckBox();
             this.browseButton = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.viewportGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumericUpDown)).BeginInit();
@@ -86,13 +88,18 @@
             this.viewportEnabledCheckBox.Location = new System.Drawing.Point(100, 2);
             this.viewportEnabledCheckBox.Name = "viewportEnabledCheckBox";
             this.viewportEnabledCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.viewportEnabledCheckBox.TabIndex = 9;
+            this.viewportEnabledCheckBox.TabIndex = 0;
             this.viewportEnabledCheckBox.Text = "Enabled";
             this.viewportEnabledCheckBox.UseVisualStyleBackColor = true;
             this.viewportEnabledCheckBox.CheckedChanged += new System.EventHandler(this.viewportEnabledCheckBox_CheckedChanged);
             // 
             // scaleNumericUpDown
             // 
+            this.scaleNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.scaleNumericUpDown.Location = new System.Drawing.Point(47, 97);
             this.scaleNumericUpDown.Maximum = new decimal(new int[] {
             5,
@@ -106,7 +113,8 @@
             0});
             this.scaleNumericUpDown.Name = "scaleNumericUpDown";
             this.scaleNumericUpDown.Size = new System.Drawing.Size(53, 20);
-            this.scaleNumericUpDown.TabIndex = 8;
+            this.scaleNumericUpDown.TabIndex = 3;
+            this.toolTip.SetToolTip(this.scaleNumericUpDown, "Specify the device scale factor (can be thought of as dpr).");
             this.scaleNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -121,6 +129,7 @@
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Scale";
+            this.toolTip.SetToolTip(this.label3, "Specify device scale factor (can be thought of as dpr).");
             // 
             // landscapeCheckBox
             // 
@@ -130,6 +139,7 @@
             this.landscapeCheckBox.Size = new System.Drawing.Size(79, 17);
             this.landscapeCheckBox.TabIndex = 6;
             this.landscapeCheckBox.Text = "Landscape";
+            this.toolTip.SetToolTip(this.landscapeCheckBox, "Specifies if viewport is in a landscape mode.");
             this.landscapeCheckBox.UseVisualStyleBackColor = true;
             // 
             // touchCheckBox
@@ -138,8 +148,9 @@
             this.touchCheckBox.Location = new System.Drawing.Point(128, 30);
             this.touchCheckBox.Name = "touchCheckBox";
             this.touchCheckBox.Size = new System.Drawing.Size(57, 17);
-            this.touchCheckBox.TabIndex = 5;
+            this.touchCheckBox.TabIndex = 4;
             this.touchCheckBox.Text = "Touch";
+            this.toolTip.SetToolTip(this.touchCheckBox, " Specifies if viewport supports touch events.");
             this.touchCheckBox.UseVisualStyleBackColor = true;
             // 
             // mobileCheckBox
@@ -148,8 +159,10 @@
             this.mobileCheckBox.Location = new System.Drawing.Point(128, 64);
             this.mobileCheckBox.Name = "mobileCheckBox";
             this.mobileCheckBox.Size = new System.Drawing.Size(57, 17);
-            this.mobileCheckBox.TabIndex = 4;
+            this.mobileCheckBox.TabIndex = 5;
             this.mobileCheckBox.Text = "Mobile";
+            this.toolTip.SetToolTip(this.mobileCheckBox, "Defines whether the browser should act as a mobile (Whether the meta viewport tag" +
+        " is taken into account.)");
             this.mobileCheckBox.UseVisualStyleBackColor = true;
             // 
             // heightNumericUpDown
@@ -167,7 +180,8 @@
             0});
             this.heightNumericUpDown.Name = "heightNumericUpDown";
             this.heightNumericUpDown.Size = new System.Drawing.Size(53, 20);
-            this.heightNumericUpDown.TabIndex = 3;
+            this.heightNumericUpDown.TabIndex = 2;
+            this.toolTip.SetToolTip(this.heightNumericUpDown, "Page height in pixels.");
             this.heightNumericUpDown.Value = new decimal(new int[] {
             1080,
             0,
@@ -182,6 +196,7 @@
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Height";
+            this.toolTip.SetToolTip(this.label2, "Page height in pixels.");
             // 
             // label1
             // 
@@ -191,6 +206,7 @@
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Width";
+            this.toolTip.SetToolTip(this.label1, "Page width in pixels.");
             // 
             // widthNumericUpDown
             // 
@@ -207,7 +223,8 @@
             0});
             this.widthNumericUpDown.Name = "widthNumericUpDown";
             this.widthNumericUpDown.Size = new System.Drawing.Size(53, 20);
-            this.widthNumericUpDown.TabIndex = 0;
+            this.widthNumericUpDown.TabIndex = 1;
+            this.toolTip.SetToolTip(this.widthNumericUpDown, "Page width in pixels.");
             this.widthNumericUpDown.Value = new decimal(new int[] {
             1920,
             0,
@@ -222,6 +239,8 @@
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 1;
             this.label4.Text = "Browser";
+            this.toolTip.SetToolTip(this.label4, "Specifies the browser startup.\r\n\r\nLaunch - Starts up a new local browser instance" +
+        ".\r\nConnect - Connect to an existing (possibly remote) browser instance.");
             // 
             // connectionTypeComboBox
             // 
@@ -233,7 +252,8 @@
             this.connectionTypeComboBox.Location = new System.Drawing.Point(98, 181);
             this.connectionTypeComboBox.Name = "connectionTypeComboBox";
             this.connectionTypeComboBox.Size = new System.Drawing.Size(84, 21);
-            this.connectionTypeComboBox.TabIndex = 2;
+            this.connectionTypeComboBox.TabIndex = 3;
+            this.toolTip.SetToolTip(this.connectionTypeComboBox, "Specifies the browser startup.");
             this.connectionTypeComboBox.SelectedValueChanged += new System.EventHandler(this.connectionTypeComboBox_SelectedValueChanged);
             // 
             // pathLabel
@@ -244,6 +264,7 @@
             this.pathLabel.Size = new System.Drawing.Size(29, 13);
             this.pathLabel.TabIndex = 3;
             this.pathLabel.Text = "Path";
+            this.toolTip.SetToolTip(this.pathLabel, "Path to the browser executable.");
             // 
             // pathTextBox
             // 
@@ -251,6 +272,7 @@
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.Size = new System.Drawing.Size(228, 20);
             this.pathTextBox.TabIndex = 4;
+            this.toolTip.SetToolTip(this.pathTextBox, "Path to the browser executable.");
             // 
             // hostLabel
             // 
@@ -260,6 +282,7 @@
             this.hostLabel.Size = new System.Drawing.Size(29, 13);
             this.hostLabel.TabIndex = 6;
             this.hostLabel.Text = "Host";
+            this.toolTip.SetToolTip(this.hostLabel, "IP address a computer where the browser is running.");
             // 
             // portLabel
             // 
@@ -269,20 +292,23 @@
             this.portLabel.Size = new System.Drawing.Size(26, 13);
             this.portLabel.TabIndex = 7;
             this.portLabel.Text = "Port";
+            this.toolTip.SetToolTip(this.portLabel, "Port of a computer on which the browser listens.");
             // 
             // hostTextBox
             // 
             this.hostTextBox.Location = new System.Drawing.Point(35, 216);
             this.hostTextBox.Name = "hostTextBox";
             this.hostTextBox.Size = new System.Drawing.Size(100, 20);
-            this.hostTextBox.TabIndex = 8;
+            this.hostTextBox.TabIndex = 5;
+            this.toolTip.SetToolTip(this.hostTextBox, "IP address a computer where the browser is running.");
             // 
             // portTextBox
             // 
             this.portTextBox.Location = new System.Drawing.Point(188, 216);
             this.portTextBox.Name = "portTextBox";
             this.portTextBox.Size = new System.Drawing.Size(41, 20);
-            this.portTextBox.TabIndex = 9;
+            this.portTextBox.TabIndex = 6;
+            this.toolTip.SetToolTip(this.portTextBox, "Port of a computer on which the browser listens.");
             // 
             // devtoolsCheckBox
             // 
@@ -290,8 +316,9 @@
             this.devtoolsCheckBox.Location = new System.Drawing.Point(142, 156);
             this.devtoolsCheckBox.Name = "devtoolsCheckBox";
             this.devtoolsCheckBox.Size = new System.Drawing.Size(68, 17);
-            this.devtoolsCheckBox.TabIndex = 10;
+            this.devtoolsCheckBox.TabIndex = 2;
             this.devtoolsCheckBox.Text = "Devtools";
+            this.toolTip.SetToolTip(this.devtoolsCheckBox, "Defines whether the browser should start with the developer tools opened.");
             this.devtoolsCheckBox.UseVisualStyleBackColor = true;
             // 
             // slowMoLabel
@@ -302,6 +329,8 @@
             this.slowMoLabel.Size = new System.Drawing.Size(45, 13);
             this.slowMoLabel.TabIndex = 12;
             this.slowMoLabel.Text = "SlowMo";
+            this.toolTip.SetToolTip(this.slowMoLabel, "Slows down Puppeteer operations by the specified amount of milliseconds. Useful s" +
+        "o that you can see what is going on.");
             // 
             // slowMoNumericUpDown
             // 
@@ -313,7 +342,9 @@
             0});
             this.slowMoNumericUpDown.Name = "slowMoNumericUpDown";
             this.slowMoNumericUpDown.Size = new System.Drawing.Size(57, 20);
-            this.slowMoNumericUpDown.TabIndex = 13;
+            this.slowMoNumericUpDown.TabIndex = 0;
+            this.toolTip.SetToolTip(this.slowMoNumericUpDown, "Slows down Puppeteer operations by the specified amount of milliseconds. Useful s" +
+        "o that you can see what is going on.");
             this.slowMoNumericUpDown.Value = new decimal(new int[] {
             100,
             0,
@@ -326,8 +357,9 @@
             this.headlessCheckBox.Location = new System.Drawing.Point(142, 133);
             this.headlessCheckBox.Name = "headlessCheckBox";
             this.headlessCheckBox.Size = new System.Drawing.Size(70, 17);
-            this.headlessCheckBox.TabIndex = 14;
+            this.headlessCheckBox.TabIndex = 1;
             this.headlessCheckBox.Text = "Headless";
+            this.toolTip.SetToolTip(this.headlessCheckBox, "Defines whether the browser should start in the headless mode.");
             this.headlessCheckBox.UseVisualStyleBackColor = true;
             // 
             // browseButton
@@ -335,9 +367,19 @@
             this.browseButton.Location = new System.Drawing.Point(81, 261);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 15;
+            this.browseButton.TabIndex = 7;
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 2147483647;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 0;
+            this.toolTip.ShowAlways = true;
             // 
             // PuppeteerOptionsUserControl
             // 
@@ -397,5 +439,6 @@
         private System.Windows.Forms.CheckBox viewportEnabledCheckBox;
         private System.Windows.Forms.CheckBox headlessCheckBox;
         private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

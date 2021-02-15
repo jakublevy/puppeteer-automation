@@ -12,6 +12,9 @@ namespace Frontend.UserControls
     public partial class ThumbnailUserControl : UserControl
     {
         private Thumbnail thumbnail;
+        public DateTime RecCreated => thumbnail.Created;
+        public DateTime Updated => thumbnail.Updated;
+        public string RecName => thumbnail.Name;
         public ThumbnailUserControl()
         {
             InitializeComponent();

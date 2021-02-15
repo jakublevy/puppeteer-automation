@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.saveAndExitButton = new System.Windows.Forms.Button();
             this.codeGenButton = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             this.addAsLast = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.actionsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.processGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,14 +56,15 @@
             this.nameTextBox.Location = new System.Drawing.Point(39, 28);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(114, 26);
-            this.nameTextBox.TabIndex = 0;
+            this.nameTextBox.TabIndex = 1;
+            this.toolTip.SetToolTip(this.nameTextBox, "The name of this recording.");
             // 
             // saveAndExitButton
             // 
             this.saveAndExitButton.Location = new System.Drawing.Point(3, 3);
             this.saveAndExitButton.Name = "saveAndExitButton";
             this.saveAndExitButton.Size = new System.Drawing.Size(96, 23);
-            this.saveAndExitButton.TabIndex = 1;
+            this.saveAndExitButton.TabIndex = 0;
             this.saveAndExitButton.Text = "Save && Exit";
             this.saveAndExitButton.UseVisualStyleBackColor = true;
             this.saveAndExitButton.Click += new System.EventHandler(this.saveAndExitButton_Click);
@@ -72,7 +75,7 @@
             this.codeGenButton.Location = new System.Drawing.Point(77, 12);
             this.codeGenButton.Name = "codeGenButton";
             this.codeGenButton.Size = new System.Drawing.Size(75, 23);
-            this.codeGenButton.TabIndex = 3;
+            this.codeGenButton.TabIndex = 2;
             this.codeGenButton.Text = "Code Gen";
             this.codeGenButton.UseVisualStyleBackColor = true;
             this.codeGenButton.Click += new System.EventHandler(this.codeGenButton_Click);
@@ -83,7 +86,7 @@
             this.replayButton.Location = new System.Drawing.Point(77, 37);
             this.replayButton.Name = "replayButton";
             this.replayButton.Size = new System.Drawing.Size(75, 23);
-            this.replayButton.TabIndex = 4;
+            this.replayButton.TabIndex = 3;
             this.replayButton.Text = "Replay";
             this.replayButton.UseVisualStyleBackColor = true;
             this.replayButton.Click += new System.EventHandler(this.replayButton_Click);
@@ -94,7 +97,7 @@
             this.recordButton.Location = new System.Drawing.Point(263, 12);
             this.recordButton.Name = "recordButton";
             this.recordButton.Size = new System.Drawing.Size(96, 37);
-            this.recordButton.TabIndex = 5;
+            this.recordButton.TabIndex = 3;
             this.recordButton.Text = "Start Recording";
             this.recordButton.UseVisualStyleBackColor = true;
             this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
@@ -105,7 +108,7 @@
             this.optimizeButton.Location = new System.Drawing.Point(453, 3);
             this.optimizeButton.Name = "optimizeButton";
             this.optimizeButton.Size = new System.Drawing.Size(75, 23);
-            this.optimizeButton.TabIndex = 6;
+            this.optimizeButton.TabIndex = 5;
             this.optimizeButton.Text = "Optimize";
             this.optimizeButton.UseVisualStyleBackColor = true;
             this.optimizeButton.Click += new System.EventHandler(this.optimizeButton_Click);
@@ -115,7 +118,7 @@
             this.browserConnection.Location = new System.Drawing.Point(159, 12);
             this.browserConnection.Name = "browserConnection";
             this.browserConnection.Size = new System.Drawing.Size(98, 37);
-            this.browserConnection.TabIndex = 7;
+            this.browserConnection.TabIndex = 2;
             this.browserConnection.Text = "Connect/Start Browser";
             this.browserConnection.UseVisualStyleBackColor = true;
             this.browserConnection.Click += new System.EventHandler(this.browserConnection_Click);
@@ -165,6 +168,7 @@
             this.selectedAllCheckBox.Size = new System.Drawing.Size(15, 14);
             this.selectedAllCheckBox.TabIndex = 9;
             this.selectedAllCheckBox.ThreeState = true;
+            this.toolTip.SetToolTip(this.selectedAllCheckBox, "Three-state checkbox for selection of actions.");
             this.selectedAllCheckBox.UseVisualStyleBackColor = true;
             this.selectedAllCheckBox.Click += new System.EventHandler(this.selectedAllCheckBox_Click);
             // 
@@ -173,7 +177,7 @@
             this.filterButton.Location = new System.Drawing.Point(378, 4);
             this.filterButton.Name = "filterButton";
             this.filterButton.Size = new System.Drawing.Size(58, 39);
-            this.filterButton.TabIndex = 10;
+            this.filterButton.TabIndex = 4;
             this.filterButton.Text = "Filter Actions";
             this.filterButton.UseVisualStyleBackColor = true;
             this.filterButton.Click += new System.EventHandler(this.filterButton_Click);
@@ -194,8 +198,9 @@
             this.addAsFirst.Location = new System.Drawing.Point(489, 27);
             this.addAsFirst.Name = "addAsFirst";
             this.addAsFirst.Size = new System.Drawing.Size(44, 17);
-            this.addAsFirst.TabIndex = 11;
+            this.addAsFirst.TabIndex = 6;
             this.addAsFirst.Text = "First";
+            this.toolTip.SetToolTip(this.addAsFirst, "If checked, the new action will be added as the first action.");
             this.addAsFirst.UseVisualStyleBackColor = true;
             // 
             // addAsLast
@@ -205,9 +210,10 @@
             this.addAsLast.Location = new System.Drawing.Point(489, 43);
             this.addAsLast.Name = "addAsLast";
             this.addAsLast.Size = new System.Drawing.Size(45, 17);
-            this.addAsLast.TabIndex = 12;
+            this.addAsLast.TabIndex = 7;
             this.addAsLast.TabStop = true;
             this.addAsLast.Text = "Last";
+            this.toolTip.SetToolTip(this.addAsLast, "If checked, the new action will be added as the last action.");
             this.addAsLast.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -218,6 +224,7 @@
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Add as";
+            this.toolTip.SetToolTip(this.label1, "Defines the position where the new action will be added.");
             // 
             // actionsFlowLayoutPanel
             // 
@@ -228,7 +235,16 @@
             this.actionsFlowLayoutPanel.Location = new System.Drawing.Point(2, 63);
             this.actionsFlowLayoutPanel.Name = "actionsFlowLayoutPanel";
             this.actionsFlowLayoutPanel.Size = new System.Drawing.Size(817, 362);
-            this.actionsFlowLayoutPanel.TabIndex = 2;
+            this.actionsFlowLayoutPanel.TabIndex = 8;
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 2147483647;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 0;
+            this.toolTip.ShowAlways = true;
             // 
             // EditUserControl
             // 
@@ -276,5 +292,6 @@
         private System.Windows.Forms.RadioButton addAsLast;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel actionsFlowLayoutPanel;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

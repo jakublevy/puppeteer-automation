@@ -87,7 +87,7 @@
             this.viewportEventsEnabled.Location = new System.Drawing.Point(98, 90);
             this.viewportEventsEnabled.Name = "viewportEventsEnabled";
             this.viewportEventsEnabled.Size = new System.Drawing.Size(65, 17);
-            this.viewportEventsEnabled.TabIndex = 7;
+            this.viewportEventsEnabled.TabIndex = 0;
             this.viewportEventsEnabled.Text = "Enabled";
             this.viewportEventsEnabled.UseVisualStyleBackColor = true;
             this.viewportEventsEnabled.CheckedChanged += new System.EventHandler(this.viewportEventsEnabled_CheckedChanged);
@@ -123,7 +123,7 @@
             this.mouseoverCheckBox.Location = new System.Drawing.Point(136, 111);
             this.mouseoverCheckBox.Name = "mouseoverCheckBox";
             this.mouseoverCheckBox.Size = new System.Drawing.Size(79, 17);
-            this.mouseoverCheckBox.TabIndex = 8;
+            this.mouseoverCheckBox.TabIndex = 9;
             this.mouseoverCheckBox.Text = "Mouseover";
             this.mouseoverCheckBox.UseVisualStyleBackColor = true;
             this.mouseoverCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -136,7 +136,7 @@
             this.copyCheckBox.Location = new System.Drawing.Point(136, 88);
             this.copyCheckBox.Name = "copyCheckBox";
             this.copyCheckBox.Size = new System.Drawing.Size(50, 17);
-            this.copyCheckBox.TabIndex = 7;
+            this.copyCheckBox.TabIndex = 8;
             this.copyCheckBox.Text = "Copy";
             this.copyCheckBox.UseVisualStyleBackColor = true;
             this.copyCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -149,7 +149,7 @@
             this.submitCheckBox.Location = new System.Drawing.Point(136, 65);
             this.submitCheckBox.Name = "submitCheckBox";
             this.submitCheckBox.Size = new System.Drawing.Size(58, 17);
-            this.submitCheckBox.TabIndex = 6;
+            this.submitCheckBox.TabIndex = 7;
             this.submitCheckBox.Text = "Submit";
             this.submitCheckBox.UseVisualStyleBackColor = true;
             this.submitCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -162,7 +162,7 @@
             this.inputChangeBox.Location = new System.Drawing.Point(136, 42);
             this.inputChangeBox.Name = "inputChangeBox";
             this.inputChangeBox.Size = new System.Drawing.Size(50, 17);
-            this.inputChangeBox.TabIndex = 5;
+            this.inputChangeBox.TabIndex = 6;
             this.inputChangeBox.Text = "Input";
             this.inputChangeBox.UseVisualStyleBackColor = true;
             this.inputChangeBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -178,7 +178,7 @@
             this.dblclickCheckBox.Location = new System.Drawing.Point(136, 19);
             this.dblclickCheckBox.Name = "dblclickCheckBox";
             this.dblclickCheckBox.Size = new System.Drawing.Size(64, 17);
-            this.dblclickCheckBox.TabIndex = 3;
+            this.dblclickCheckBox.TabIndex = 5;
             this.dblclickCheckBox.Text = "Dblclick";
             this.dblclickCheckBox.UseVisualStyleBackColor = true;
             this.dblclickCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -284,7 +284,7 @@
             this.pageUrlChangedCheckBox.Location = new System.Drawing.Point(136, 43);
             this.pageUrlChangedCheckBox.Name = "pageUrlChangedCheckBox";
             this.pageUrlChangedCheckBox.Size = new System.Drawing.Size(106, 17);
-            this.pageUrlChangedCheckBox.TabIndex = 5;
+            this.pageUrlChangedCheckBox.TabIndex = 3;
             this.pageUrlChangedCheckBox.Text = "pageUrlChanged";
             this.pageUrlChangedCheckBox.UseVisualStyleBackColor = true;
             this.pageUrlChangedCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -297,7 +297,7 @@
             this.pageOpenedCheckBox.Location = new System.Drawing.Point(27, 43);
             this.pageOpenedCheckBox.Name = "pageOpenedCheckBox";
             this.pageOpenedCheckBox.Size = new System.Drawing.Size(88, 17);
-            this.pageOpenedCheckBox.TabIndex = 4;
+            this.pageOpenedCheckBox.TabIndex = 1;
             this.pageOpenedCheckBox.Text = "pageOpened";
             this.pageOpenedCheckBox.UseVisualStyleBackColor = true;
             this.pageOpenedCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -310,7 +310,7 @@
             this.pageClosedCheckBox.Location = new System.Drawing.Point(136, 19);
             this.pageClosedCheckBox.Name = "pageClosedCheckBox";
             this.pageClosedCheckBox.Size = new System.Drawing.Size(82, 17);
-            this.pageClosedCheckBox.TabIndex = 3;
+            this.pageClosedCheckBox.TabIndex = 2;
             this.pageClosedCheckBox.Text = "pageClosed";
             this.pageClosedCheckBox.UseVisualStyleBackColor = true;
             this.pageClosedCheckBox.CheckedChanged += new System.EventHandler(this.FilterChanged);
@@ -443,7 +443,7 @@
             this.statusEnabled.Location = new System.Drawing.Point(72, 318);
             this.statusEnabled.Name = "statusEnabled";
             this.statusEnabled.Size = new System.Drawing.Size(65, 17);
-            this.statusEnabled.TabIndex = 3;
+            this.statusEnabled.TabIndex = 2;
             this.statusEnabled.Text = "Enabled";
             this.statusEnabled.UseVisualStyleBackColor = true;
             this.statusEnabled.CheckedChanged += new System.EventHandler(this.statusEnabled_CheckedChanged);
@@ -454,7 +454,7 @@
             this.targetEnabled.Location = new System.Drawing.Point(72, 266);
             this.targetEnabled.Name = "targetEnabled";
             this.targetEnabled.Size = new System.Drawing.Size(65, 17);
-            this.targetEnabled.TabIndex = 4;
+            this.targetEnabled.TabIndex = 1;
             this.targetEnabled.Text = "Enabled";
             this.targetEnabled.UseVisualStyleBackColor = true;
             this.targetEnabled.CheckedChanged += new System.EventHandler(this.targetEnabled_CheckedChanged);
@@ -465,7 +465,7 @@
             this.typeEnabled.Location = new System.Drawing.Point(66, 11);
             this.typeEnabled.Name = "typeEnabled";
             this.typeEnabled.Size = new System.Drawing.Size(65, 17);
-            this.typeEnabled.TabIndex = 5;
+            this.typeEnabled.TabIndex = 0;
             this.typeEnabled.Text = "Enabled";
             this.typeEnabled.UseVisualStyleBackColor = true;
             this.typeEnabled.CheckedChanged += new System.EventHandler(this.typeEnabled_CheckedChanged);

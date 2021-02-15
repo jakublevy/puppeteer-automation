@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Frontend.Forms;
 using Frontend.UserControls;
@@ -50,6 +51,12 @@ namespace Frontend
             editUserControl.InitMain(this);
             List<Thumbnail> thumbnails = ThumbnailManager.Init();
             LoadThumbnailsUi(thumbnails);
+            
+            //sort by updated time
+            sortByUpdated.PerformClick();
+
+            //give focus to add new recording button
+            addNewRecordingButton.Select();
 
             PerformSettingsChecks();
         }
@@ -212,6 +219,9 @@ namespace Frontend
         {
             editUserControl.Visible = state;
             menuStrip.Visible = !state;
+            sortByName.Visible = !state;
+            sortByCreated.Visible = !state;
+            sortByUpdated.Visible = !state;
         }
 
         /// <summary>
@@ -228,6 +238,9 @@ namespace Frontend
             updatedLabel.Visible = state;
             menuStrip.Visible = !state;
             nodeInterpreterVersionLabel.Visible = state;
+            sortByName.Visible = state;
+            sortByCreated.Visible = state;
+            sortByUpdated.Visible = state;
         }
 
         /// <summary>
@@ -327,5 +340,78 @@ namespace Frontend
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        /// <summary>
+        /// One of the three sorting buttons clicked.
+        /// This methods handles the sorting accordingly.
+        /// </summary>
+        private void sortButton_Clicked(object sender, EventArgs e)
+        {
+            Button b = (Button) sender;
+            if (b.Name == "sortByName")
+            {
+                sortByCreated.Text = "";
+                sortByUpdated.Text = "";
+                SortBy(b);
+            }
+            else if (b.Name == "sortByCreated")
+            {
+                sortByName.Text = "";
+                sortByUpdated.Text = "";
+                SortBy(b);
+            }
+            else if (b.Name == "sortByUpdated")
+            {
+                sortByName.Text = "";
+                sortByCreated.Text = "";
+                SortBy(b);
+            }
+        }
+
+        /// <summary>
+        /// Calls a method to perform sorting and changes button's text respectively.
+        /// </summary>
+        private void SortBy(Button b)
+        {
+            if (b.Text == "^")
+            {
+                b.Text = "v";
+                PerformSorting(b.Name, -1);
+            }
+            else
+            {
+                b.Text = "^";
+                PerformSorting(b.Name, 1);
+            }
+        }
+
+        /// <summary>
+        /// This method actually handles the sorting.
+        /// </summary>
+        /// <param name="text">Text of the button which should be sorted on.</param>
+        /// <param name="n">1 means ascending sort, other values mean descending sort.</param>
+        private void PerformSorting(string text, int n)
+        {
+            List<ThumbnailUserControl> thumbnails = thumbnailsFlowLayoutPanel.Controls.Cast<ThumbnailUserControl>().ToList();
+            if (text == "sortByName")
+            {
+                thumbnails = n == 1 ? thumbnails.OrderBy(x => x.RecName).ToList() : thumbnails.OrderByDescending(x => x.RecName).ToList();
+                thumbnailsFlowLayoutPanel.Controls.Clear();
+                thumbnailsFlowLayoutPanel.Controls.AddRange(thumbnails.ToArray());
+            }
+            else if (text == "sortByCreated")
+            {
+                thumbnails = n == 1 ? thumbnails.OrderBy(x => x.RecCreated).ToList() : thumbnails.OrderByDescending(x => x.RecCreated).ToList();
+                thumbnailsFlowLayoutPanel.Controls.Clear();
+                thumbnailsFlowLayoutPanel.Controls.AddRange(thumbnails.ToArray());
+            }
+            else if (text == "sortByUpdated")
+            {
+                thumbnails = n == 1 ? thumbnails.OrderBy(x => x.Updated).ToList() : thumbnails.OrderByDescending(x => x.Updated).ToList();
+                thumbnailsFlowLayoutPanel.Controls.Clear();
+                thumbnailsFlowLayoutPanel.Controls.AddRange(thumbnails.ToArray());
+            }
+        }
+        
     }
 }

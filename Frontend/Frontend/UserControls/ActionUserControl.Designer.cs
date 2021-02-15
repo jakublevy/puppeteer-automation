@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.jsonEditButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             this.targetGroupBox = new System.Windows.Forms.GroupBox();
             this.locatorRadioButton = new System.Windows.Forms.RadioButton();
             this.selectorRadioButton = new System.Windows.Forms.RadioButton();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.targetGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,8 +55,9 @@
             this.jsonEditButton.Location = new System.Drawing.Point(596, 3);
             this.jsonEditButton.Name = "jsonEditButton";
             this.jsonEditButton.Size = new System.Drawing.Size(75, 23);
-            this.jsonEditButton.TabIndex = 0;
+            this.jsonEditButton.TabIndex = 5;
             this.jsonEditButton.Text = "JSON";
+            this.toolTip.SetToolTip(this.jsonEditButton, "Shows the JSON view/editor of this action.");
             this.jsonEditButton.UseVisualStyleBackColor = true;
             this.jsonEditButton.Click += new System.EventHandler(this.jsonEditButton_Click);
             // 
@@ -63,7 +66,7 @@
             this.deleteButton.Location = new System.Drawing.Point(596, 26);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(75, 23);
-            this.deleteButton.TabIndex = 1;
+            this.deleteButton.TabIndex = 6;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
@@ -73,7 +76,7 @@
             this.upButton.Location = new System.Drawing.Point(677, 3);
             this.upButton.Name = "upButton";
             this.upButton.Size = new System.Drawing.Size(27, 23);
-            this.upButton.TabIndex = 2;
+            this.upButton.TabIndex = 7;
             this.upButton.Text = "↑";
             this.upButton.UseVisualStyleBackColor = true;
             this.upButton.Click += new System.EventHandler(this.upButton_Click);
@@ -83,7 +86,7 @@
             this.downButton.Location = new System.Drawing.Point(677, 27);
             this.downButton.Name = "downButton";
             this.downButton.Size = new System.Drawing.Size(27, 23);
-            this.downButton.TabIndex = 3;
+            this.downButton.TabIndex = 8;
             this.downButton.Text = "↓";
             this.downButton.UseVisualStyleBackColor = true;
             this.downButton.Click += new System.EventHandler(this.downButton_Click);
@@ -95,7 +98,7 @@
             this.typeComboBox.Location = new System.Drawing.Point(31, 20);
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(116, 21);
-            this.typeComboBox.TabIndex = 4;
+            this.typeComboBox.TabIndex = 1;
             this.typeComboBox.SelectedValueChanged += new System.EventHandler(this.typeComboBox_SelectedValueChanged);
             // 
             // typeLabel
@@ -122,7 +125,7 @@
             this.locatorsComboBox.Location = new System.Drawing.Point(157, 20);
             this.locatorsComboBox.Name = "locatorsComboBox";
             this.locatorsComboBox.Size = new System.Drawing.Size(121, 21);
-            this.locatorsComboBox.TabIndex = 7;
+            this.locatorsComboBox.TabIndex = 2;
             this.locatorsComboBox.SelectedIndexChanged += new System.EventHandler(this.locatorsComboBox_SelectedIndexChanged);
             // 
             // selectorLabel
@@ -139,7 +142,7 @@
             this.selectorTextBox.Location = new System.Drawing.Point(290, 20);
             this.selectorTextBox.Name = "selectorTextBox";
             this.selectorTextBox.Size = new System.Drawing.Size(100, 20);
-            this.selectorTextBox.TabIndex = 9;
+            this.selectorTextBox.TabIndex = 3;
             this.selectorTextBox.TextChanged += new System.EventHandler(this.selectorTextBox_TextChanged);
             // 
             // valueLabel
@@ -150,13 +153,15 @@
             this.valueLabel.Size = new System.Drawing.Size(34, 13);
             this.valueLabel.TabIndex = 10;
             this.valueLabel.Text = "Value";
+            this.toolTip.SetToolTip(this.valueLabel, "The typed value of change and input actions.");
             // 
             // valueTextBox
             // 
             this.valueTextBox.Location = new System.Drawing.Point(485, 20);
             this.valueTextBox.Name = "valueTextBox";
             this.valueTextBox.Size = new System.Drawing.Size(100, 20);
-            this.valueTextBox.TabIndex = 11;
+            this.valueTextBox.TabIndex = 4;
+            this.toolTip.SetToolTip(this.valueTextBox, "The typed value of change and input actions.");
             this.valueTextBox.TextChanged += new System.EventHandler(this.valueTextBox_TextChanged);
             // 
             // enabledCheckBox
@@ -167,7 +172,7 @@
             this.enabledCheckBox.Location = new System.Drawing.Point(709, 16);
             this.enabledCheckBox.Name = "enabledCheckBox";
             this.enabledCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.enabledCheckBox.TabIndex = 12;
+            this.enabledCheckBox.TabIndex = 9;
             this.enabledCheckBox.Text = "Enabled";
             this.enabledCheckBox.UseVisualStyleBackColor = true;
             this.enabledCheckBox.CheckedChanged += new System.EventHandler(this.ActionChanged);
@@ -178,7 +183,7 @@
             this.selectCheckBox.Location = new System.Drawing.Point(7, 20);
             this.selectCheckBox.Name = "selectCheckBox";
             this.selectCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.selectCheckBox.TabIndex = 13;
+            this.selectCheckBox.TabIndex = 0;
             this.selectCheckBox.UseVisualStyleBackColor = true;
             this.selectCheckBox.CheckedChanged += new System.EventHandler(this.selectCheckBox_CheckedChanged);
             // 
@@ -192,6 +197,7 @@
             this.targetGroupBox.TabIndex = 14;
             this.targetGroupBox.TabStop = false;
             this.targetGroupBox.Text = "Target";
+            this.toolTip.SetToolTip(this.targetGroupBox, "Defines the identification method that will be used for code gen and replay.");
             // 
             // locatorRadioButton
             // 
@@ -200,9 +206,10 @@
             this.locatorRadioButton.Location = new System.Drawing.Point(10, 13);
             this.locatorRadioButton.Name = "locatorRadioButton";
             this.locatorRadioButton.Size = new System.Drawing.Size(61, 17);
-            this.locatorRadioButton.TabIndex = 1;
+            this.locatorRadioButton.TabIndex = 0;
             this.locatorRadioButton.TabStop = true;
             this.locatorRadioButton.Text = "Locator";
+            this.toolTip.SetToolTip(this.locatorRadioButton, "If checked, the selected locator will be used for identification.");
             this.locatorRadioButton.UseVisualStyleBackColor = true;
             this.locatorRadioButton.CheckedChanged += new System.EventHandler(this.ActionChanged);
             // 
@@ -212,10 +219,20 @@
             this.selectorRadioButton.Location = new System.Drawing.Point(10, 29);
             this.selectorRadioButton.Name = "selectorRadioButton";
             this.selectorRadioButton.Size = new System.Drawing.Size(64, 17);
-            this.selectorRadioButton.TabIndex = 0;
+            this.selectorRadioButton.TabIndex = 1;
             this.selectorRadioButton.Text = "Selector";
+            this.toolTip.SetToolTip(this.selectorRadioButton, "If checked, the selector will be used for identification.");
             this.selectorRadioButton.UseVisualStyleBackColor = true;
             this.selectorRadioButton.CheckedChanged += new System.EventHandler(this.ActionChanged);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 2147483647;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 0;
+            this.toolTip.ShowAlways = true;
             // 
             // ActionUserControl
             // 
@@ -264,5 +281,6 @@
         private System.Windows.Forms.GroupBox targetGroupBox;
         private System.Windows.Forms.RadioButton locatorRadioButton;
         private System.Windows.Forms.RadioButton selectorRadioButton;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

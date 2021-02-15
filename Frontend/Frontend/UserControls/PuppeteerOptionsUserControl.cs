@@ -18,7 +18,6 @@ namespace Frontend.UserControls
         public PuppeteerOptionsUserControl()
         {
             InitializeComponent();
-
             viewportGroupBox.Controls.Remove(viewportEnabledCheckBox);
             Controls.Add(viewportEnabledCheckBox);
             viewportEnabledCheckBox.BringToFront();
@@ -39,7 +38,7 @@ namespace Frontend.UserControls
                 landscapeCheckBox.Checked = opts.Viewport.IsLandscape;
             }
             viewportEnabledCheckBox.Checked = opts.Viewport != null;
-            slowMoNumericUpDown.Value = opts.SlowMo;
+            slowMoNumericUpDown.Value = Decimal.Multiply(opts.SlowMo, 10);
             devtoolsCheckBox.Checked = opts.DevTools;
             headlessCheckBox.Checked = opts.Headless;
 
@@ -101,13 +100,14 @@ namespace Frontend.UserControls
 
             po.DevTools = devtoolsCheckBox.Checked;
             po.Headless = headlessCheckBox.Checked;
-            po.SlowMo = Decimal.ToInt32(slowMoNumericUpDown.Value);
+            po.SlowMo = Decimal.Divide(slowMoNumericUpDown.Value, 10);
 
             if (viewportEnabledCheckBox.Checked)
             {
                 po.Viewport = new Viewport
                 {
-                    DeviceScaleFactor = Convert.ToDouble(scaleNumericUpDown.Value), HasTouch = touchCheckBox.Checked,
+                    DeviceScaleFactor = Convert.ToDouble(scaleNumericUpDown.Value), 
+                    HasTouch = touchCheckBox.Checked,
                     Height = Decimal.ToInt32(heightNumericUpDown.Value),
                     Width = Decimal.ToInt32(widthNumericUpDown.Value),
                     IsLandscape = landscapeCheckBox.Checked, IsMobile = mobileCheckBox.Checked

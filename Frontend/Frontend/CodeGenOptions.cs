@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Frontend
 {
+    //Disables (in this case the useless) "unused property warning"
+    #pragma warning disable CS0414
+
     /// <summary>
     /// Options that change the behaviour of a code generator.
     /// </summary>
