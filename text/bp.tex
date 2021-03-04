@@ -1,3 +1,4 @@
+% !TeX encoding = UTF-8
 % !TeX spellcheck = cs_CZ
 % !TeX program = xelatex
 \documentclass[12pt, a4paper, twoside]{article}
@@ -5,6 +6,7 @@
 \definecolor{tableHeadingBackground}{HTML}{f0f0f0}
 \definecolor{alternatingRow}{HTML}{f7f7f7}
 \definecolor{identifierColor}{HTML}{AE67AA}
+\definecolor{invisibleGray}{HTML}{ededed}
 %\usepackage[a-2u]{pdfx}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
@@ -124,6 +126,41 @@
 		}% 
 	}%
 }
+
+\newcommand*{\strikeFull}[2]{%
+	\multicolumn{1}{#1}{%
+		\stepcounter{NoTableEntry}%
+		\vadjust pre{\zsavepos{\theNoTableEntry t}}% top
+		\vadjust{\zsavepos{\theNoTableEntry b}}% bottom
+		\zsavepos{\theNoTableEntry l}% left
+		\hspace{0pt plus 1filll}%
+		#2% content
+		\hspace{0pt plus 1filll}%
+		\zsavepos{\theNoTableEntry r}% right
+		\tikz[overlay]{%
+			\draw
+			let
+			\n{llx}={\zposx{\theNoTableEntry l}sp-\zposx{\theNoTableEntry r}sp-\tabcolsep},
+			\n{urx}={\tabcolsep},
+			\n{lly}={\zposy{\theNoTableEntry b}sp-\zposy{\theNoTableEntry r}sp},
+			\n{ury}={\zposy{\theNoTableEntry t}sp-\zposy{\theNoTableEntry r}sp}
+			in
+			(\n{llx}, \n{lly}) -- (\n{urx}, \n{ury})
+			(\n{llx}, \n{ury}) -- (\n{urx}, \n{lly})
+			
+			%horni, spodni
+			(\n{llx}, \n{lly}) -- (\n{urx}, \n{lly})
+			(\n{llx}, \n{ury}) -- (\n{urx}, \n{ury})
+			
+			%|   |
+			(\n{llx}, \n{lly}) -- (\n{llx}, \n{ury})
+			(\n{urx}, \n{lly}) -- (\n{urx}, \n{ury})
+			;
+		}% 
+	}%
+}
+
+
 \usepackage{listings}
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}}
@@ -287,6 +324,7 @@
 \usepackage{sectsty}
 \sectionfont{\clearpage}
 
+%\usepackage[perpage]{footmisc}
 \usepackage[bottom, perpage]{footmisc}
 \makeatletter
 \interfootnotelinepenalty=\@M
@@ -338,6 +376,83 @@
 
 \newcommand*{\fullref}[2]{\hyperref[{#1}]{\ref{#2}~\nameref{#2} na~straně \pageref{#1}}}
 \newcommand*{\partialref}[2]{\hyperref[{#1}]{\ref{#2}~na~straně \pageref{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%SUS
+\usepackage{array,tabularx}
+
+\newcolumntype{Q}{>{\centering\arraybackslash}p{0.3cm}}
+\newcolumntype{A}{>{\raggedright\arraybackslash}m{0.2\textwidth}}
+\newcolumntype{Z}{>{\raggedleft\arraybackslash}m{0.2\textwidth}}
+
+\newcommand{\printtblhdr}{%
+	\vspace{0.5cm}
+	\hfill
+	\begingroup
+	\setlength\tabcolsep{0pt}%
+	\begin{tabularx}{0.27\textwidth}{ @{} l *{3}X r @{} }
+		\multicolumn{2}{l}{\bfseries\shortstack[l]{\footnotesize Strongly\\\footnotesize Disagree}}
+		&&
+		\multicolumn{2}{l}{\bfseries\shortstack[r]{\footnotesize Strongly\\\footnotesize Agree}}
+		\\
+	\end{tabularx}
+	\endgroup
+}
+
+\newcommand\usetbl[1]{%
+	\ifnum#1=0
+		\begin{tabular}{|l|l|l|l|l|}
+			\hline
+			\textcolor{invisibleGray}{\hspace{0.1em}1\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}2\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}} \\
+			\hline
+		\end{tabular}
+	\fi
+	\ifnum#1=1
+		\begin{tabular}{|l|l|l|l|l|}
+			\hline
+			\strikeFull{l}{\hspace{0.1em}\textcolor{invisibleGray}{1}\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}2\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}} \\
+			\hline
+		\end{tabular}
+	\fi
+	\ifnum#1=2
+		\begin{tabular}{|l|l|l|l|l|}
+			\hline
+			\textcolor{invisibleGray}{\hspace{0.1em}1\hspace{0.1em}} & \strikeFull{l}{\hspace{0.1em}\textcolor{invisibleGray}{2}\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}} \\
+			\hline
+		\end{tabular}
+	\fi
+	\ifnum#1=3
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textcolor{invisibleGray}{\hspace{0.1em}1\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}2\hspace{0.1em}} & \strikeFull{l}{\textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}}} & \textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}} \\
+		\hline
+	\end{tabular}
+	\fi
+	\ifnum#1=4
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textcolor{invisibleGray}{\hspace{0.1em}1\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}2\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}} & \strikeFull{l}{\textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}}} & \textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}} \\
+		\hline
+	\end{tabular}
+	\fi
+	\ifnum#1=5
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textcolor{invisibleGray}{\hspace{0.1em}1\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}2\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}3\hspace{0.1em}} & \textcolor{invisibleGray}{\hspace{0.1em}4\hspace{0.1em}} & \strikeFull{l}{\textcolor{invisibleGray}{\hspace{0.1em}5\hspace{0.1em}}} \\
+		\hline
+	\end{tabular}
+	\fi
+}
+
+\newcommand\prop[2]{%
+	\item
+	\parbox[t]{0.65\textwidth}{#1}%
+	\qquad
+	\parbox[t]{0.45\textwidth}{\usetbl{#2}}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %enable print version
 %\def\printVersion{}
@@ -511,10 +626,15 @@
 %\hyphenpenalty=10000
 %\exhyphenpenalty=100
 
+\usepackage{unicode-math}
 
 \setromanfont{Times New Roman}
 \setsansfont{Arial}
 \setmonofont{Courier New}
+\setmathfont{XITSMath-Regular}
+[    Extension = .otf,
+	 BoldFont = XITSMath-Bold,
+]
 
 \setlength\parindent{20pt}
 
@@ -633,7 +753,7 @@
 	
 	Problém se však objevil v~samotném automatickém testování aplikací, které není možné provést rychle a~spolehlivě automaticky kvůli povaze webu, bez patřičných odborných znalostí je to téměř nemožné. Pro tyto účely existuje mnoho produktů, z~nichž většina je postavena nad Seleniem (\ref{sec:selenium}). 
 	
-	V~nedávné době se ale začaly objevovat další konkurenční knihovny a~technologie: Pupppeteer (\ref{sub_sec:Puppeteer}) a~Playwright (\ref{sub_sec:Playwright}), které zatím nejsou rozšířené a~neexistují pro ně nástroje na automatizaci webu.
+	V~nedávné době se ale začaly objevovat další konkurenční knihovny a~technologie: Pupppeteer (\ref{sub_sec:Puppeteer}) a~Playwright (\ref{sub_sec:Playwright}), které zatím nejsou rozšířené a~neexistují pro~ně nástroje k~zaznamenávání uživatelských akcí s~možností následného opětovného vykonání.
 	
 	Předtím než se čtenář přesune dále, dovolíme si upozornit na \hyperref[glossary]{Slovníček vybraných pojmů}, který se nachází na konci této práce. Uvedeny v~něm jsou pouze pojmy, které jsou významné pro tuto práci a~považujeme je za méně známé až nestandardní.
 	\begin{itemize}
@@ -657,7 +777,7 @@
 	%	Poslední číslovanou kapitolou je \fullNameref{section:conclusion}.
 	Poslední číslovaná kapitola této práce je \cref{section:conclusion}, její hlavní přínos je zhodnocení splnění požadavků definovaných v~\hyperref[section:ourSolution]{kapitole \ref{section:ourSolution}}.
 	
-	Za zmínku stojí ještě \hyperref[appx:puppeteerCode]{appendix \ref{appx:puppeteerCode}}, který obsahuje fragmenty kódu pro Pupppeteer, které jsou příliš dlouhé nebo nejsou nutné pro pochopení textu. Na tyto fragmenty budeme v~textu několikrát odkazovat, slouží zejména jako důkaz pro ověření některých tvrzení, které vyslovíme.
+	Za~zmínku stojí ještě \hyperref[appx:puppeteerCode]{appendix \ref{appx:puppeteerCode}}, který obsahuje fragmenty kódu pro Pupppeteer, které jsou příliš dlouhé nebo nejsou nutné pro pochopení textu. Na tyto fragmenty budeme v~textu několikrát odkazovat, slouží zejména jako důkaz pro ověření některých tvrzení, které vyslovíme.
 	
 	\subsection{Využitý software a~technologie}
 	Vzhledem k~tomu, že v~této práci se zabýváme různými existujícími softwary a~technologiemi, uvádíme zde jejich seznam, včetně konkrétně využitých verzí.
@@ -693,10 +813,15 @@
 	Jedná se o~knihovnu pro určitý jazyk, která umožňuje komunikovat s~browser driverem nativně pomocí selenium API přes JSON Wire protokol.~\cite{seleniumDocs, seleniumEcosystem}.
 	\paragraph{Language bindings}
 	Jde se o~specifický, tzv.~slepovací kód, který umožňuje využívat selenium API i~z~jazyka, který není nativně podporován a~neexistuje pro něj selenium driver~\cite{seleniumDocs, seleniumEcosystem}.
+	
+	\newpage
+	\noindent Na \cref{fig:seleniumCommunication} zobrazujícím uživatelskou aplikaci, která komunikuje s~prohlížečem pomocí Selenia, jsou ukázány vztahy mezi představenými částmi Selenia -- browser drivers, selenium drivers a~language bindings.
+	\nopagebreak
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1.0\textwidth]{seleniumCom.pdf}
-		\caption{Komunikace Selenia s~prohlížečem}
+		\caption{Komunikace uživatelské aplikace s~prohlížečem pomocí Selenia}
+		\label{fig:seleniumCommunication}
 	\end{figure}
 
 	\noindent Přesuneme se ke~způsobu identifikace elementů na stránce. Dnes jsou v~selektorech verze 3 definovány rozmanitější selektory např.~E\textasciitilde F, který vybere element F, kterému předchází element E~\cite{selectors3W3c}. Stále však není možné napsat selektor podle vlastnosti \texttt{textContent} elementu~\cite{selectors4W3c}. Může se to sice zdát zprvu nedůležité, avšak často se jedná o~dobrou identifikaci tlačítka, která je jednoznačná a~uživatelsky přívětivá.
@@ -748,7 +873,7 @@
 			Firefox & Windows/macOS/Linux & Mozilla \\ 
 			Edge & Windows 10 & Microsoft \\
 			Internet Explorer & Windows & Selenium Project \\
-			Safari & macOS El Capitan a~novejší & Apple \\
+			Safari & macOS El Capitan a~novější & Apple \\
 			Opera & Windows/macOS/Linux & Opera
 		\end{tabular}
 		\caption{Prohlížeče podporované Seleniem~\cite{seleniumDocs}}
@@ -1024,7 +1149,7 @@ const phantom = require('phantom');
 	\end{codefigure}
 	
 	Obdobně jednoduchým způsobem je možné vytvořit screenshot s~uložením do PDF i~s~použitím Puppeteeru nebo Playwrightu. V~případě použití Selenia je nutné se omezit pouze na výstup v~obrázkovém formátu\cite{seleniumDocs} a~na~screenshot viewportu, jak již bylo zmíněno ve~\fullref{text:seleniumFullPageScreenshot}{sub_sec:Puppeteer}.
-	\section{Automatizace prohlížeče}
+	\section{Automatizace ovládání prohlížečů}
 	\label{section:browserAutomation}
 	V~této kapitole se podíváme na řešení k~zaznamenávání uživatelských akcí v~prohlížeči s~možností následného opětovného vykonání, dále pouze uváděno jako řešení k~nahrávání a~přehrávání akcí, nebo pouze řešení.
 	
@@ -1035,7 +1160,7 @@ const phantom = require('phantom');
 	\label{sub_sec:existingSolutions}
 	V~této části se zaměříme výhradně na konkurenční řešení, podíváme se na jejich funkcionalitu a~popíšeme výhody a~nevýhody. %výhody, nevýhody a~porovnáme je mezi sebou.
 	
-	Přikládáme ještě tabulku primárně určenou pro rychlou orientaci v~této sekci a~jednoduché porovnání.
+	Přikládáme ještě tabulku primárně určenou pro rychlou orientaci v~této sekci a~přehledové porovnání.
 {
 	\rowcolors{2}{alternatingRow}{white}  
 	\begin{longtable}{ l|l|l|c|c } 
@@ -1176,7 +1301,7 @@ const phantom = require('phantom');
 	\end{figure}
 	Jak \cref{fig:katalonExportComparison} ukazuje, Katalon Recorder dokáže narozdíl od Selenia IDE exportovat nahrané akce do většího počtu různých technologií.
 	
-	Na druhou stranu v~Katalon Recorderu jsou dostupné pouze tři lokátory a~těmi jsou id, name a~xpath~\cite{katalonRecorderVsStudio} (seznam lokátorů viz \crefAddedText{tab:locatorsList}{}{ na~straně \pageref{tab:locatorsList}}). Ostatní jsou zpřístupněny až v~Katalon Studiu Enterprise a~Katalon Studiu~\cite{katalonRecorderVsStudio}, což je bezplatná varianta Katalon Studia Enterprise postrádající mimo jiné podporu. Ani tuto variantu není možné stáhnout bez vytvoření Katalon účtu vyžadujícího jméno, email, heslo a~zodpovězení dvou otázek~\cite{katalonPricing}.
+	Na druhou stranu v~Katalon Recorderu jsou dostupné pouze tři lokátory a~těmi jsou id, name a~xpath~\cite{katalonRecorderVsStudio} (seznam lokátorů viz \crefAddedText{tab:locatorsList}{}{ na~straně \pageref{tab:locatorsList}}). Ostatní jsou zpřístupněny až v~Katalon Studiu Enterprise a~Katalon Studiu~\cite{katalonRecorderVsStudio}, což je bezplatná varianta Katalon Studia Enterprise postrádající mimo jiné podporu. Ani tuto variantu není možné stáhnout bez vytvoření Katalon účtu vyžadujícího jméno, email, heslo a~zodpovězení dvou otázek týkajících se osobních údajů~\cite{katalonPricing}.
 	\newpage
     \subsubsection{Ranorex Recorder}
     Velmi krátce zmíníme jedno proprietární komerční řešení, tím je Ranorex Recorder, který je součástí Ranorex Studia určeného pro automatizaci GUI a~prohlížečů. Původně byl tento produkt vytvořen v~Rakousku v~roce 2007 jako volně dostupná aplikace. Její následná popularita vedla k~vývoji komerční verze s~podporou, která byla v~roce 2017 odkoupena americkou společností IDERA, Inc~\cite{ranorexAbout}.
@@ -1533,14 +1658,14 @@ page.type(selector, text, {delay: durationMs})
 		\item \label{item:recordingReq} \paragraph{Nahrávání (zaznamenání) akcí}
 		Řešení musí podporovat nahrávání běžně prováděných úkonů v~prohlížeči. Za tyto úkony považujeme: kliknutí, přejetí myší přes element, vyplnění formuláře, odeslání formuláře, rolování a~načtení nové stránky.
 		
-		Mezi další úkony, které by mohly být podporovány patří: práce se \linebreak schránkou~--~kopírovaní a~vkládání, otevření nového tabu a~zavření existujícího tabu.
+%		Mezi další úkony, které by mohly být podporovány patří: práce se \linebreak schránkou~--~kopírovaní a~vkládání, otevření nového tabu a~zavření existujícího tabu.
 		\item \label{item:replayingReq} \paragraph{Přehrávání (opětovné vykonání) akcí}
 		Všechny akce, které je možné nahrát, musí být možné i~přehrát.
 		\item \label{item:codeGenReq} \paragraph{Generování kódu}
 		Řešení musí umožnit, mimo okamžitého přehrávání i~vygenerovat skript kompatibilní s~Puppeteerem, který je funkčně ekvivalentní s~přehráváním.
 		\item \label{item:idReq} \paragraph{Použitelná identifikace elementů}
 		Řešení musí podporovat nalezení dalších identifikátorů elementu mimo běžně používané (jednoznačná kombinace CSS tříd, argument id, absolutní popis cesty pomocí XPath, ...). 
-		\newpage
+%		\newpage
 		\item \label{item:connectionReq} \paragraph{Lokální i~vzdálené připojení k~prohlížeči}
 		Kromě standardního vytvoření nové lokální instance prohlížeče, ve které jsou akce nahrávány nebo přehrávány, musí být možné se připojit i~na existující instanci spuštěnou na vzdáleném počítači.
 		\item \label{item:settingsReq} \paragraph{Nastavení}
@@ -1567,7 +1692,8 @@ page.type(selector, text, {delay: durationMs})
 	\subsection{Design}
 	\label{sub_sec:design}
 	Řešení se skládá ze dvou celků. Prvním je knihovna pro přehrávání a~nahrávání akcí vytvořená s~běhovým prostředím Node.js v~JavaScriptu, dále označovaná jako backend. Vzhledem k~implementaci Puppeteeru v~TypeScriptu\footnote{JavaScript se statickým typováním spravovaný firmou Microsoft~\cite{typeScript}.} jsme se rozhodli pro JavaScript. 
-	Druhým celkem je okenní WinForms aplikace implementovaná v~C\# poskytující UI, tu nazveme frontend.\newpage \noindent C\# a~WinForms jsme vybrali z~těchto důvodů:
+	Druhým celkem je okenní WinForms aplikace implementovaná v~C\# poskytující UI, tu nazveme frontend. \newpage \noindent
+	C\# a~WinForms jsme vybrali z~těchto důvodů:
 	\begin{enumerate}[leftmargin=*]
 		\item \paragraph{Jednoduchost}
 		Jak uvádí dokumentace firmy Microsoft~\cite{csharpHistory}, která stojí za vznikem C\#, jedním z~designových cílů od verze 1.0 byla snaha o~"jednoduchý, moderní, univerzální objektově orientovaný jazyk". Stejně jako C\# i~návrh UI ve WinForms považujeme za jednoduchý, a~to zejména díky obrovskému množství vestavěných komponent (ProgressBar, PropertyGrid, ...) a~vývoji pomocí drag and drop. Cílem této práce není vytvářet UI podle grafického návrhu a~navíc WinForms obsahuje většinu námi potřebných komponent\footnote{Chybí pouze textový editor se zvýrazňováním syntaxe, a~tak využijeme externí viz \ref{docs:codeGenEditor}, \ref{docs:jsonEditor}.} a~všechny nutné funkce.
@@ -1634,6 +1760,11 @@ page.type(selector, text, {delay: durationMs})
 	\subsection{Porovnání funkcionality oproti konkurenčním řešením}
 	\label{sub_sec:functionalityComparison}
 	Ještě předtím, než začneme porovnávat, bychom rádi upozornili na zásadní odlišující faktor vlastního řešení, a~sice využití Puppeteeru. Ostatní řešení zmíněná v~této práci využívala Selenium, případně byla proprietární. (Výjimkou je Headless Recorder, ten je postavený nad Puppeteerem, ale neumí přehrávání -- nepovažujeme ho za plnohodnotné řešení.)
+	
+	Tabulky, které následují v~této podsekci, vždy zkoumají nějaké vlastnosti a~jejich podporu napříč řešeními. Podporované vlastnosti značíme symbolem \cmark, chybějící podporu pak symbolem \xmark. V~případě, že je podpora neúplná, nebo si vyžaduje další upřesnění, je místo symbolu vždy uvedena adekvátní poznámka.
+	\newpage
+	\phantom{c}
+	\vspace{0.7cm}
 	\paragraph{Události viewportu}
 {
 	\rowcolors{2}{alternatingRow}{white}  
@@ -1647,16 +1778,17 @@ page.type(selector, text, {delay: durationMs})
 		 dblclick & \cmark  & \cmark  & \cmark & vygeneruje kód pro 2x~click & \cmark \\
     	 input &  \cmark & \cmark & \cmark & \cmark & \cmark \\		 		 
     	 change  & \cmark & \cmark & \cmark & \cmark & \cmark \\
-    	 select & \xmark  & \xmark  & provádí relativní pohyb kurzoru simulující výběr textu & \xmark & \cmark \\
+    	 select & \xmark  & \xmark  & relativní pohyb kurzoru simulující výběr textu & \xmark & \cmark \\
     	 submit & \cmark  & \cmark & provede akci spouštějící submit & provede akci spouštějící submit & \cmark \\
+     	 copy, paste & pracuje s~vlastní interní schránkou & pracuje s~vlastní interní schránkou & \cmark & \xmark & \cmark \\ % \newpage
     	 scroll & \cmark & \xmark & \cmark & \xmark & \cmark \\
-    	 copy, paste & pracuje s~vlastní interní schránkou & pracuje s~vlastní interní schránkou & \cmark & \xmark & \cmark \\
     	 mouseover & pomocí kontextové nabídky & \xmark & simulace pohybu kurzoru & \xmark & podržením klávesy "h" \\
     	 \rowcolor{white}
 		\caption{Porovnání podporovaných událostí viewportu napříč řešeními}
 	\end{longtable}
 }
 	\newpage
+%	\vspace{0.8cm}
 	\paragraph{Události okna prohlížeče}
 	%otevření nového tabu, uzavření existujícího tabu, změna url adresy, změna aktivního tabu
 {
@@ -1674,7 +1806,8 @@ page.type(selector, text, {delay: durationMs})
 		\rowcolor{white}
 		\caption{Porovnání podporovaných událostí okna prohlížeče napříč řešeními}
 	\end{longtable}
-}	\vspace{4cm}
+}	%\vspace{0.8cm}
+	\vspace{4cm}
 	\paragraph{Identifikátory elementů}
 {
 %	\rowcolors{2}{alternatingRow}{white}  
@@ -1710,6 +1843,7 @@ page.type(selector, text, {delay: durationMs})
 		\caption{Porovnání podporovaných druhů čekání napříč řešeními}
 	\end{longtable}
 }
+	\vspace{0.8cm}
 	\paragraph{Možnosti exportu}
 {
 		\rowcolors{2}{alternatingRow}{white}  
@@ -1771,12 +1905,12 @@ page.type(selector, text, {delay: durationMs})
 	\subsection{Vývoj}
 	Mimo software, uvedený v~\cref{tab:usedSoftware}, bylo k~vývoji použito několik nástrojů. 
 	\paragraph{Visual Studio 2019 16.0.17}
-	Celá frontendová část je projektem Visual Studia 2019, ve kterém taktéž probíhal její vývoj. Vzhledem k~tomu, že využíváme WinForms, bylo Visual Studio jasnou volbou díky existenci designeru.
+	Celá frontendová část je projektem Visual Studia 2019~\cite{visualStudioMainPage}, ve kterém taktéž probíhal její vývoj. Vzhledem k~tomu, že využíváme WinForms, bylo Visual Studio jasnou volbou díky existenci designeru.
 	\paragraph{WebStorm 2020.2.2}
-	Pro vývoj backendové části jsme použili WebStorm. Hlavním důvodem výběru byla podpora refactoringu a~debuggeru.
+	Pro vývoj backendové části jsme použili WebStorm \cite{webstorm}. Hlavním důvodem výběru byla podpora refactoringu a~debuggeru.
 	
 	\paragraph{npm 7.5.1}
-	K~práci s~balíčky pro Node.js jsme použili výchozího správce npm. Frontendová část obsahuje několik málo jednoduchých závislostí, které nejsou pro npm problémem, navíc pro pokročilé funkce (workspaces), kterými disponuje konkurenční yarn, nemáme využití.
+	K~práci s~balíčky pro Node.js jsme použili výchozího správce npm~\cite{npm}. Frontendová část obsahuje několik málo jednoduchých závislostí, které nejsou pro npm problémem, navíc pro pokročilé funkce (workspaces), kterými disponuje konkurenční yarn~\cite{yarn}, nemáme využití.
 	
 	\subsection{Testování}
 	\noindent Již od začátku vývoje jsme řešení testovali na více počítačích s~různými verzemi OS Windows, obvykle jsme distribuovali binární soubory spolu se přenositelnou verzí Chromu a~Node.js pro jednoduché použití. Převážná většina testování byla provedena PC s~nainstalovaným OS Windows 10 20H2 se starším hardwarem:
@@ -1827,7 +1961,57 @@ page.type(selector, text, {delay: durationMs})
 		\caption{Porovnání editačního UI při zapnutém/vypnutém škálování}
 	\end{figure}
 	Po bádání jsme přišli na to, že z~neznámého důvodu se při zapnutém škálování přestane měnit velikost \texttt{FlowLayoutPanel}u spolu se změnou velikosti jeho rodiče \texttt{EditUserControl}. Problém jsme vyřešili vytvořením události \texttt{Resize} pro \texttt{EditUserControl}, kde se upravuje velikost \texttt{FlowLayoutPanel}u odpovídajícím způsobem.
+	\subsubsection{Použitelnost}
+	Pro získání zpětné vazby od uživatelů jsme provedli testování System Usability (SUS)~\cite{sus} se třemi uživateli. Konkrétní odevzdané dotazníky jsou k~nahlédnutí v~\refAddedText{appx:sus}{appendixu }{}.
 	
+	Nyní spočítáme SUS skóre každého odevzdaného dotazníku, přičemž pro proměnné platí, že:
+	\begin{itemize}[leftmargin=16pt]
+		\item[] $X$ se rovná hodnotě součtu odpovědí lichých otázek $-\,5$
+		\item[] $Y$ se rovná $25\,-$ hodnotě součtu odpovědí sudých otázek
+		\item[] $S$ se rovná hodnotě SUS skóre v~rozmezí $0$--$100$.
+	\end{itemize}
+	\paragraph{Dotazník od \hyperref[sus:mh]{\nameref{sus:mh}.}}
+	\begin{flalign*}
+	X \leftarrow (1+5+3+4+5) - 5 \quad \quad \quad  &(X = 13) \\
+	Y \leftarrow 25 - (1+2+4+2+1) \quad \quad \quad &(Y = 15) \\
+	S~\leftarrow (13+15) \cdot 2.5 \quad \quad \quad &(S = 70)
+	\end{flalign*}
+
+	\paragraph{Dotazník od \hyperref[sus:jv]{\nameref{sus:jv}.}}
+	\begin{flalign*}
+	X \leftarrow (3 + 3 + 3 + 2 + 4) - 5 \quad \quad \quad  &(X = 10) \\
+	Y \leftarrow 25 - (2 + 1 + 2 + 2 + 1) \quad \quad \quad &(Y = 17) \\
+	S~\leftarrow (10+17) \cdot 2.5 \quad \quad \quad &(S = 67.5)
+	\end{flalign*}
+
+	\paragraph{Dotazník od \hyperref[sus:rs]{\nameref{sus:rs}.}}
+	\begin{flalign*}
+	X \leftarrow (4+2+5+4+5) - 5 \quad \quad \quad  &(X = 15) \\
+	Y \leftarrow 25 - (3+3+1+1+3) \quad \quad \quad &(Y = 14) \\
+	S~\leftarrow (15+14) \cdot 2.5 \quad \quad \quad &(S = 72.5)
+	\end{flalign*}
+
+	Pro interpretaci SUS skóre přikládáme tabulku.
+	\nopagebreak
+	\begin{table}[H]
+		\centering
+		\rowcolors{2}{alternatingRow}{white}
+		\begin{tabular}{ l|c|p{1.9cm} }
+			\rowcolor{tableHeadingBackground}
+			\multicolumn{1}{l}{\textbf{SUS skóre}} & \multicolumn{1}{l}{\textbf{Známka}} & 
+			\multicolumn{1}{p{1.9cm}}{\textbf{Slovní hodnocení}} \\
+			$> 80.3$ & A~& Výborné \\
+			$68$--$80.3$ & B & Dobré \\
+			$68$ & C & V~pořádku \\
+			$51$--$68$ & D & Mizerné \\
+			$< 51$ & F & Příšerné \\
+		\end{tabular}
+		\caption{Interpretace SUS skóre~\cite{interpretingSUS}}
+		\label{tab:interpretingSUS}
+	\end{table}
+	Z~\cref{tab:interpretingSUS} vyplývá, že jsme obdrželi známky B, D a~B. Vzhledem k~tomu, že podle \cite{sus} je skóre 68 považované za průměr a~my jsme získali dvakrát nadprůměrné a~jedenkrát těsně podprůměrné skóre, považujeme obdržené výsledky za úspěch. Za zmínku stojí, že průměrné skóre ze tří obdržených dotazníků činí $70$, což odpovídá známce B.
+	%SUS testing
+	\newpage
 	\subsection{Administrátorská dokumentace}%[leftmargin=*]
 	Před tutoriály demonstrujícími ovládání našeho řešení definujeme systémové požadavky, závislosti a~připravíme prostředí pro prvotní spuštění. 
 	\paragraph{Systémové požadavky}
@@ -1843,6 +2027,7 @@ page.type(selector, text, {delay: durationMs})
 	Node.js od verze 14.xx.x není na Windows 7 testováno~\cite{nodejsCompatibility}, z~toho důvodu je zaručena kompatibilita s~Windows 8 a~vyšší. .NET Framework 4.5, případně jeho novější verze, je předinstalovaný na všech verzích Windows 8 a~vyšších. Z~těchto důvodů definujeme kompatibilitu s~OS Windows 8/8.1/10.
 	\paragraph{Závislosti}
 	Backend i~frontend vyžadují ke svému běhu další knihovny dostupné z~\href{https://nuget.org}{\nolinkurl{nuget.org}} a~\href{https://npmjs.com}{\nolinkurl{npmjs.com}}. Všechny jsou ale součástí přílohy. Pro informaci uvádíme soubory, které závislosti popisují.
+	\nopagebreak
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{ ll }
@@ -1853,13 +2038,19 @@ page.type(selector, text, {delay: durationMs})
 		\caption{Závislosti backendu a~frontendu}
 	\end{table}
 	\paragraph{Příprava prostředí}
-	\begin{enumerate}
-		\item Stáhneme přílohu práce\footnote{Příloha je dostupná i~na GitHubu~\cite{projectGithub}, commit ID ... odpovídá verzi, která byla odevzdána s~tímto textem.}
-		\item Nainstalujeme Node.js\footnote{Mohli bychom distribuovat interpreter přímo se zdrojovým kódem, nicméně nepříjde nám jako dobrý nápad zmrazovat závislost o~velikosti \textasciitilde~68~MB. Lepší varianta podle nás je, když všechny aplikace vyžadující Node.js používají jeden systémový.} 15.5.0 (dle~\cref{tab:usedSoftware}) odpovídající architektuře OS
-		\begin{itemize}[leftmargin=0pt,label={}, align=left,topsep=0pt]
-			\item 64bit instalátor: \url{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x64.msi}
-			\item 32bit instalátor: \url{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x86.msi}
-		\end{itemize}
+	\begin{enumerate}[leftmargin=*, align=left]
+		\item Stáhneme si přílohu práce z~jednoho z~následujících zdrojů
+		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
+			\item \label{item:attachment} Digitální repozitář UK (odevzdáno s~tímto textem)
+			\item Repozitář na~\href{https://github.com/Kubikola/puppeteer-recorder}{\nolinkurl{GitHubu}}\footnote{Commit id ... odpovídá verzi v~bodě \ref{item:attachment}.} 
+			%TODO: napsat commit id
+			%TODO: url github
+		\end{enumerate}
+		\item Nainstalujeme Node.js\footnote{Mohli bychom distribuovat interpreter přímo se zdrojovým kódem, nicméně nepřijde nám jako dobrý nápad zmrazovat závislost o~velikosti \textasciitilde~68~MB. Lepší varianta podle nás je, když všechny aplikace vyžadující Node.js používají jeden systémový.} 15.5.0 (dle~\cref{tab:usedSoftware}) odpovídající architektuře OS
+		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
+			\item \href{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x64.msi}{\texttt{64-bit instalátor}}
+			\item \href{https://nodejs.org/download/release/v15.5.0/node-v15.5.0-x86.msi}{\texttt{32-bit instalátor}}
+		\end{enumerate}
 	\end{enumerate}
 	Spustitelný soubor se nachází v~adresáři \path{Frontend\Frontend\bin\Release\Frontend.exe}
 	\subsection{Tutoriály}
@@ -3021,17 +3212,18 @@ public enum WaitForNavigation {
 	
 	Součástí implementace je generátor kódu, který vygeneruje skript pro Puppeteer dle nahraných akcí. Uživatel může skript exportovat a~využít ho jako součást své vlastní aplikace. Řešení nabízí ale i~možnost pouze přehrát nahrané akce, což se provede jednoduše voláním metody \texttt{eval} na vygenerovaný kód. Tímto jsou splněny požadavky~\crefrange{item:replayingReq}{item:codeGenReq}.
 	
-	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, GUI podporuje škálování na high DPI monitorech, což společně znamená splnění požadavku \cref{item:ui}.% spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
+	Celé řešení se ovládá z~aplikace s~GUI vytvořené pomocí WinForms, GUI podporuje škálování na high DPI monitorech, což společně znamená splnění požadavku~\cref{item:ui}.% spolu s~využitím JavaScriptu a~Node.js umožňuje kompatibilitu s~Windows, ale i~dalšími operačními systémy. Řešení bylo testováno na linuxové distribuci Arch Linux s~Mono~6.12.0, kde bylo ekvivalentně funkční s~Windows. Tím jsou splněny požadavky~\mbox{\crefrange{item:ui}{item:compatibility}}.
 	
-	V~uživatelském rozhraní jsou k~dispozici různá nastavení, uvedeme ty zásadní.
+	V~uživatelském rozhraní jsou k~dispozici všechna nastavení požadovaná v~\ref{item:settingsReq}. Přehledově uvedeme několik dalších možností nastavení.
 	\begin{itemize}
 		\item[--] \textbf{Nahrávání}: výběr akcí povolených k~nahrávání
-		\item[--] \textbf{Připojení k~prohlížeči}: definování specifického viewportu, typ a~informace o~připojení  (lokální s~cestou, vzdálené s~IP adresou a~portem)
+		\item[*] \textbf{Připojení k~prohlížeči}: definování specifického viewportu, typ a~informace o~připojení  (lokální s~cestou, vzdálené s~IP adresou a~portem)
 		\item[--] \textbf{Generátor kódu}: přidání řádku importujícího Puppeteer, přidání prázdného řádku mezi bloky kódu, zachytávání chyby
 		\item[--] \textbf{Přehrávání}: délka čekání mezi údery kláves, maximální doba čekání na aktuálně neexistující element
 		\item[--] \textbf{Backend a~interpreter Node.js}: cesta k~backendu a~interpreteru Node.js
 	\end{itemize}
-	Toto splňuje požadavky \crefrange{item:connectionReq}{item:settingsReq}.
+	Kromě \ref{item:settingsReq} je navíc bodem * splněn i~požadavek \ref{item:connectionReq}.
+%	Toto splňuje požadavky \crefrange{item:connectionReq}{item:settingsReq}.
 	
 	Zbývá nám poslední požadavek, který nebyl vyhodnocen, tím je \cref{item:puppeteerUsage}. Veškerá logika backendové části je postavena nad standardním Puppeteerem. Kód, který je generován, ať už pro účely přehrávání, nebo pouhého nahlédnutí na podobu skriptu, je také kompatibilní se standardním Puppeteerem, proto je požadavek \cref{item:puppeteerUsage} splněn.
 	\newpage
@@ -3368,6 +3560,96 @@ console.log(dotnetVersion)
    \end{subfigure}
 	\caption{Demo zobrazující použití NetMQ a~ZeroMQ.js}
    	\end{codefigure}
+    \section{System Usability Scale (SUS) -- odevzdané dotazníky}
+    \label{appx:sus}
+    Všechny osoby, které odevzdaly dotazníky, si přály zůstat v~anonymitě, a~proto vždy uvádíme pouze iniciály. Dotazníky byly distribuovány ve stejné podobě, jako jsou zde uvedeny, žádná z~osob neměla problém s~anglickým jazykem.
+    
+    \paragraph{M. H.}	
+    \label{sus:mh}
+    \printtblhdr
+    \begin{enumerate}[labelindent=0pt, leftmargin=*]
+    	
+    	\prop{I~think that I~would like to use this system frequently\newline}{1}
+    	
+    	\prop{I~found the system unnecessarily complex\newline}{1}
+    	
+    	\prop{I~thought the system was easy to use\newline}{5}
+    	
+    	\prop{I~think that I~would need the support of a~technical person to be able to use this system}{2}
+    	
+    	\prop{I~found the various functions in this system were well integrated}{3}
+    	
+    	\prop{I~thought there was too much inconsistency in this system}{4}
+    	
+    	\prop{I~would imagine that most people would learn to use this system very quickly}{4}
+    	
+    	\prop{I~found the system very cumbersome to use\newline}{2}
+    	
+    	\prop{I~felt very confident using the system\newline}{5}
+    	
+    	\prop{I~needed to learn a~lot of things before I~could get going with this system}{1}
+    	
+    \end{enumerate}
+    \newpage
+    
+    \paragraph{J. V.}
+    \label{sus:jv}
+    \printtblhdr
+    
+    \begin{enumerate}[labelindent=0pt, leftmargin=*]
+    
+    \prop{I~think that I~would like to use this system frequently\newline}{3}
+    
+    \prop{I~found the system unnecessarily complex\newline}{2}
+    
+    \prop{I~thought the system was easy to use\newline}{3}
+    
+    \prop{I~think that I~would need the support of a~technical person to be able to use this system}{1}
+    
+    \prop{I~found the various functions in this system were well integrated}{3}
+    
+    \prop{I~thought there was too much inconsistency in this system}{2}
+    
+    \prop{I~would imagine that most people would learn to use this system very quickly}{2}
+    
+    \prop{I~found the system very cumbersome to use\newline}{2}
+    
+    \prop{I~felt very confident using the system\newline}{4}
+    
+    \prop{I~needed to learn a~lot of things before I~could get going with this system}{1}
+    
+    \end{enumerate}
+
+	\newpage
+	\paragraph{R. S.}
+	\label{sus:rs}
+	
+	\printtblhdr
+	
+	\begin{enumerate}[labelindent=0pt, leftmargin=*]
+		
+		\prop{I~think that I~would like to use this system frequently\newline}{4}
+		
+		\prop{I~found the system unnecessarily complex\newline}{3}
+		
+		\prop{I~thought the system was easy to use\newline}{2}
+		
+		\prop{I~think that I~would need the support of a~technical person to be able to use this system}{3}
+		
+		\prop{I~found the various functions in this system were well integrated}{5}
+		
+		\prop{I~thought there was too much inconsistency in this system}{1}
+		
+		\prop{I~would imagine that most people would learn to use this system very quickly}{4}
+		
+		\prop{I~found the system very cumbersome to use\newline}{1}
+		
+		\prop{I~felt very confident using the system\newline}{5}
+		
+		\prop{I~needed to learn a~lot of things before I~could get going with this system}{3}
+		
+	\end{enumerate}
+
 	\setcounter{secnumdepth}{-2}
 	\glsaddallunused
 	\pagebreak
