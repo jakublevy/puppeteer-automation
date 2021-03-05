@@ -4,10 +4,10 @@ using System.Windows.Forms;
 
 namespace Frontend
 {
-    static class Program
+    internal static class Program
     {
         [DllImport("Shcore.dll")]
-        static extern int SetProcessDpiAwareness(int PROCESS_DPI_AWARENESS);
+        private static extern int SetProcessDpiAwareness(int PROCESS_DPI_AWARENESS);
         private enum DpiAwareness
         {
             None = 0,
@@ -23,7 +23,7 @@ namespace Frontend
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SetProcessDpiAwareness((int) DpiAwareness.PerMonitorAware);
+            SetProcessDpiAwareness((int)DpiAwareness.PerMonitorAware);
             Application.Run(new MainForm());
         }
     }

@@ -1,12 +1,12 @@
-﻿using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace Frontend
 {
     /// <summary>
     /// This class contains various methods for saving, retrieving, and obtaining default configuration.
     /// </summary>
-    class ConfigManager
+    internal class ConfigManager
     {
         public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
@@ -27,7 +27,7 @@ namespace Frontend
             }
             else
             {
-                dc = new Configuration {PuppeteerConfig = po};
+                dc = new Configuration { PuppeteerConfig = po };
                 File.WriteAllText(Constants.CONF_FILE, JsonConvert.SerializeObject(dc, JsonSettings));
             }
         }
@@ -56,7 +56,10 @@ namespace Frontend
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
                 if (dc.RecordedEvents != null)
+                {
                     return dc.RecordedEvents;
+                }
+
                 return new RecordedEvents();
 
             }
@@ -74,7 +77,10 @@ namespace Frontend
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
                 if (dc.CodeGenConfig != null)
+                {
                     return dc.CodeGenConfig;
+                }
+
                 return DefaultCodeGeneratorOptions();
 
             }
@@ -107,8 +113,11 @@ namespace Frontend
             {
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
-                if(dc.PuppeteerConfig != null)
+                if (dc.PuppeteerConfig != null)
+                {
                     return dc.PuppeteerConfig;
+                }
+
                 return DefaultPuppeteerOptions();
             }
 
@@ -139,7 +148,10 @@ namespace Frontend
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
                 if (dc.PlayerOptions != null)
+                {
                     return dc.PlayerOptions;
+                }
+
                 return DefaultPlayerOptions();
             }
 
@@ -192,7 +204,10 @@ namespace Frontend
                 Configuration dc =
                     JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Constants.CONF_FILE), JsonSettings);
                 if (dc.NodeJsOptions != null)
+                {
                     return dc.NodeJsOptions;
+                }
+
                 return DefaultNodeJsOptions();
             }
 

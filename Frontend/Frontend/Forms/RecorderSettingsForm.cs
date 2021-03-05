@@ -25,7 +25,7 @@ namespace Frontend.Forms
 
         public RecorderConfiguration ExportRecorderOptions()
         {
-            RecordedEvents r = (RecordedEvents) recordedEventsPropertyGrid.SelectedObject;
+            RecordedEvents r = (RecordedEvents)recordedEventsPropertyGrid.SelectedObject;
             try
             {
                 PuppeteerOptions p = puppeteerOptionsUserControl.ExportOptions();

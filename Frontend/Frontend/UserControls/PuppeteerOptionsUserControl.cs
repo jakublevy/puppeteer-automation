@@ -9,7 +9,7 @@ namespace Frontend.UserControls
     /// </summary>
     public partial class PuppeteerOptionsUserControl : UserControl
     {
-        enum BrowserMode
+        private enum BrowserMode
         {
             Launch, //corresponds to puppeteer.launch(...)
             Connect //corresponds to puppeteer.connect(...)
@@ -38,7 +38,7 @@ namespace Frontend.UserControls
                 landscapeCheckBox.Checked = opts.Viewport.IsLandscape;
             }
             viewportEnabledCheckBox.Checked = opts.Viewport != null;
-            slowMoNumericUpDown.Value = Decimal.Multiply(opts.SlowMo, 10);
+            slowMoNumericUpDown.Value = decimal.Multiply(opts.SlowMo, 10);
             devtoolsCheckBox.Checked = opts.DevTools;
             headlessCheckBox.Checked = opts.Headless;
 
@@ -66,7 +66,7 @@ namespace Frontend.UserControls
             PuppeteerOptions po = null;
             if (connectionTypeComboBox.SelectedItem.ToString() == "Connect")
             {
-                bool succ = Uri.TryCreate($"http://{hostTextBox.Text}:{portTextBox.Text}", UriKind.Absolute, out var endPoint);
+                bool succ = Uri.TryCreate($"http://{hostTextBox.Text}:{portTextBox.Text}", UriKind.Absolute, out Uri endPoint);
                 if (succ)
                 {
                     po = new ConnectPuppeteerOptions
@@ -95,22 +95,23 @@ namespace Frontend.UserControls
                     throw new ArgumentException(
                         "The filled path does not point to the actual file. Changes not saved.");
                 }
-                
+
             }
 
             po.DevTools = devtoolsCheckBox.Checked;
             po.Headless = headlessCheckBox.Checked;
-            po.SlowMo = Decimal.Divide(slowMoNumericUpDown.Value, 10);
+            po.SlowMo = decimal.Divide(slowMoNumericUpDown.Value, 10);
 
             if (viewportEnabledCheckBox.Checked)
             {
                 po.Viewport = new Viewport
                 {
-                    DeviceScaleFactor = Convert.ToDouble(scaleNumericUpDown.Value), 
+                    DeviceScaleFactor = Convert.ToDouble(scaleNumericUpDown.Value),
                     HasTouch = touchCheckBox.Checked,
-                    Height = Decimal.ToInt32(heightNumericUpDown.Value),
-                    Width = Decimal.ToInt32(widthNumericUpDown.Value),
-                    IsLandscape = landscapeCheckBox.Checked, IsMobile = mobileCheckBox.Checked
+                    Height = decimal.ToInt32(heightNumericUpDown.Value),
+                    Width = decimal.ToInt32(widthNumericUpDown.Value),
+                    IsLandscape = landscapeCheckBox.Checked,
+                    IsMobile = mobileCheckBox.Checked
                 };
             }
             else

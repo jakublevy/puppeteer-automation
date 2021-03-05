@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using Frontend.Forms;
+﻿using Frontend.Forms;
 using Newtonsoft.Json;
+using System;
+using System.Windows.Forms;
 
 namespace Frontend.UserControls
 {
@@ -60,13 +60,19 @@ namespace Frontend.UserControls
         {
             enabledCheckBox.Checked = uiConfig.Enabled;
             selectCheckBox.Checked = uiConfig.Selected;
-            if(locatorsComboBox.Items.Count > 0)
+            if (locatorsComboBox.Items.Count > 0)
+            {
                 locatorsComboBox.SelectedIndex = uiConfig.SelectedLocatorIndex;
+            }
 
             if (uiConfig.Target == Target.Selector)
+            {
                 selectorRadioButton.Checked = true;
+            }
             else
+            {
                 locatorRadioButton.Checked = true;
+            }
         }
 
         /// <summary>
@@ -86,18 +92,23 @@ namespace Frontend.UserControls
                 typeComboBox.Items.Add("dblclick");
             }
             else
+            {
                 typeComboBox.Items.Add(action.type);
+            }
 
             typeComboBox.SelectedIndex = action.type == "dblclick" ? 1 : 0;
 
             if (action.locators != null && action.locators.Count > 0)
             {
-                foreach (var locator in action.locators)
+                foreach (dynamic locator in action.locators)
+                {
                     locatorsComboBox.Items.Add(locator.locator);
-                
+                }
 
                 if (oldSelectedLocatorIndex != -1)
+                {
                     locatorsComboBox.SelectedIndex = oldSelectedLocatorIndex;
+                }
             }
             selectorTextBox.Text = action.selector;
             valueTextBox.Text = action.value;
@@ -109,7 +120,7 @@ namespace Frontend.UserControls
         /// </summary>
         public Recording ExportRecordingForSave()
         {
-            return new Recording {Action = action, UiConfig = uiConfig, Id = Id};
+            return new Recording { Action = action, UiConfig = uiConfig, Id = Id };
         }
 
         /// <summary>
@@ -142,14 +153,19 @@ namespace Frontend.UserControls
             if (action.locators != null && action.locators.Count != 0 && locatorRadioButton.Checked)
             {
                 if (locatorsComboBox.SelectedIndex == -1 && locatorsComboBox.Text != "")
+                {
                     action.target = locatorsComboBox.Text;
-                
+                }
                 else
+                {
                     action.target = locatorsComboBox.SelectedIndex.ToString();
+                }
             }
 
             if (selectorRadioButton.Checked)
+            {
                 action.target = "selector";
+            }
 
             return action;
         }
@@ -160,7 +176,7 @@ namespace Frontend.UserControls
         private void deleteButton_Click(object sender, EventArgs e)
         {
             je?.Close();
-            EditUserControl euc = (EditUserControl) Parent?.Parent;
+            EditUserControl euc = (EditUserControl)Parent?.Parent;
             Parent?.Controls.Remove(this);
             euc?.UpdateAllActionUpDownButtons();
         }
@@ -236,13 +252,14 @@ namespace Frontend.UserControls
             Parent.Controls.SetChildIndex(this, previousIdx);
 
             upButton.Enabled = GetPreviousVisiblePosition(previousIdx) != -1;
-            
+
 
             downButton.Enabled = true;
 
             if (currentIdx - previousIdx > 1)
+            {
                 Parent.Controls.SetChildIndex(Parent.Controls[previousIdx + 1], currentIdx);
-
+            }
 
             ActionUserControl auc = (ActionUserControl)Parent.Controls[currentIdx];
             auc.upButton.Enabled = true;
@@ -256,10 +273,14 @@ namespace Frontend.UserControls
             while (nextPosition < Parent.Controls.Count)
             {
                 if (Parent.Controls[nextPosition].Visible)
+                {
                     return nextPosition;
+                }
 
                 if (!Parent.Visible)
+                {
                     return nextPosition;
+                }
 
                 ++nextPosition;
             }
@@ -273,10 +294,14 @@ namespace Frontend.UserControls
             while (previousPosition >= 0)
             {
                 if (Parent.Controls[previousPosition].Visible)
+                {
                     return previousPosition;
+                }
 
                 if (!Parent.Visible)
+                {
                     return previousPosition;
+                }
 
                 --previousPosition;
 
@@ -297,8 +322,9 @@ namespace Frontend.UserControls
             upButton.Enabled = true;
 
             if (nextIdx - currentIdx > 1)
+            {
                 Parent.Controls.SetChildIndex(Parent.Controls[nextIdx + 1], currentIdx);
-
+            }
 
             ActionUserControl auc = (ActionUserControl)Parent.Controls[currentIdx];
             auc.downButton.Enabled = true;
@@ -330,7 +356,7 @@ namespace Frontend.UserControls
         /// </summary>
         private void selectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ((EditUserControl) Parent?.Parent)?.ActionUserControlCheckedChanged(this);
+            ((EditUserControl)Parent?.Parent)?.ActionUserControlCheckedChanged(this);
             ((EditUserControl)Parent?.Parent)?.ApplyFilter();
             uiConfig.Selected = selectCheckBox.Checked;
         }
@@ -374,7 +400,7 @@ namespace Frontend.UserControls
         {
             action = a;
             uiConfig = new UiConfig();
-            this.Id = id;
+            Id = id;
             BindActionToUi();
             ApplyUi();
         }

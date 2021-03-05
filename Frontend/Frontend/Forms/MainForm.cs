@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Frontend.Forms;
+using Frontend.UserControls;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Frontend.Forms;
-using Frontend.UserControls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Frontend
 {
@@ -17,7 +17,7 @@ namespace Frontend
     /// </summary>
     public partial class MainForm : Form
     {
-        List<Form> openedSettingForms = new List<Form>();
+        private readonly List<Form> openedSettingForms = new List<Form>();
 
         public enum AppMode
         {
@@ -31,9 +31,9 @@ namespace Frontend
         //currently edited recording
         private CurrentEdit currentEdit;
 
-        public  AppMode AppState
+        public AppMode AppState
         {
-            get { return appState; }
+            get => appState;
             set
             {
                 appState = value;
@@ -51,7 +51,7 @@ namespace Frontend
             editUserControl.InitMain(this);
             List<Thumbnail> thumbnails = ThumbnailManager.Init();
             LoadThumbnailsUi(thumbnails);
-            
+
             //sort by updated time
             sortByUpdated.PerformClick();
 
@@ -64,7 +64,9 @@ namespace Frontend
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (editUserControl.NodeJsProcess != null && !editUserControl.NodeJsProcess.HasExited)
+            {
                 editUserControl.NodeJsProcess.Kill();
+            }
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace Frontend
                 RecorderConfiguration rc = rs.ExportRecorderOptions();
                 ConfigManager.SavePuppeteerConfiguration(rc.PuppeteerOptions);
                 ConfigManager.SaveRecordedEventsConfiguration(rc.RecordedEvents);
-              
+
             };
             openedSettingForms.Add(rs);
             rs.Show();
@@ -137,13 +139,13 @@ namespace Frontend
         /// </summary>
         private void LoadThumbnailsUi(List<Thumbnail> thumbnails)
         {
-            foreach(Thumbnail t in thumbnails)
+            foreach (Thumbnail t in thumbnails)
             {
                 ThumbnailUserControl tuc = new ThumbnailUserControl();
                 tuc.BindThumbnail(t);
                 thumbnailsFlowLayoutPanel.Controls.Add(tuc);
             }
-            
+
         }
 
         /// <summary>
@@ -151,11 +153,13 @@ namespace Frontend
         /// </summary>
         public void SwitchToEditMode(Thumbnail t)
         {
-            openedSettingForms.ForEach(f=>f.Close());
+            openedSettingForms.ForEach(f => f.Close());
             openedSettingForms.Clear();
 
             if (currentEdit == null)
+            {
                 currentEdit = new CurrentEdit();
+            }
 
             currentEdit.Config = new Configuration
             {
@@ -177,7 +181,7 @@ namespace Frontend
                 string recordingJson = File.ReadAllText($"recordings/{t.Id}.json");
                 dynamic recordings = JsonConvert.DeserializeObject(recordingJson, ConfigManager.JsonSettings);
                 currentEdit.StartupHints = recordings.StartupHints;
-                currentEdit.Recordings = (List<Recording>) ((JArray) recordings.Recordings).ToObject(typeof(List<Recording>));
+                currentEdit.Recordings = (List<Recording>)((JArray)recordings.Recordings).ToObject(typeof(List<Recording>));
                 currentEdit.NextAvailableId = recordings.NextId;
             }
 
@@ -204,6 +208,7 @@ namespace Frontend
 
                 thumbnailsFlowLayoutPanel.Controls.Clear();
                 LoadThumbnailsUi(ThumbnailManager.LoadThumbnails());
+                ReSort();
             }
             else //Edit
             {
@@ -268,10 +273,13 @@ namespace Frontend
         private void UiSafeOperation(Action a)
         {
             if (InvokeRequired)
+            {
                 Invoke(new MethodInvoker(() => a()));
-
+            }
             else
+            {
                 a();
+            }
         }
 
         /// <summary>
@@ -281,13 +289,19 @@ namespace Frontend
         public void PerformSettingsChecks()
         {
             NodeJsOptions njo = ConfigManager.GetNodeJsOptions();
-            Process p = new Process();
-            p.EnableRaisingEvents = true;
-            ProcessStartInfo psi = new ProcessStartInfo(njo.InterpreterPath, "-v");
-            psi.UseShellExecute = false;
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
+            Process p = new Process
+            {
+                EnableRaisingEvents = true
+            };
+            ProcessStartInfo psi = new ProcessStartInfo(njo.InterpreterPath, "-v")
+            {
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true
+            };
             p.Exited += (sender, args) =>
             {
                 string nodeV = p.StandardOutput.ReadToEnd();
@@ -301,9 +315,9 @@ namespace Frontend
                     });
                 }
                 else
+                {
                     UiSafeOperation(NodeInterpterNotWorking);
-                    
-                
+                }
             };
             p.StartInfo = psi;
             try
@@ -347,7 +361,7 @@ namespace Frontend
         /// </summary>
         private void sortButton_Clicked(object sender, EventArgs e)
         {
-            Button b = (Button) sender;
+            Button b = (Button)sender;
             if (b.Name == "sortByName")
             {
                 sortByCreated.Text = "";
@@ -386,6 +400,37 @@ namespace Frontend
         }
 
         /// <summary>
+        /// Resorts the thumbnails
+        /// </summary>
+        private void ReSort()
+        {
+            if (sortByName.Text == "^")
+            {
+                PerformSorting("sortByName", 1);
+            }
+            else if (sortByName.Text == "v")
+            {
+                PerformSorting("sortByName", -1);
+            }
+            else if (sortByCreated.Text == "^")
+            {
+                PerformSorting("sortByCreated", 1);
+            }
+            else if (sortByCreated.Text == "v")
+            {
+                PerformSorting("sortByCreated", -1);
+            }
+            else if (sortByUpdated.Text == "^")
+            {
+                PerformSorting("sortByUpdated", 1);
+            }
+            else if (sortByUpdated.Text == "v")
+            {
+                PerformSorting("sortByUpdated", -1);
+            }
+        }
+
+        /// <summary>
         /// This method actually handles the sorting.
         /// </summary>
         /// <param name="text">Text of the button which should be sorted on.</param>
@@ -412,6 +457,6 @@ namespace Frontend
                 thumbnailsFlowLayoutPanel.Controls.AddRange(thumbnails.ToArray());
             }
         }
-        
+
     }
 }

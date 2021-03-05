@@ -59,6 +59,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "WaitingWindow";
             this.Text = "WaitingWindow";
+            this.Load += new System.EventHandler(this.WaitingWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

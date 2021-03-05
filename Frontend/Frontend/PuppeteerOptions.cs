@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Frontend
 {
@@ -10,7 +10,7 @@ namespace Frontend
     /// </summary>
     public class PuppeteerOptions
     {
-        [JsonProperty(PropertyName = "headless")] 
+        [JsonProperty(PropertyName = "headless")]
         public bool Headless { get; set; } = false;
 
         [JsonProperty(PropertyName = "defaultViewport", NullValueHandling = NullValueHandling.Include)]
@@ -23,13 +23,13 @@ namespace Frontend
         public decimal SlowMo { get; set; }
     }
 
-    class ConnectPuppeteerOptions : PuppeteerOptions
+    internal class ConnectPuppeteerOptions : PuppeteerOptions
     {
         [JsonProperty(PropertyName = "browserURL")]
         public Uri EndPoint { get; set; }
     }
 
-    class LaunchPuppeteerOptions : PuppeteerOptions
+    internal class LaunchPuppeteerOptions : PuppeteerOptions
     {
         [JsonProperty(PropertyName = "executablePath", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DefaultValue("")]

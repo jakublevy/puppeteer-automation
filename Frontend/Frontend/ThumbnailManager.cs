@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Frontend
 {
     /// <summary>
     /// This file contains logic and helper methods for working with thumbnails (recording previews, shown on the application main page).
     /// </summary>
-    class ThumbnailManager
+    internal class ThumbnailManager
     {
         private static int nextAvailableId;
 
@@ -66,8 +66,8 @@ namespace Frontend
         public static Thumbnail NewThumbnail()
         {
             return new Thumbnail
-                {Created = DateTime.Now, Id = nextAvailableId++, Name = "Untitled", Websites = new HashSet<string>()};
-            
+            { Created = DateTime.Now, Id = nextAvailableId++, Name = "Untitled", Websites = new HashSet<string>() };
+
         }
 
         public static void SaveThumbnail(Thumbnail t)
@@ -82,10 +82,14 @@ namespace Frontend
 
             int idx = thumbnails.FindIndex(x => x.Id == t.Id);
             if (idx == -1)
+            {
                 thumbnails.Add(t);
+            }
             else
+            {
                 thumbnails[idx] = t;
-            
+            }
+
             File.WriteAllText(Constants.RECORDING_LIST_FILE, JsonConvert.SerializeObject(thumbnails, ConfigManager.JsonSettings));
         }
 

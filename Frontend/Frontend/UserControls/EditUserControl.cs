@@ -87,7 +87,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Binds new recording and sets UI and filter accordingly.
+        /// Binds new recording and sets UI and filter accordingly.
         /// </summary>
         /// <param name="ce"></param>
         public void BindEdit(CurrentEdit ce)
@@ -100,8 +100,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Called whenever filter was changed.
-        ///     Applies the new active filter and updates UI.
+        /// Called whenever filter was changed.
+        /// Applies the new active filter and updates UI.
         /// </summary>
         public void FilterChanged(Filter f)
         {
@@ -125,8 +125,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     This method applies the activeFilter variable.
-        ///     After this function is executed, actions will be filtered with respect to the activeFilter.
+        /// This method applies the activeFilter variable.
+        /// After this function is executed, actions will be filtered with respect to the activeFilter.
         /// </summary>
         public void ApplyFilter()
         {
@@ -189,7 +189,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Returns true if there are some actions to generate code with/replay.
+        /// Returns true if there are some actions to generate code with/replay.
         /// </summary>
         private bool SomeActionsSelectedForProcessing()
         {
@@ -205,7 +205,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Updates UI to match the current workingState.
+        /// Updates UI to match the current workingState.
         /// </summary>
         private void UpdateUi()
         {
@@ -240,7 +240,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Mostly UI logic of "Save & Exit" Button
+        ///Mostly UI logic of "Save & Exit" Button
         /// </summary>
         private void saveAndExitButton_Click(object sender, EventArgs e)
         {
@@ -280,7 +280,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Gets websites of this recording (from pageUrlChanged action).
+        /// Gets websites of this recording (from pageUrlChanged action).
         /// </summary>
         private HashSet<string> ScrapeWebsitesFromRecordings(List<Recording> recordings)
         {
@@ -298,7 +298,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Returns all actions, each action in addition to JSON data contains ui config and id.
+        /// Returns all actions, each action in addition to JSON data contains ui config and id.
         /// </summary>
         private List<Recording> GetAllActions()
         {
@@ -310,7 +310,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Starts the Backend
+        /// Starts the Backend
         /// </summary>
         private void StartNodeJsProcess()
         {
@@ -322,6 +322,7 @@ namespace Frontend.UserControls
             NodeJsProcess.Exited += (sender, args) => { WorkingState = State.Disconnected; };
             NodeJsProcess.StartInfo.WorkingDirectory = workingDir;
             NodeJsProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            NodeJsProcess.StartInfo.CreateNoWindow = true;
             NodeJsProcess.StartInfo.UseShellExecute = false;
             NodeJsProcess.StartInfo.RedirectStandardError = true;
             NodeJsProcess.StartInfo.RedirectStandardInput = true;
@@ -333,9 +334,9 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     If Backend is not running:
+        /// If Backend is not running:
         ///     Connects/launches the browser
-        ///     If Backend is running
+        /// If Backend is running:
         ///     Disconnect/closes the browser and quits Backend process.
         /// </summary>
         private void browserConnection_Click(object sender, EventArgs e)
@@ -356,7 +357,18 @@ namespace Frontend.UserControls
                 }
 
                 if (sock == null)
-                    sock = new PairSocket("@tcp://127.0.0.1:3000");
+                {
+                    try
+                    {
+                        sock = new PairSocket("@tcp://127.0.0.1:3000");
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show(
+                            "Another instance listening on port 3000 is already running, please kill it and re-run this application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
 
 
                 var eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
@@ -435,7 +447,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Request a cancel then waits until the end of the task.
+        /// Request a cancel then waits until the end of the task.
         /// </summary>
         private void InterruptTasks()
         {
@@ -445,7 +457,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Gets the normalized name of all events that should be recorded.
+        /// Gets the normalized name of all events that should be recorded.
         /// </summary>
         /// <returns></returns>
         private List<string> GetEventsToRecord()
@@ -458,7 +470,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Converts given eventName string into a string with its first letter in lowercase.
+        /// Converts given eventName string into a string with its first letter in lowercase.
         /// </summary>
         private string NormalizeEventName(string eventName)
         {
@@ -469,8 +481,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Cancels recordingTask if running and waits until it finishes.
-        ///     Then checks whether the connection to the Backend is up and returns corresponding boolean.
+        /// Cancels recordingTask if running and waits until it finishes.
+        /// Then checks whether the connection to the Backend is up and returns corresponding boolean.
         /// </summary>
         private bool IsBrowserConnected()
         {
@@ -505,7 +517,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Starts or stops the recording by sending an appropriate message to Backend.
+        /// Starts or stops the recording by sending an appropriate message to Backend.
         /// </summary>
         private void recordButton_Click(object sender, EventArgs e)
         {
@@ -532,7 +544,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Loads only the given action into UI. This method doesn't change any configuration of UI.
+        /// Loads only the given action into UI. This method doesn't change any configuration of UI.
         /// </summary>
         private void LoadAction(dynamic action)
         {
@@ -579,7 +591,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Loads complete action with ui configuration into UI.
+        /// Loads complete action with ui configuration into UI.
         /// </summary>
         private void LoadRecording(Recording r)
         {
@@ -604,8 +616,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     This method listens to captured actions. If a new action is found, UI is updated respectively.
-        ///     Execution of this method is started by recordingTask.
+        /// This method listens to captured actions. If a new action is found, UI is updated respectively.
+        /// Execution of this method is started by recordingTask.
         /// </summary>
         private void RecordingTask()
         {
@@ -633,9 +645,9 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Revalidates Enabled property of ↑ button and ↓ button of every action.
-        ///     E.g. the first action should not allow clicking on ↑ button.
-        ///     E.g. the last action should not allow clicking on ↓ button.
+        /// Revalidates Enabled property of ↑ button and ↓ button of every action.
+        /// E.g. the first action should not allow clicking on ↑ button.
+        /// E.g. the last action should not allow clicking on ↓ button.
         /// </summary>
         public void UpdateAllActionUpDownButtons()
         {
@@ -656,10 +668,10 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Updates the actions selection checkbox:
-        ///     if all actions are selected, its value should be ✓
-        ///     if some actions are selected, its value should be ⬛
-        ///     if no actions are selected, its value should be □
+        /// Updates the actions selection checkbox:
+        /// if all actions are selected, its value should be ✓
+        /// if some actions are selected, its value should be ⬛
+        /// if no actions are selected, its value should be □
         /// </summary>
         public void ActionUserControlCheckedChanged(ActionUserControl sender)
         {
@@ -689,8 +701,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     After a change of which actions should be processed (ActionUserControlEnableCheckedChanged),
-        ///     this method disables buttons for processing actions if there are none of them.
+        /// After a change of which actions should be processed (ActionUserControlEnableCheckedChanged),
+        /// this method disables buttons for processing actions if there are none of them.
         /// </summary>
         private void UpdateProcessButtons()
         {
@@ -703,8 +715,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Change of processed actions.
-        ///     E.g. Enabled -> Selected (and vice versa)
+        /// Change of processed actions.
+        /// E.g. Enabled -> Selected (and vice versa)
         /// </summary>
         public void ActionUserControlEnableCheckedChanged(ActionUserControl sender)
         {
@@ -712,7 +724,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     UI logic for showing FilterForm on the "Filter" button click.
+        /// UI logic for showing FilterForm on the "Filter" button click.
         /// </summary>
         private void filterButton_Click(object sender, EventArgs e)
         {
@@ -724,7 +736,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Gets all the JSON data of actions with their respective AUC in a tuple.
+        /// Gets all the JSON data of actions with their respective AUC in a tuple.
         /// </summary>
         private Tuple<List<dynamic>, List<ActionUserControl>> GetRecordingActionsForOutput()
         {
@@ -758,7 +770,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Gets all the actions that should be sent to the Backend for optimization.
+        /// Gets all the actions that should be sent to the Backend for optimization.
         /// </summary>
         private List<Recording> GetRecordingsForOptimize()
         {
@@ -779,8 +791,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Sends the actions to the Backend that performs optimization (see Backend docs or text).
-        ///     After backend replies with optimized actions, this method updates UI respectively.
+        /// Sends the actions to the Backend that performs optimization (see Backend docs or text).
+        /// After backend replies with optimized actions, this method updates UI respectively.
         /// </summary>
         private void optimizeButton_Click(object sender, EventArgs e)
         {
@@ -799,8 +811,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Change of processed actions.
-        ///     E.g. Enabled -> Selected (and vice versa)
+        /// Change of processed actions.
+        /// E.g. Enabled -> Selected (and vice versa)
         /// </summary>
         private void processRadioButtons_CheckedChanged(object sender, EventArgs e)
         {
@@ -808,8 +820,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Serializes actions with options for code generation and sends those to the Backend.
-        ///     After a reply from the Backend containing Puppeteer code, it shows it in a text editor.
+        /// Serializes actions with options for code generation and sends those to the Backend.
+        /// After a reply from the Backend containing Puppeteer code, it shows it in a text editor.
         /// </summary>
         private void codeGenButton_Click(object sender, EventArgs e)
         {
@@ -826,7 +838,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Starts replaying: prepares UI and fires up the replayTask
+        /// Starts replaying: prepares UI and fires up the replayTask
         /// </summary>
         private void replayButton_Click(object sender, EventArgs e)
         {
@@ -844,7 +856,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Highlight the AUC given by the id, uses the given Color c.
+        /// Highlight the AUC given by the id, uses the given Color c.
         /// </summary>
         /// <param name="id">id of AUC to highlight</param>
         /// <param name="c">Color to use for highlighting</param>
@@ -878,7 +890,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Clears the highlighting of error highlighted AUC.
+        /// Clears the highlighting of error highlighted AUC.
         /// </summary>
         public void ClearErrorCustomColors()
         {
@@ -899,7 +911,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Sets the UI to match the state of either replaying or not replaying.
+        /// Sets the UI to match the state of either replaying or not replaying.
         /// </summary>
         private void SetReplayActiveUi(bool state)
         {
@@ -916,7 +928,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     If an error occurs during replaying, this method adds the error to the error list.
+        /// If an error occurs during replaying, this method adds the error to the error list.
         /// </summary>
         /// <param name="msg">Message to add to the error list</param>
         /// <param name="id">Matching AUC id</param>
@@ -926,7 +938,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Sets the visibility of the message "Replay Ended"
+        /// Sets the visibility of the message "Replay Ended"
         /// </summary>
         private void SetReplayEndedVisibility(bool visibility)
         {
@@ -934,7 +946,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Performs the given action that might be running on a different thread and updates UI safely.
+        /// Performs the given action that might be running on a different thread and updates UI safely.
         /// </summary>
         private void UiSafeOperation(Action a)
         {
@@ -946,7 +958,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Clears highlighting of every action.
+        /// Clears highlighting of every action.
         /// </summary>
         public void ClearAucCustomColors()
         {
@@ -958,9 +970,9 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Sends the message "finished" to the Backend, this message informs that there are no other actions to be replayed.
-        ///     Then this method waits for the confirmation that the Backend finished replaying the last action.
-        ///     Finally it changes UI that notifies about finished replaying.
+        /// Sends the message "finished" to the Backend, this message informs that there are no other actions to be replayed.
+        /// Then this method waits for the confirmation that the Backend finished replaying the last action.
+        /// Finally it changes UI that notifies about finished replaying.
         /// </summary>
         private void FinishReplay()
         {
@@ -973,8 +985,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Called when the focused action should be deleted.
-        ///     E.g. called after pressing Shift+Del.
+        /// Called when the focused action should be deleted.
+        /// E.g. called after pressing Shift+Del.
         /// </summary>
         public void DeleteRequested()
         {
@@ -987,7 +999,7 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     Highlight the given AUC, uses the given Color c.
+        /// Highlight the given AUC, uses the given Color c.
         /// </summary>
         /// <param name="id">id of AUC to highlight</param>
         /// <param name="c">Color to use for highlighting</param>
@@ -1005,8 +1017,8 @@ namespace Frontend.UserControls
         }
 
         /// <summary>
-        ///     This method sends actions to Backend to have them replayed.
-        ///     Execution of this method is started by replayTask.
+        /// This method sends actions to Backend to have them replayed.
+        /// Execution of this method is started by replayTask.
         /// </summary>
         private void ReplayTask()
         {

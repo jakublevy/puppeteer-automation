@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Frontend.UserControls;
+using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using Frontend.UserControls;
 
 namespace Frontend.Forms
 {
@@ -16,8 +16,8 @@ namespace Frontend.Forms
         private bool closeRequested = false;
 
         private WaitingWindow ww;
-        private CancellationTokenSource cts;
-        private EditUserControl euc;
+        private readonly CancellationTokenSource cts;
+        private readonly EditUserControl euc;
 
         public ReplayViewForm(EditUserControl e, CancellationTokenSource c)
         {
@@ -66,8 +66,10 @@ namespace Frontend.Forms
             row.Cells["idColumn"].Value = id;
             row.Cells["errorsColumn"].Value = errorMsg;
 
-            if(dataGridView.Rows.Count == 1)
+            if (dataGridView.Rows.Count == 1)
+            {
                 dataGridView.ClearSelection();
+            }
         }
 
         /// <summary>
@@ -100,8 +102,8 @@ namespace Frontend.Forms
         /// </summary>
         private void stopButton_Click(object sender, EventArgs e)
         {
-            ww = new WaitingWindow();
-            ww.Show();
+            ww = new WaitingWindow { StartPosition = FormStartPosition.CenterParent };
+            ww.Show(this);
             cts.Cancel();
         }
 
@@ -114,7 +116,7 @@ namespace Frontend.Forms
             {
                 clearErrorSelection.Enabled = true;
                 DataGridViewRow clickedRow = dataGridView.Rows[e.RowIndex];
-                int id = (int) clickedRow.Cells["idColumn"].Value;
+                int id = (int)clickedRow.Cells["idColumn"].Value;
                 euc.HighlightActionUserControlById(id, Color.FromArgb(206, 32, 41));
             }
         }
@@ -127,6 +129,16 @@ namespace Frontend.Forms
             dataGridView.ClearSelection();
             euc.ClearErrorCustomColors();
             clearErrorSelection.Enabled = false;
+        }
+
+        private void ReplayViewForm_LocationChanged(object sender, EventArgs e)
+        {
+            ww?.Center();
+        }
+
+        private void ReplayViewForm_Resize(object sender, EventArgs e)
+        {
+            ww?.Center();
         }
     }
 }

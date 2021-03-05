@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Frontend
 {
     //Disables (in this case the useless) "unused property warning"
-    #pragma warning disable CS0414
+#pragma warning disable CS0414
 
     /// <summary>
     /// Options that change the behaviour of a code generator.
@@ -21,7 +21,7 @@ namespace Frontend
         public bool WaitForNavigation { get; set; } = true;
 
         [JsonProperty(PropertyName = "blankLinesBetweenCodeBlocks")]
-        [Description("Adds a blank line between each interaction with an element.")]
+        [Description("Adds a blank line between interactions with different elements.")]
         public bool BlankLinesBetweenCodeBlocks { get; set; } = true;
 
 
@@ -37,28 +37,30 @@ namespace Frontend
 
         [JsonProperty(PropertyName = "browserDisconnect")]
         [Browsable(false)]
-        private bool browserDisconnect = false;
+        private readonly bool browserDisconnect = false;
 
 
         [JsonProperty(PropertyName = "browserConnect")]
         [Browsable(false)]
-        private bool browserConnect = false;
+        private readonly bool browserConnect = false;
 
 
         [JsonProperty(PropertyName = "addLaunchOrConnect")]
         [Browsable(false)]
-        private bool addLaunchOrConnect = true;
+        private readonly bool addLaunchOrConnect = true;
 
         [JsonProperty(PropertyName = "browserLaunch")]
         [Browsable(false)]
-        private bool browserLaunch = true;
+        private readonly bool browserLaunch = true;
 
 
 
 
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
         [Browsable(false)]
-        public string WaitForNavigationOptionJson => "{ \"waitUntil\": \"" + Enum.GetName(typeof(WaitForNavigation), WaitForNavigationOptions) + "\" }";
+        public string WaitForNavigationOptionJson => "{ \"waitUntil\": \"" +
+                                                     Enum.GetName(typeof(WaitForNavigation), WaitForNavigationOptions) +
+                                                     "\" }";
 
 
         [Description("Defines a condition until the script should wait after performing a navigation.")]
@@ -66,9 +68,13 @@ namespace Frontend
 
         [JsonProperty(PropertyName = "waitForTargetOptions")]
         [Browsable(false)]
-        public string WaitForTargetOptions => "{ \"timeout\": "+ WaitForTargetTimeoutMs +" }";
+        public string WaitForTargetOptions
+        {
+            get => "{ \"timeout\": " + WaitForTargetTimeoutMs + " }";
+            set => WaitForTargetTimeoutMs = JsonConvert.DeserializeObject<dynamic>(value).timeout;
+        }
 
-        [JsonIgnore] 
+        [JsonIgnore]
         [Description("Time that should be waited for elements in waitForSelector and waitForXPath statements.")]
         public int WaitForTargetTimeoutMs { get; set; } = 5000;
 
@@ -82,7 +88,11 @@ namespace Frontend
 
         [JsonProperty(PropertyName = "typeOptions")]
         [Browsable(false)]
-        public string TypeOptions => "{ \"delay\": " + KeystrokeDelayMs +" }";
+        public string TypeOptions
+        {
+            get => "{ \"delay\": " + KeystrokeDelayMs + " }";
+            set => KeystrokeDelayMs = JsonConvert.DeserializeObject<dynamic>(value).delay;
+        }
 
         [JsonIgnore]
         [Description("Sets a pause (ms) between each keystroke.")]

@@ -33,7 +33,7 @@ namespace Frontend.UserControls
         {
             thumbnail.Name = nameTextBox.Text;
             ThumbnailManager.SaveThumbnail(thumbnail);
-            
+
         }
 
         private void editButton_Click(object sender, EventArgs e)
@@ -44,8 +44,10 @@ namespace Frontend.UserControls
         private void deleteButton_Click(object sender, EventArgs e)
         {
             if (File.Exists($"recordings/{thumbnail.Id}.json"))
+            {
                 File.Delete($"recordings/{thumbnail.Id}.json");
-            
+            }
+
             ThumbnailManager.RemoveThumbnail(thumbnail);
 
             Parent.Controls.Remove(this);

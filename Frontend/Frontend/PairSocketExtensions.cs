@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using NetMQ;
+﻿using NetMQ;
 using NetMQ.Sockets;
+using System.Diagnostics;
 
 namespace Frontend
 {

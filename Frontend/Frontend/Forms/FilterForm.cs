@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Frontend.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Frontend.UserControls;
 
 namespace Frontend.Forms
 {
@@ -10,7 +10,7 @@ namespace Frontend.Forms
     /// </summary>
     public partial class FilterForm : Form
     {
-        private EditUserControl editUserControl;
+        private readonly EditUserControl editUserControl;
         public FilterForm(EditUserControl launcher)
         {
             InitializeComponent();
@@ -50,7 +50,9 @@ namespace Frontend.Forms
                 foreach (CheckBox c in targetGroupBox.Controls)
                 {
                     if (f.Targets.Contains(c.Text))
+                    {
                         c.Checked = false;
+                    }
                 }
             }
 
@@ -78,20 +80,25 @@ namespace Frontend.Forms
             if (typeEnabled.Checked)
             {
                 if (puppeteerEventsEnabled.Checked)
+                {
                     f.EventTypes.AddRange(EventsToHide(puppeteerEventsGroupBox));
-                
+                }
 
                 if (viewportEventsEnabled.Checked)
+                {
                     f.EventTypes.AddRange(EventsToHide(viewportEventsGroupBox));
-                
+                }
             }
 
             if (targetEnabled.Checked)
+            {
                 f.Targets = EventsToHide(targetGroupBox);
-
+            }
 
             if (statusEnabled.Checked)
+            {
                 f.Status = EventsToHide(statusGroupBox);
+            }
 
             return f;
         }
@@ -107,8 +114,9 @@ namespace Frontend.Forms
             foreach (CheckBox c in parent.Controls)
             {
                 if (!c.Checked)
+                {
                     output.Add(c.Text);
-                
+                }
             }
 
             return output;

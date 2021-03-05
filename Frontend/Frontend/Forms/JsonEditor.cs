@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ScintillaNET;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ScintillaNET;
 
 namespace Frontend.Forms
 {
@@ -41,9 +41,10 @@ namespace Frontend.Forms
             textEditor.Styles[Style.Json.StringEol].BackColor = Color.Pink;
             textEditor.Styles[Style.Json.Operator].ForeColor = Color.Purple;
 
-            foreach (var textEditorStyle in textEditor.Styles)
+            foreach (Style textEditorStyle in textEditor.Styles)
+            {
                 textEditorStyle.Size = 12;
-            
+            }
         }
 
         private void modificationsCheckBox_CheckedChanged(object sender, EventArgs e)

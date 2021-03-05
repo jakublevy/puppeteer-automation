@@ -21,8 +21,10 @@ namespace Frontend
 
         private void CodeGenEditor_Load(object sender, EventArgs e)
         {
-            foreach (var textEditorStyle in textEditor.Styles)
+            foreach (ScintillaNET.Style textEditorStyle in textEditor.Styles)
+            {
                 textEditorStyle.Size = 12;
+            }
         }
     }
 }

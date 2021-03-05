@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Frontend
 {
     //Disables (in this case the useless) "unused property warning"
-    #pragma warning disable CS0414
+#pragma warning disable CS0414
 
     /// <summary>
     /// Options that change the behaviour of a playback.
@@ -14,11 +14,11 @@ namespace Frontend
     {
         [Browsable(false)]
         [JsonProperty(PropertyName = "browserDisconnect")]
-        private bool browserDisconnect = false;
+        private readonly bool browserDisconnect = false;
 
         [Browsable(false)]
         [JsonProperty(PropertyName = "browserClose")]
-        private bool browserClose = false;
+        private readonly bool browserClose = false;
 
         [JsonProperty(PropertyName = "waitForNavigationOptions")]
         [Browsable(false)]
@@ -31,7 +31,11 @@ namespace Frontend
         [JsonProperty(PropertyName = "waitForTargetOptions")]
         [Description("Time that should be waited for elements in waitForSelector and waitForXPath statements.")]
         [Browsable(false)]
-        public string WaitForTargetOptions => "{ \"timeout\": " + WaitForTargetTimeoutMs + " }";
+        public string WaitForTargetOptions
+        {
+            get => "{ \"timeout\": " + WaitForTargetTimeoutMs + " }";
+            set => WaitForTargetTimeoutMs = JsonConvert.DeserializeObject<dynamic>(value).timeout;
+        }
 
         [JsonIgnore]
         public int WaitForTargetTimeoutMs { get; set; } = 5000;
@@ -49,7 +53,11 @@ namespace Frontend
 
         [JsonProperty(PropertyName = "typeOptions")]
         [Browsable(false)]
-        public string TypeOptions => "{ \"delay\": " + KeystrokeDelayMs + " }";
+        public string TypeOptions
+        {
+            get => "{ \"delay\": " + KeystrokeDelayMs + " }";
+            set => KeystrokeDelayMs = JsonConvert.DeserializeObject<dynamic>(value).delay;
+        }
 
         [JsonIgnore]
         [Description("Sets a pause (ms) between each keystroke.")]

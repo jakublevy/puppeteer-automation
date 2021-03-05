@@ -644,6 +644,7 @@ class CodeGenerator {
         if(shutdown !== '')
             code += `\n${this._makeIndent()}${this._browserFuncCall(shutdown, [])}\n`
 
+
         if(this._options.evaluationFinishedAck)
             code += `${this._makeIndent()}await sendMsg(sock, "evaluated")\n`
 

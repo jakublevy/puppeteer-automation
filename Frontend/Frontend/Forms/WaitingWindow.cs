@@ -11,5 +11,15 @@ namespace Frontend.Forms
         {
             InitializeComponent();
         }
+
+        private void WaitingWindow_Load(object sender, System.EventArgs e)
+        {
+            CenterToParent();
+        }
+
+        public void Center()
+        {
+            CenterToParent();
+        }
     }
 }

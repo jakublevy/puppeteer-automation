@@ -1,6 +1,6 @@
 ﻿namespace Frontend
 {
-    class Constants
+    internal class Constants
     {
         /// <summary>
         /// Path to a file containing all saved Thumbnails.
