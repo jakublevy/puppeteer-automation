@@ -63,7 +63,7 @@ namespace Frontend
                                                      "\" }";
 
 
-        [Description("Defines a condition until the script should wait after performing a navigation.")]
+        [Description("Defines a condition until the script should wait after performing a navigation.\n\nFor more information about meaning of possible values see https://bit.ly/3kSKc1f")]
         public WaitForNavigation WaitForNavigationOptions { get; set; }
 
         [JsonProperty(PropertyName = "waitForTargetOptions")]

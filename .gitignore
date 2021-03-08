@@ -11,26 +11,26 @@ Backend/src/unused/
 
 verapdf/
 
-text/*
-!text/figures/
-!text/abstrakt-cs.txt
-!text/abstrakt-en.txt
+Text/*
+!Text/figures/
+!Text/abstrakt-cs.txt
+!Text/abstrakt-en.txt
 
-!text/abstrakt-cs.tex
-!text/abstrakt-cs.pdf
+!Text/abstrakt-cs.tex
+!Text/abstrakt-cs.pdf
 
-!text/abstrakt-en.tex
-!text/abstrakt-en.pdf
+!Text/abstrakt-en.tex
+!Text/abstrakt-en.pdf
 
-!text/abstrakt-cs-en.tex
-!text/abstrakt-cs-en.pdf
+!Text/abstrakt-cs-en.tex
+!Text/abstrakt-cs-en.pdf
 
-!text/bib.tex
-!text/bp.pdf
-!text/bp-2u.pdf
-!text/bp-tisk.pdf
-!text/bp.tex
-!text/desky.tex
-!text/desky.pdf
-!text/titulka.tex
-!text/popis.txt
+!Text/bib.tex
+!Text/bp.pdf
+!Text/bp-2u.pdf
+!Text/bp-tisk.pdf
+!Text/bp.tex
+!Text/desky.tex
+!Text/desky.pdf
+!Text/titulka.tex
+!Text/popis.txt
