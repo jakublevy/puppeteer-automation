@@ -113,7 +113,7 @@
             this.Controls.Add(this.interpreterTextBox);
             this.Controls.Add(this.label1);
             this.Name = "NodeJsConfig";
-            this.Text = "NodeJsConfig";
+            this.Text = "Node.js Settings";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NodeJsConfig_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

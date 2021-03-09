@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Frontend.Forms;
+using NetMQ;
+using NetMQ.Sockets;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,10 +11,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Frontend.Forms;
-using NetMQ;
-using NetMQ.Sockets;
-using Newtonsoft.Json;
 
 namespace Frontend.UserControls
 {
@@ -106,7 +106,9 @@ namespace Frontend.UserControls
         public void FilterChanged(Filter f)
         {
             if (f == null)
+            {
                 return;
+            }
 
             activeFilter = f;
 
@@ -131,11 +133,13 @@ namespace Frontend.UserControls
         public void ApplyFilter()
         {
             if (activeFilter == null)
+            {
                 return;
+            }
 
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
             {
-                var action = auc.ExportActionForOutput();
+                dynamic action = auc.ExportActionForOutput();
 
                 //event types
                 if (activeFilter.EventTypes.FindIndex(x => NormalizeEventName(x) == action.type.ToString()) != -1)
@@ -185,7 +189,9 @@ namespace Frontend.UserControls
             }
 
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
                 auc.UpdateUpDownButtons();
+            }
         }
 
         /// <summary>
@@ -196,9 +202,14 @@ namespace Frontend.UserControls
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
             {
                 if (enabledRadioButton.Checked && auc.EnabledForOutput)
+                {
                     return true;
+                }
+
                 if (selectedRadioButton.Checked && auc.Selected)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -226,7 +237,10 @@ namespace Frontend.UserControls
 
                 InterruptTasks();
                 if (NodeJsProcess != null && !NodeJsProcess.HasExited)
+                {
                     NodeJsProcess?.Kill();
+                }
+
                 sock?.Close();
                 sock = null;
             }
@@ -246,20 +260,25 @@ namespace Frontend.UserControls
         {
             if (WorkingState == State.Recording)
             {
-                var dr = MessageBox.Show(
+                DialogResult dr = MessageBox.Show(
                     "The recording is still running. Do you want to continue?",
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dr == DialogResult.No)
+                {
                     return;
+                }
 
                 recordButton.PerformClick();
             }
             else if (WorkingState == State.Connected)
             {
-                var dr = MessageBox.Show("The connection to browser is still active. Do you want to continue?",
+                DialogResult dr = MessageBox.Show("The connection to browser is still active. Do you want to continue?",
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dr == DialogResult.No)
+                {
                     return;
+                }
+
                 browserConnection.PerformClick();
             }
 
@@ -284,11 +303,11 @@ namespace Frontend.UserControls
         /// </summary>
         private HashSet<string> ScrapeWebsitesFromRecordings(List<Recording> recordings)
         {
-            var uris = new HashSet<string>();
-            var urlActions = recordings.Select(x => x.Action).Where(x => x.type == "pageUrlChanged");
+            HashSet<string> uris = new HashSet<string>();
+            IEnumerable<dynamic> urlActions = recordings.Select(x => x.Action).Where(x => x.type == "pageUrlChanged");
 
             string url;
-            foreach (var a in urlActions)
+            foreach (dynamic a in urlActions)
             {
                 url = new Uri(a.newUrl.ToString()).Authority;
                 uris.Add(url);
@@ -302,9 +321,11 @@ namespace Frontend.UserControls
         /// </summary>
         private List<Recording> GetAllActions()
         {
-            var recordings = new List<Recording>();
+            List<Recording> recordings = new List<Recording>();
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
                 recordings.Add(auc.ExportRecordingForSave());
+            }
 
             return recordings;
         }
@@ -314,9 +335,9 @@ namespace Frontend.UserControls
         /// </summary>
         private void StartNodeJsProcess()
         {
-            var absolutePath = Path.GetFullPath(edit.Config.NodeJsOptions.NodeJsEntryPoint);
-            var workingDir = Path.GetDirectoryName(Path.GetDirectoryName(absolutePath));
-            var relativeEnd = Path.GetFileName(Path.GetDirectoryName(absolutePath)) + "\\" +
+            string absolutePath = Path.GetFullPath(edit.Config.NodeJsOptions.NodeJsEntryPoint);
+            string workingDir = Path.GetDirectoryName(Path.GetDirectoryName(absolutePath));
+            string relativeEnd = Path.GetFileName(Path.GetDirectoryName(absolutePath)) + "\\" +
                               Path.GetFileName(absolutePath);
             NodeJsProcess = new Process();
             NodeJsProcess.Exited += (sender, args) => { WorkingState = State.Disconnected; };
@@ -371,8 +392,8 @@ namespace Frontend.UserControls
                 }
 
 
-                var eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
-                var b = sock.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
+                string eventsToRecord = JsonConvert.SerializeObject(GetEventsToRecord());
+                bool b = sock.TrySendFrame(new TimeSpan(0, 0, 0, 0, 3000), "setEventsToRecord");
                 if (!b)
                 {
                     HandleIncorrectProcess();
@@ -392,7 +413,7 @@ namespace Frontend.UserControls
                     sock.SendFrame(JsonConvert.SerializeObject(cpo, ConfigManager.JsonSettings));
                 }
 
-                var received = sock.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out var response);
+                bool received = sock.TryReceiveFrameString(new TimeSpan(0, 0, 0, 0, 8000), out string response);
                 if (received)
                 {
                     if (response == "ACK")
@@ -462,10 +483,15 @@ namespace Frontend.UserControls
         /// <returns></returns>
         private List<string> GetEventsToRecord()
         {
-            var events = new List<string> {"urlHint", "startupHints"};
-            foreach (var pi in edit.Config.RecordedEvents.GetType().GetProperties())
-                if ((bool) pi.GetValue(edit.Config.RecordedEvents) && pi.CanWrite)
+            List<string> events = new List<string> { "urlHint", "startupHints" };
+            foreach (System.Reflection.PropertyInfo pi in edit.Config.RecordedEvents.GetType().GetProperties())
+            {
+                if ((bool)pi.GetValue(edit.Config.RecordedEvents) && pi.CanWrite)
+                {
                     events.Add(NormalizeEventName(pi.Name));
+                }
+            }
+
             return events;
         }
 
@@ -475,7 +501,9 @@ namespace Frontend.UserControls
         private string NormalizeEventName(string eventName)
         {
             if (eventName.StartsWith("page", StringComparison.OrdinalIgnoreCase))
+            {
                 return char.ToLower(eventName[0]) + eventName.Substring(1);
+            }
 
             return eventName.ToLower();
         }
@@ -487,7 +515,9 @@ namespace Frontend.UserControls
         private bool IsBrowserConnected()
         {
             if (sock == null)
+            {
                 return false;
+            }
 
             if (recordingTask != null && recordingTask.Status == TaskStatus.Running)
             {
@@ -497,9 +527,9 @@ namespace Frontend.UserControls
 
             sock.SendFrame("browserConnectionStatus");
 
-            var res = false;
-            var counter = 0;
-            while ((!sock.ReceiveFrameStringTimeout(out var bStr, 100) || !bool.TryParse(bStr, out res)) &&
+            bool res = false;
+            int counter = 0;
+            while ((!sock.ReceiveFrameStringTimeout(out string bStr, 100) || !bool.TryParse(bStr, out res)) &&
                    counter <= 4)
             {
                 sock.SendFrame("browserConnectionStatus");
@@ -521,7 +551,7 @@ namespace Frontend.UserControls
         /// </summary>
         private void recordButton_Click(object sender, EventArgs e)
         {
-            var connectionStatus = IsBrowserConnected();
+            bool connectionStatus = IsBrowserConnected();
             if (connectionStatus && workingState != State.Recording)
             {
                 cts = new CancellationTokenSource();
@@ -550,7 +580,10 @@ namespace Frontend.UserControls
         {
             int id;
             if (action.ToString() == "True")
+            {
                 return;
+            }
+
             if (action.type == "urlHint")
             {
                 edit.Thumbnail.Websites.Add(new Uri(action.url.ToString()).Authority);
@@ -563,20 +596,23 @@ namespace Frontend.UserControls
             }
             else
             {
-                var auc = new ActionUserControl();
+                ActionUserControl auc = new ActionUserControl();
                 auc.BindAction(action, edit.AllocateId());
                 id = auc.Id;
                 if (selectedAllCheckBox.CheckState == CheckState.Checked)
+                {
                     auc.SetSelected(true);
-
+                }
 
                 UiSafeOperation(() =>
                 {
                     actionsFlowLayoutPanel.Controls.Add(auc);
 
                     if (addAsFirst.Checked)
+                    {
                         actionsFlowLayoutPanel.Controls.SetChildIndex(
                             actionsFlowLayoutPanel.Controls[actionsFlowLayoutPanel.Controls.Count - 1], 0);
+                    }
 
                     UpdateAllActionUpDownButtons();
 
@@ -585,9 +621,13 @@ namespace Frontend.UserControls
             }
 
             if (addAsLast.Checked)
-                edit.Recordings.Add(new Recording {Action = action, UiConfig = new UiConfig(), Id = id});
+            {
+                edit.Recordings.Add(new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
+            }
             else //addAsFirst.Checked
-                edit.Recordings.Insert(0, new Recording {Action = action, UiConfig = new UiConfig(), Id = id});
+            {
+                edit.Recordings.Insert(0, new Recording { Action = action, UiConfig = new UiConfig(), Id = id });
+            }
         }
 
         /// <summary>
@@ -601,11 +641,12 @@ namespace Frontend.UserControls
             }
             else if (r.Action.type != "startupHints")
             {
-                var auc = new ActionUserControl();
+                ActionUserControl auc = new ActionUserControl();
                 auc.BindRecording(r, r.Id);
                 if (selectedAllCheckBox.CheckState == CheckState.Checked)
+                {
                     auc.SetSelected(true);
-
+                }
 
                 UiSafeOperation(() =>
                 {
@@ -624,21 +665,31 @@ namespace Frontend.UserControls
             while (!cancelToken.IsCancellationRequested)
             {
                 if (sock == null)
+                {
                     return;
+                }
 
                 if (!sock.HasIn)
+                {
                     continue;
+                }
 
                 if (sock.HasIn && cancelToken.IsCancellationRequested)
+                {
                     break;
+                }
 
-
-                if (!sock.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out var json)) continue;
+                if (!sock.TryReceiveFrameString(new TimeSpan(0, -0, 0, 0, 200), out string json))
+                {
+                    continue;
+                }
 
                 dynamic action = JsonConvert.DeserializeObject(json, ConfigManager.JsonSettings);
 
                 if (action.ToString() == "True")
+                {
                     continue;
+                }
 
                 LoadAction(action);
             }
@@ -652,19 +703,24 @@ namespace Frontend.UserControls
         public void UpdateAllActionUpDownButtons()
         {
             foreach (ActionUserControl a in actionsFlowLayoutPanel.Controls)
+            {
                 a.UpdateUpDownButtons();
+            }
         }
 
         private void selectedAllCheckBox_Click(object sender, EventArgs e)
         {
-            var b = true;
+            bool b = true;
             if (selectedAllCheckBox.CheckState == CheckState.Indeterminate)
             {
                 selectedAllCheckBox.Checked = false;
                 b = false;
             }
 
-            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls) auc.SetSelected(b);
+            foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
+                auc.SetSelected(b);
+            }
         }
 
         /// <summary>
@@ -675,14 +731,20 @@ namespace Frontend.UserControls
         /// </summary>
         public void ActionUserControlCheckedChanged(ActionUserControl sender)
         {
-            var allChecked = true;
-            var allUnchecked = true;
+            bool allChecked = true;
+            bool allUnchecked = true;
 
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
             {
                 if (!auc.Selected)
+                {
                     allChecked = false;
-                else if (auc.Selected) allUnchecked = false;
+                }
+                else if (auc.Selected)
+                {
+                    allUnchecked = false;
+                }
+
                 if (!allChecked && !allUnchecked)
                 {
                     selectedAllCheckBox.CheckState = CheckState.Indeterminate;
@@ -691,11 +753,14 @@ namespace Frontend.UserControls
             }
 
             if (allChecked)
+            {
                 selectedAllCheckBox.CheckState = CheckState.Checked;
-
+            }
 
             else if (allUnchecked)
+            {
                 selectedAllCheckBox.CheckState = CheckState.Unchecked;
+            }
 
             UpdateProcessButtons();
         }
@@ -728,11 +793,20 @@ namespace Frontend.UserControls
         /// </summary>
         private void filterButton_Click(object sender, EventArgs e)
         {
-            filterForm = new FilterForm(this);
-            if (activeFilter != null)
-                filterForm.SetFilter(activeFilter);
+            if (filterForm?.Visible != true)
+            {
+                filterForm = new FilterForm(this);
+                if (activeFilter != null)
+                {
+                    filterForm.SetFilter(activeFilter);
+                }
 
-            filterForm.Show();
+                filterForm.Show();
+            }
+            else if (filterForm?.Visible == true)
+            {
+                filterForm.Focus();
+            }
         }
 
         /// <summary>
@@ -741,13 +815,16 @@ namespace Frontend.UserControls
         private Tuple<List<dynamic>, List<ActionUserControl>> GetRecordingActionsForOutput()
         {
             Tuple<List<dynamic>, List<ActionUserControl>> ret;
-            var outputActions = new List<dynamic>();
-            var outputUserControl = new List<ActionUserControl>();
+            List<dynamic> outputActions = new List<dynamic>();
+            List<ActionUserControl> outputUserControl = new List<ActionUserControl>();
 
             if (edit.StartupHints != null)
+            {
                 outputActions.Add(edit.StartupHints);
+            }
 
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
                 if (enabledRadioButton.Checked)
                 {
                     if (auc.EnabledForOutput)
@@ -764,6 +841,7 @@ namespace Frontend.UserControls
                         outputUserControl.Add(auc);
                     }
                 }
+            }
 
             ret = new Tuple<List<dynamic>, List<ActionUserControl>>(outputActions, outputUserControl);
             return ret;
@@ -774,18 +852,24 @@ namespace Frontend.UserControls
         /// </summary>
         private List<Recording> GetRecordingsForOptimize()
         {
-            var outputActions = new List<Recording>();
+            List<Recording> outputActions = new List<Recording>();
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
                 if (enabledRadioButton.Checked)
                 {
                     if (auc.EnabledForOutput)
+                    {
                         outputActions.Add(auc.ExportRecordingForSave());
+                    }
                 }
                 else if (selectedRadioButton.Checked)
                 {
                     if (auc.Selected)
+                    {
                         outputActions.Add(auc.ExportRecordingForSave());
+                    }
                 }
+            }
 
             return outputActions;
         }
@@ -797,13 +881,15 @@ namespace Frontend.UserControls
         private void optimizeButton_Click(object sender, EventArgs e)
         {
             if (actionsFlowLayoutPanel.Controls.Count == 0)
+            {
                 return;
+            }
 
-            var json = JsonConvert.SerializeObject(GetRecordingsForOptimize(), ConfigManager.JsonSettings);
+            string json = JsonConvert.SerializeObject(GetRecordingsForOptimize(), ConfigManager.JsonSettings);
             sock.SendFrame("optimize");
             sock.SendFrame(json);
             json = sock.ReceiveFrameString();
-            var actions = JsonConvert.DeserializeObject<List<Recording>>(json, ConfigManager.JsonSettings);
+            List<Recording> actions = JsonConvert.DeserializeObject<List<Recording>>(json, ConfigManager.JsonSettings);
             edit.Recordings = actions;
 
             actionsFlowLayoutPanel.Controls.Clear();
@@ -825,14 +911,14 @@ namespace Frontend.UserControls
         /// </summary>
         private void codeGenButton_Click(object sender, EventArgs e)
         {
-            var actionsJson =
+            string actionsJson =
                 JsonConvert.SerializeObject(GetRecordingActionsForOutput().Item1, ConfigManager.JsonSettings);
-            var codeGenOptsJson = JsonConvert.SerializeObject(edit.Config.CodeGenConfig, ConfigManager.JsonSettings);
+            string codeGenOptsJson = JsonConvert.SerializeObject(edit.Config.CodeGenConfig, ConfigManager.JsonSettings);
             sock.SendFrame("codeGen");
             sock.SendFrame(codeGenOptsJson);
             sock.SendFrame(actionsJson);
-            var code = sock.ReceiveFrameString();
-            var cge = new CodeGenEditor();
+            string code = sock.ReceiveFrameString();
+            CodeGenEditor cge = new CodeGenEditor();
             cge.SetEditorText(code);
             cge.Show();
         }
@@ -865,20 +951,25 @@ namespace Frontend.UserControls
             lock (colorChangeLck)
             {
                 if (oldErrorHighlightedAuc != null)
+                {
                     UiSafeOperation(() =>
                     {
                         oldErrorHighlightedAuc.BackColor = default;
                         actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
                     });
+                }
 
                 if (runningNowHighlightedAuc != null)
+                {
                     UiSafeOperation(() =>
                     {
                         runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod;
                         actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
                     });
+                }
 
                 foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
                     if (auc.Id == id)
                     {
                         oldErrorHighlightedAuc = auc;
@@ -886,6 +977,7 @@ namespace Frontend.UserControls
                         actionsFlowLayoutPanel.ScrollControlIntoView(auc);
                         break;
                     }
+                }
             }
         }
 
@@ -901,11 +993,13 @@ namespace Frontend.UserControls
                     UiSafeOperation(() => oldErrorHighlightedAuc.BackColor = default);
                     oldErrorHighlightedAuc = null;
                     if (runningNowHighlightedAuc != null)
+                    {
                         UiSafeOperation(() =>
                         {
                             runningNowHighlightedAuc.BackColor = Color.DarkGoldenrod;
                             actionsFlowLayoutPanel.ScrollControlIntoView(runningNowHighlightedAuc);
                         });
+                    }
                 }
             }
         }
@@ -923,7 +1017,10 @@ namespace Frontend.UserControls
                 codeGenButton.Enabled = !state;
 
 
-                foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls) auc.Enabled = !state;
+                foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
+                    auc.Enabled = !state;
+                }
             });
         }
 
@@ -951,10 +1048,13 @@ namespace Frontend.UserControls
         private void UiSafeOperation(Action a)
         {
             if (InvokeRequired)
+            {
                 Invoke(new MethodInvoker(() => a()));
-
+            }
             else
+            {
                 a();
+            }
         }
 
         /// <summary>
@@ -965,7 +1065,9 @@ namespace Frontend.UserControls
             lock (colorChangeLck)
             {
                 foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+                {
                     UiSafeOperation(() => auc.BackColor = default);
+                }
             }
         }
 
@@ -977,8 +1079,12 @@ namespace Frontend.UserControls
         private void FinishReplay()
         {
             sock.SendFrame("finished");
-            var msg = sock.ReceiveFrameString();
-            while (msg != "evaluated") msg = sock.ReceiveFrameString();
+            string msg = sock.ReceiveFrameString();
+            while (msg != "evaluated")
+            {
+                msg = sock.ReceiveFrameString();
+            }
+
             runningNowHighlightedAuc = null;
             UiSafeOperation(() => replayViewForm.ReplayEndedNow());
             SetReplayActiveUi(false);
@@ -990,10 +1096,15 @@ namespace Frontend.UserControls
         /// </summary>
         public void DeleteRequested()
         {
-            var toRemove = new List<ActionUserControl>();
+            List<ActionUserControl> toRemove = new List<ActionUserControl>();
             foreach (ActionUserControl auc in actionsFlowLayoutPanel.Controls)
+            {
                 if (auc.Selected)
+                {
                     toRemove.Add(auc);
+                }
+            }
+
             toRemove.ForEach(auc => actionsFlowLayoutPanel.Controls.Remove(auc));
             selectedAllCheckBox.CheckState = CheckState.Unchecked;
         }
@@ -1024,24 +1135,27 @@ namespace Frontend.UserControls
         {
             SetReplayActiveUi(true);
 
-            var t = GetRecordingActionsForOutput();
-            var actions = t.Item1;
-            var aucs = t.Item2;
+            Tuple<List<dynamic>, List<ActionUserControl>> t = GetRecordingActionsForOutput();
+            List<dynamic> actions = t.Item1;
+            List<ActionUserControl> aucs = t.Item2;
 
-            var codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
-            var actionsJson = JsonConvert.SerializeObject(actions, ConfigManager.JsonSettings);
+            string codeGenConfig = JsonConvert.SerializeObject(edit.Config.PlayerOptions, ConfigManager.JsonSettings);
+            string actionsJson = JsonConvert.SerializeObject(actions, ConfigManager.JsonSettings);
             sock.SendFrame("replay");
             sock.SendFrame(codeGenConfig);
             sock.SendFrame(actionsJson);
 
             actions.RemoveAt(0); //startupHints
 
-            for (var i = 0; i < actions.Count; ++i)
+            for (int i = 0; i < actions.Count; ++i)
             {
                 if (cts.IsCancellationRequested)
                 {
                     if (!forceCancelReplay)
+                    {
                         FinishReplay();
+                    }
+
                     return;
                 }
 
@@ -1054,10 +1168,11 @@ namespace Frontend.UserControls
 
                 sock.SendFrame(i.ToString());
                 bool b;
-                b = sock.ReceiveFrameStringTimeout(out var m, 100);
+                b = sock.ReceiveFrameStringTimeout(out string m, 100);
                 while (!b && !cts.IsCancellationRequested)
+                {
                     b = sock.ReceiveFrameStringTimeout(out m, 100);
-
+                }
 
                 if (cts.IsCancellationRequested)
                 {
@@ -1074,12 +1189,15 @@ namespace Frontend.UserControls
                 {
                     //exception occurred
                     if (m != "true")
+                    {
                         AddErrorToReplayViewForm(m, aucs[i].Id);
+                    }
 
                     b = false;
                     while (!b && !cts.IsCancellationRequested)
+                    {
                         b = sock.ReceiveFrameStringTimeout(out m, 100);
-
+                    }
 
                     if (cts.IsCancellationRequested)
                     {

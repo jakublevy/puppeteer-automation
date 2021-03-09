@@ -32,27 +32,39 @@ namespace Frontend.Forms
 
         private void browseInterpreterButton_Click(object sender, EventArgs e)
         {
-            var opfd = new OpenFileDialog();
-            if (opfd.ShowDialog() == DialogResult.OK) interpreterTextBox.Text = opfd.FileName;
+            OpenFileDialog opfd = new OpenFileDialog();
+            if (opfd.ShowDialog() == DialogResult.OK)
+            {
+                interpreterTextBox.Text = opfd.FileName;
+            }
         }
 
         private void browseNodeJsEntryPointButton_Click(object sender, EventArgs e)
         {
-            var opfd = new OpenFileDialog
+            OpenFileDialog opfd = new OpenFileDialog
             {
                 Filter = "JavaScript Files (*.js)|*.js|JavaScript Modules (*.mjs)|*.mjs|All files (*.*)|*.*"
             };
-            if (opfd.ShowDialog() == DialogResult.OK) nodeJsEntryPointTextBox.Text = opfd.FileName;
+            if (opfd.ShowDialog() == DialogResult.OK)
+            {
+                nodeJsEntryPointTextBox.Text = opfd.FileName;
+            }
         }
 
         private void interpreterTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (njc != null) njc.InterpreterPath = interpreterTextBox.Text;
+            if (njc != null)
+            {
+                njc.InterpreterPath = interpreterTextBox.Text;
+            }
         }
 
         private void nodeJsEntryPointTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (njc != null) njc.NodeJsEntryPoint = nodeJsEntryPointTextBox.Text;
+            if (njc != null)
+            {
+                njc.NodeJsEntryPoint = nodeJsEntryPointTextBox.Text;
+            }
         }
 
         private void NodeJsConfig_FormClosed(object sender, FormClosedEventArgs e)

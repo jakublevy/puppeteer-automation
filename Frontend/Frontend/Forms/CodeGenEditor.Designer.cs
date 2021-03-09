@@ -49,7 +49,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.textEditor);
             this.Name = "CodeGenEditor";
-            this.Text = "CodeGenEditor";
+            this.Text = "Code Editor";
             this.Load += new System.EventHandler(this.CodeGenEditor_Load);
             this.ResumeLayout(false);
 

@@ -78,7 +78,7 @@
             this.Controls.Add(this.modificationsCheckBox);
             this.Controls.Add(this.textEditor);
             this.Name = "JsonEditor";
-            this.Text = "JsonEditor";
+            this.Text = "JSON Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 

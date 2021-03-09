@@ -11,7 +11,7 @@ if exist "%programfiles(x86)%" (
 )
 
 :: check if installed
-reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" | FINDSTR /I /C:"%prodcode%" >nul
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" | findstr /I /C:"%prodcode%" >nul
 if %ERRORLEVEL% equ 0 (
 	:: it is installed
 	echo Uninstalling... Please wait...

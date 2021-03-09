@@ -44,6 +44,7 @@ namespace Frontend
         public MainForm()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -74,16 +75,25 @@ namespace Frontend
         /// </summary>
         private void recorderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RecorderSettingsForm rs = new RecorderSettingsForm();
-            rs.Closing += (o, args) =>
+            int idx = openedSettingForms.FindIndex(x => x is RecorderSettingsForm);
+            if (idx == -1)
             {
-                RecorderConfiguration rc = rs.ExportRecorderOptions();
-                ConfigManager.SavePuppeteerConfiguration(rc.PuppeteerOptions);
-                ConfigManager.SaveRecordedEventsConfiguration(rc.RecordedEvents);
+                RecorderSettingsForm rs = new RecorderSettingsForm();
+                rs.Closing += (o, args) =>
+                {
+                    RecorderConfiguration rc = rs.ExportRecorderOptions();
+                    ConfigManager.SavePuppeteerConfiguration(rc.PuppeteerOptions);
+                    ConfigManager.SaveRecordedEventsConfiguration(rc.RecordedEvents);
+                    openedSettingForms.Remove(rs);
 
-            };
-            openedSettingForms.Add(rs);
-            rs.Show();
+                };
+                openedSettingForms.Add(rs);
+                rs.Show();
+            }
+            else
+            {
+                openedSettingForms[idx].Focus();
+            }
         }
 
         /// <summary>
@@ -91,16 +101,25 @@ namespace Frontend
         /// </summary>
         private void codeGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CodeGenSettingsForm cgs = new CodeGenSettingsForm();
-            cgs.BindCodeGeneratorOptions(ConfigManager.GetCodeGeneratorOptions());
-
-            cgs.Closing += (o, args) =>
+            int idx = openedSettingForms.FindIndex(x => x is CodeGenSettingsForm);
+            if (idx == -1)
             {
-                CodeGenOptions cgo = cgs.ExportCodeGeneratorOptions();
-                ConfigManager.SaveCodeGeneratorOptions(cgo);
-            };
-            openedSettingForms.Add(cgs);
-            cgs.Show();
+                CodeGenSettingsForm cgs = new CodeGenSettingsForm();
+                cgs.BindCodeGeneratorOptions(ConfigManager.GetCodeGeneratorOptions());
+
+                cgs.Closing += (o, args) =>
+                {
+                    CodeGenOptions cgo = cgs.ExportCodeGeneratorOptions();
+                    ConfigManager.SaveCodeGeneratorOptions(cgo);
+                    openedSettingForms.Remove(cgs);
+                };
+                openedSettingForms.Add(cgs);
+                cgs.Show();
+            }
+            else
+            {
+                openedSettingForms[idx].Focus();
+            }
         }
 
         /// <summary>
@@ -108,15 +127,24 @@ namespace Frontend
         /// </summary>
         private void playerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PlayerForm pf = new PlayerForm();
-            pf.BindOptions(ConfigManager.GetPlayerOptions());
-            pf.Closing += (o, args) =>
+            int idx = openedSettingForms.FindIndex(x => x is PlayerForm);
+            if (idx == -1)
             {
-                PlayerOptions po = pf.ExportOptions();
-                ConfigManager.SavePlayerOptions(po);
-            };
-            openedSettingForms.Add(pf);
-            pf.Show();
+                PlayerForm pf = new PlayerForm();
+                pf.BindOptions(ConfigManager.GetPlayerOptions());
+                pf.Closing += (o, args) =>
+                {
+                    PlayerOptions po = pf.ExportOptions();
+                    ConfigManager.SavePlayerOptions(po);
+                    openedSettingForms.Remove(pf);
+                };
+                openedSettingForms.Add(pf);
+                pf.Show();
+            }
+            else
+            {
+                openedSettingForms[idx].Focus();
+            }
         }
 
         /// <summary>
@@ -124,14 +152,23 @@ namespace Frontend
         /// </summary>
         private void nodejsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NodeJsConfig njc = new NodeJsConfig(this);
-            njc.Closing += (o, args) =>
+            int idx = openedSettingForms.FindIndex(x => x is NodeJsConfig);
+            if (idx == -1)
             {
-                ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
-            };
-            njc.BindNodeJsOptions(ConfigManager.GetNodeJsOptions());
-            openedSettingForms.Add(njc);
-            njc.Show();
+                NodeJsConfig njc = new NodeJsConfig(this);
+                njc.Closing += (o, args) =>
+                {
+                    ConfigManager.SaveNodeJsOptions(njc.ExportNodeJsOptions());
+                    openedSettingForms.Remove(njc);
+                };
+                njc.BindNodeJsOptions(ConfigManager.GetNodeJsOptions());
+                openedSettingForms.Add(njc);
+                njc.Show();
+            }
+            else
+            {
+                openedSettingForms[idx].Focus();
+            }
         }
 
         /// <summary>

@@ -483,7 +483,7 @@
             this.Controls.Add(this.typeGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FilterForm";
-            this.Text = "FilterForm";
+            this.Text = "Filter";
             this.typeGroupBox.ResumeLayout(false);
             this.typeGroupBox.PerformLayout();
             this.viewportEventsGroupBox.ResumeLayout(false);

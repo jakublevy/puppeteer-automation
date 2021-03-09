@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Frontend
 {
     internal static class Program
     {
+        private static MainForm mainForm;
+
         [DllImport("Shcore.dll")]
         private static extern int SetProcessDpiAwareness(int PROCESS_DPI_AWARENESS);
         private enum DpiAwareness
@@ -24,7 +27,27 @@ namespace Frontend
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             SetProcessDpiAwareness((int)DpiAwareness.PerMonitorAware);
-            Application.Run(new MainForm());
+            mainForm = new MainForm();
+            SingleInstanceApplication.Run(mainForm, StartupNextInstanceEventHandler);
+        }
+
+        public static void StartupNextInstanceEventHandler(object sender, StartupNextInstanceEventArgs e)
+        {
+            mainForm.Activate();
+        }
+    }
+    public class SingleInstanceApplication : WindowsFormsApplicationBase
+    {
+        private SingleInstanceApplication()
+        {
+            IsSingleInstance = true;
+        }
+
+        public static void Run(Form f, StartupNextInstanceEventHandler startupHandler)
+        {
+            SingleInstanceApplication app = new SingleInstanceApplication { MainForm = f };
+            app.StartupNextInstance += startupHandler;
+            app.Run(Environment.GetCommandLineArgs());
         }
     }
 }

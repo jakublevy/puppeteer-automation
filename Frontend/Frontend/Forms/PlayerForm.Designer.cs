@@ -49,7 +49,7 @@
             this.ClientSize = new System.Drawing.Size(286, 216);
             this.Controls.Add(this.codeGeneratorOptionsPropertyGrid);
             this.Name = "PlayerForm";
-            this.Text = "PlayerForm";
+            this.Text = "Player Settings";
             this.ResumeLayout(false);
 
         }

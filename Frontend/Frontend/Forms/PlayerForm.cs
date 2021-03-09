@@ -31,7 +31,9 @@ namespace Frontend.Forms
         {
             int newHeight = (int)(0.37 * Height);
             if (newHeight < 95)
+            {
                 ChangeDescriptionHeight(codeGeneratorOptionsPropertyGrid, newHeight);
+            }
         }
 
         /// <summary>
@@ -41,9 +43,13 @@ namespace Frontend.Forms
         /// <param name="height">Requested height of HelpBox</param>
         private static void ChangeDescriptionHeight(PropertyGrid grid, int height)
         {
-            if (grid == null) throw new ArgumentNullException("grid");
+            if (grid == null)
+            {
+                throw new ArgumentNullException("grid");
+            }
 
             foreach (Control control in grid.Controls)
+            {
                 if (control.GetType().Name == "DocComment")
                 {
                     FieldInfo fieldInfo = control.GetType().BaseType.GetField("userSized",
@@ -53,6 +59,7 @@ namespace Frontend.Forms
                     control.Height = height;
                     return;
                 }
+            }
         }
 
         private void codeGeneratorOptionsPropertyGrid_Resize(object sender, EventArgs e)
