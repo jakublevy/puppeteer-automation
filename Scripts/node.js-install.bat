@@ -37,7 +37,7 @@ echo Installing... Please wait...
 :: install it on the background
 %nodejsfile% /quiet /qn /norestart
 
-if %ERRORLEVEL%% equ 0 (
+if %ERRORLEVEL% equ 0 (
 	echo Installation done.
 ) else (
 	echo Installation failed.

@@ -13,6 +13,7 @@ namespace Frontend.Forms
         public PlayerForm()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             ResizePropertyGridHelpBox();
         }
 

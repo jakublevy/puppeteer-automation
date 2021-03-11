@@ -15,6 +15,7 @@ namespace Frontend.Forms
         public NodeJsConfig(MainForm m)
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             mf = m;
         }
 

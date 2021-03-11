@@ -22,6 +22,7 @@ namespace Frontend.Forms
         public ReplayViewForm(EditUserControl e, CancellationTokenSource c)
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             cts = c;
             euc = e;
         }

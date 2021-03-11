@@ -13,6 +13,7 @@ namespace Frontend.Forms
         public CodeGenSettingsForm()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             ResizePropertyGridHelpBox();
         }
 

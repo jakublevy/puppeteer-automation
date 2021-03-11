@@ -12,6 +12,7 @@ namespace Frontend.Forms
         public RecorderSettingsForm()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
         }
 
         private void RecorderSettings_Load(object sender, EventArgs e)

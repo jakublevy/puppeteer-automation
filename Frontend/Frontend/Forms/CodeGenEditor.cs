@@ -12,6 +12,7 @@ namespace Frontend
         public CodeGenEditor()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
         }
 
         public void SetEditorText(string txt)

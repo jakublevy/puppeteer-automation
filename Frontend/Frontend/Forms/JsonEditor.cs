@@ -14,6 +14,7 @@ namespace Frontend.Forms
         public JsonEditor()
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             SetJsonFormat();
         }
 

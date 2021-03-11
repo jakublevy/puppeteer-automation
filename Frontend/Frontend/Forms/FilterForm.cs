@@ -14,6 +14,7 @@ namespace Frontend.Forms
         public FilterForm(EditUserControl launcher)
         {
             InitializeComponent();
+            Icon = Properties.Resources.icon;
             editUserControl = launcher;
         }
 
