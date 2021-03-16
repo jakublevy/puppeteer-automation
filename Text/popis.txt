@@ -3,5 +3,5 @@ Dokument je připraven pro oboustranný tisk.
 Za prvním listem (za stranou 2 PDF dokumentu) je vložen vezázaný list s kopií podepsaného "Zadání bakalářské práce".
 
 Barevné stránky (stránky odpovídají pozici v PDF dokumentu, nikoliv číslu stránku uvedenému v zápatí):
-1,16,19-24,26-31,33-40,55-96,98-99,101-107
+1,12,15-20,22-27,29-36,53-54,58-99,101-102,104-110
 

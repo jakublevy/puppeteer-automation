@@ -174,7 +174,7 @@
 \makeatother
 
 \setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
+\setcounter{tocdepth}{3}
 
 
 \begingroup
@@ -2042,9 +2042,8 @@ page.type(selector, text, {delay: durationMs})
 		\item Stáhneme si přílohu práce z~jednoho z~následujících zdrojů
 		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
 			\item \label{item:attachment} Digitální repozitář UK (odevzdáno s~tímto textem)
-			\item Repozitář na~\href{https://github.com/Kubikola/puppeteer-recorder}{\nolinkurl{GitHubu}}\footnote{Commit id ... odpovídá verzi v~bodě \ref{item:attachment}.} 
+			\item Repozitář na~\href{https://github.com/jakublevy/puppeteer-automation}{\nolinkurl{GitHubu}}\footnote{Commit id ... odpovídá verzi v~bodě \ref{item:attachment}.} 
 			%TODO: napsat commit id
-			%TODO: url github
 		\end{enumerate}
 		\item Nainstalujeme Node.js\footnote{Mohli bychom distribuovat interpreter přímo se zdrojovým kódem, nicméně nepřijde nám jako dobrý nápad zmrazovat závislost o~velikosti \textasciitilde~68~MB. Lepší varianta podle nás je, když všechny aplikace vyžadující Node.js používají jeden systémový. Abychom instalaci alespoň trochu usnadnili, vytvořili jsme skripty, které automatizují bod 2. Nalezneme je v adresáři \path{Scripts\ }.} 15.5.0 (dle~\cref{tab:usedSoftware}) odpovídající architektuře OS
 		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
