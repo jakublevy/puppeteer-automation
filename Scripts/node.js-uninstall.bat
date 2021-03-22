@@ -1,4 +1,5 @@
 @echo off
+setlocal
 
 net session >nul 2>&1
 if %errorLevel% neq 0 (
@@ -31,6 +32,7 @@ if %errorLevel% equ 0 (
 goto :exit_handler
 
 :exit_handler
+	endlocal
 	rem Launched using double-click?
 	echo %cmdcmdline% | findstr /I /C:/c >nul
 	if %errorlevel% equ 0 (
