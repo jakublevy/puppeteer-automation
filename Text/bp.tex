@@ -332,6 +332,14 @@
 \usepackage[hyphens]{url}
 \usepackage{hyperref}
 \hypersetup{
+	pdftex,
+	pdfauthor={Jakub Levý},
+	pdftitle={Využití Puppeteeru pro automatizaci akcí webového prohlížeče},
+	pdfsubject={V této práci se zabýváme automatickým ovládáním webových prohlížečů. Naším cílem je vytvořit řešení umožňující zaznamenat akce, které bude možné uložit a opětovně vykonat.},
+	pdfkeywords={Puppeteer, automatizace webového prohlížeče},
+	pdfproducer={LaTeX},
+	pdfcreator={xelatex 3.141592653-2.6-0.999993},
+	bookmarks,
 	colorlinks,
 	citecolor=black,
 	filecolor=black,
@@ -3467,7 +3475,7 @@ await cdpClient.send('Browser.grantPermissions', {
 	const pages = await browser.pages()
 	let page0 = pages[0]
 	
-	/* Tento úsek kódu je ekvivalentní s~výše zakomentovaným fragmentem */
+	/* Tento úsek kódu je ekvivalentní s výše zakomentovaným fragmentem */
 	const cdpClient = await page0.target().createCDPSession()
 	await cdpClient.send('Browser.grantPermissions', {
 		origin: 'https://www.seznam.cz',
