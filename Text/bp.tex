@@ -592,7 +592,7 @@
 
 \newglossaryentry{messageBroker}{
 	name={Message Broker},
-	description={Samostatný program zpracovávající zprávy od odesílatele, které předá adresátovi. Často využívaný pokud obě strany nepoužívají stejný poštovní protokol~\cite{messageBroker}.}
+	description={Samostatný program zpracovávající zprávy od odesílatele, které předá adresátovi. Často využívaný, pokud obě strany nepoužívají stejný poštovní protokol~\cite{messageBroker}.}
 }
 
 \newglossaryentry{identifier}{
@@ -780,7 +780,7 @@
 	
 	V~\hyperref[section:browserAutomation]{kapitole \ref{section:browserAutomation}} se nejprve přesuneme k~produktům postaveným nad nástroji popsanými v~\hyperref[section:introToBrowserAut]{kapitole \ref{section:introToBrowserAut}}. S~těmito produkty se seznámíme a~popíšeme si jejich specifika. Nejzásadnější produkt pro nás bude Headless Recorder, protože je jako jediný postavený nad Puppeteerem. Další významnou částí této kapitoly je rozbor možností Puppeteeru pro nahrávání a~přehrávání akcí. Její součástí jsou kromě popisu i~ukázky kódu demonstrující nahrávání a~přehrávání jednotlivých akcí.
 	
-	Nejdůležitější částí této práce je \cref{section:ourSolution}. Zde se zabýváme vlastním řešením, nejprve stanovíme požadavky kladené na naše řešení, které jsou získané na základě zkušeností z~kapitol \ref{section:introToBrowserAut} a~\ref{section:browserAutomation}. Následují diagramy zobrazující možnosti uživatelů při práci s~řešením, nechybí ani komplexní porovnání oproti řešením představeným v~\hyperref[section:browserAutomation]{kapitole~\ref{section:browserAutomation}}. Část Vývoj je zaměřená na nástroje použité během vývoje, dále následuje Testování, kde se dozvíme, jak bylo řešení testováno a~jaké problémy byly při testování odhaleny. Na konci této kapitoly samozřejmě nechybí ani dokumentace pro administrátora, uživatele a~programátora.
+	Nejdůležitější částí této práce je \cref{section:ourSolution}, zde se zabýváme vlastním řešením. Nejprve stanovíme požadavky kladené na naše řešení, které jsou získané na základě zkušeností z~kapitol \ref{section:introToBrowserAut} a~\ref{section:browserAutomation}, následují diagramy zobrazující možnosti uživatelů při práci s~řešením, nechybí ani komplexní porovnání oproti řešením představeným v~\hyperref[section:browserAutomation]{kapitole~\ref{section:browserAutomation}}. Část Vývoj je zaměřená na nástroje použité během vývoje, dále následuje Testování, kde se dozvíme, jak bylo řešení testováno a~jaké problémy byly při testování odhaleny. Na konci této kapitoly samozřejmě nechybí ani dokumentace pro administrátora, uživatele a~programátora.
 
 	%	Poslední číslovanou kapitolou je \fullNameref{section:conclusion}.
 	Poslední číslovaná kapitola této práce je \cref{section:conclusion}, její hlavní přínos je zhodnocení splnění požadavků definovaných v~\hyperref[section:ourSolution]{kapitole \ref{section:ourSolution}}.
@@ -810,7 +810,7 @@
 	%headless recorder, katalon recorder, phantomjs, playwright, puppeteer, ranorex recorder, selenium ide
 	\section{Seznámení s~technologiemi k~ovládání prohlížečů}
 	\label{section:introToBrowserAut}
-	V~této části popíšeme a~částečně porovnáme vybrané technologie k~ovládání prohlížečů. Význam této kapitoly je ryze informativní, čtenářům znalých těchto technologií je doporučeno přečtení alespoň \refAddedText{sub_sec:Puppeteer}{podsekce~}{}, která popisuje knihovnu Puppeteer~--~zásadní stavební blok této práce.
+	V~této části popíšeme a~částečně porovnáme vybrané technologie k~ovládání prohlížečů. Význam této kapitoly je ryze informativní, čtenářům znalým těchto technologií je doporučeno přečtení alespoň \refAddedText{sub_sec:Puppeteer}{podsekce~}{}, která popisuje knihovnu Puppeteer~--~zásadní stavební blok této práce.
 	\subsection{Selenium}
 	\label{sec:selenium}
 	Selenium je sada nástrojů pro automatizaci prohlížečů. Jeho historie sahá až do roku 2004, kdy Jason Huggins vytvořil "JavascriptTestRunner" pro testování webových aplikací v~Pythonu. Během dalšího vývoje byl "JavascriptTestRunner" přejmenován na~Selenium (česky selen), který snižuje toxicitu rtuti. Nové jméno mělo zesměšnit tehdejší konkurenční společnost Mercury (česky rtuť). Později vznikl celý ekosystém Selenia, který zahrnuje browser drivers, selenium drivers, language bindings a~testing frameworks~\cite{seleniumAbout, seleniumWiki}.
@@ -914,7 +914,7 @@
 		\caption{Několik odpovídajících verzí Chromu a~Puppeteeru~\cite{puppeteerApi}}
 	\end{table}
 
-	Z~tohoto důvodu existují dva balíčky. Prvním je balíček "puppeteer", který obsahuje kromě knihovny i~vestavěný Chrome kompatibilní verze. Druhý balíček "puppeteer-core" obsahuje pouze knihovnu. "puppeteer-core" se může hodit pokud si chceme Chrome spravovat sami nebo se Puppeteerem chceme připojit na~vzdálený Chrome na~jiném počítači a~vestavěný by nám tak zabíral zbytečně místo~\cite{puppeteerMainPage}.
+	Z~tohoto důvodu existují dva balíčky. Prvním je balíček "puppeteer", který obsahuje kromě knihovny i~vestavěný Chrome kompatibilní verze. Druhý balíček "puppeteer-core" obsahuje pouze knihovnu. "puppeteer-core" se může hodit, pokud si chceme Chrome spravovat sami nebo se Puppeteerem chceme připojit na~vzdálený Chrome na~jiném počítači a~vestavěný by nám tak zabíral zbytečně místo~\cite{puppeteerMainPage}.
 	
 	Podíváme se na~několik ukázek porovnání Node.js kódu Puppeteeru a~Selenia. První ukázkou bude vytvoření screenshotu stránky \href{https://seznam.cz}{\nolinkurl{seznam.cz}}.
 	 \begin{codefigure}[H]
@@ -1010,12 +1010,12 @@ První řádek i~druhý řádek vždy obsahují kód, který nalezne a~stiskne e
 	\newpage
 	\subsection{Playwright}
 	\label{sub_sec:Playwright}
-	Playwright je ryze moderní záležitostí vyvíjenou společností Microsoft vydanou teprve v~druhém měsíci roku 2020~\cite{playwrightFirstRelease}. Projekt začal jako fork knihovny Puppeteer. Playwright však dává důraz na jiné aspekty funkcionality~\cite{playwrightGithub}.
+	Playwright je ryze moderní záležitostí, vyvíjenou společností Microsoft, vydanou teprve v~druhém měsíci roku 2020~\cite{playwrightFirstRelease}. Projekt začal jako fork knihovny Puppeteer. Playwright však dává důraz na jiné aspekty funkcionality~\cite{playwrightGithub}.
 	
 	\paragraph{Rozdíly proti Puppeteeru}
 	Playwright nabízí jednotné API pro automatizaci Chromu, Firefoxu a~prohlížečů postavených na jádře WebKit~\cite{playwrightMainPage}. Aktuálně je však bez úprav podporovaný pouze Chrome. Ostatní prohlížeče musí být speciálně upraveny pomocí patchů, aby bylo možné jejich použití s~Playwrightem. Pro Playwright by bylo ideální sloučení těchto patchů se zdrojovými kódy prohlížečů, v~budoucnu by k~tomu mohlo dojít. Některé patche již byly přijaty.~\cite{playwrightBrowserPatches}.
 	
-	Další změnou je automatické čekání na elementy, před provedením akce s~nimi~\cite{playwrightMainPage}. První ukázku kódu pro Playwright uvedeme korektně včetně inicializace a~uklízení. Všechny další ukázky této podsekce budou obsahovat pouze nezbytný kód.
+	Další změnou je automatické čekání na elementy před provedením akce s~nimi~\cite{playwrightMainPage}. První ukázku kódu pro Playwright uvedeme korektně včetně inicializace a~uklízení. Všechny další ukázky této podsekce budou obsahovat pouze nezbytný kód.
 	\begin{codefigure}[H]
 		\begin{subfigure}[t]{\textwidth}
 			\begin{lstlisting}[style=MyJavaScript]
@@ -1076,7 +1076,7 @@ await page.click('#navlink_tab_grading')
 		\caption{Porovnání čekání Playwrightu a~Puppeteeru~\cite{playwrightApi, puppeteerApi}}
 	\end{table}
 
-	Jak již bylo zmíněno ve~\partialref{text:puppeteerLocatorSupport}{sub_sec:Puppeteer} v~Puppeteeru je možné identifikovat element pouze pomocí selektoru a~XPath, což sice nesnižuje sílu pro identifikaci, ale nutí nás psát si vlastní nestandardní rozšíření, nebo stále dokola psát XPath dotazy. Mezi další funkce Playwrightu patří, obdobně jako lokátory v~Seleniu, sofistikovanější prostředky pro identifikaci elementů~\cite{playwrightApi}. 
+	Jak již bylo zmíněno ve~\partialref{text:puppeteerLocatorSupport}{sub_sec:Puppeteer} v~Puppeteeru je možné identifikovat element pouze pomocí selektoru a~XPath, což sice nesnižuje sílu pro identifikaci, ale nutí nás psát si vlastní nestandardní rozšíření, nebo stále dokola psát XPath dotazy. Sofistikovanější prostředky pro identifikaci elementů patří, obdobně jako lokátory v~Seleniu, mezi další funkce Playwrightu~\cite{playwrightApi}. 
 	\begin{codefigure}[H]
 		\renewcommand\baselinestretch{\codefigureSpacing}
 		\begin{lstlisting}[style=MyJavaScript]
@@ -1099,7 +1099,7 @@ await page.check((*@\label{line:check1}@*)
 	Unikátní a~zajímavá funkce, kterou disponuje pouze Playwright je API pro stahování souborů. Použití je následující~\cite{playwrightApi}: 
 	\begin{enumerate}
 		\item Stránka, potažmo kontext\footnote{Prostředí jedné i~více stránek prohlížeče. Obvykle se sdíleným nastavením, např.~neukládat historii. Při používání Chromu můžeme vytvořit nový kontext otevřením prvního okna anonymního režimu, zkratka CTRL+Shift+N. Pokud takto otevřeme další okna, nevytvoří se nový anonymní kontext, pouze se nová stránka přidá do existujícího anonymního kontextu.} prohlížeče, ve kterém stránka běží, musí mít nastavený parametr \texttt{acceptDownloads: true}.
-		\item Při provedení akce, která způsobí stažení souboru musíme počkat na~událost "download" a~zachytit zachytit objekt \texttt{Download}. 
+		\item Při provedení akce, která způsobí stažení souboru musíme počkat na~událost "download" a~zachytit objekt \texttt{Download}. 
 		\item Nyní můžeme využít API objektu \texttt{Download} a~stažený soubor např.~uložit do libovolného adresáře. 
 	\end{enumerate}
 
@@ -1161,12 +1161,12 @@ const phantom = require('phantom');
 	\label{section:browserAutomation}
 	V~této kapitole se podíváme na řešení k~zaznamenávání uživatelských akcí v~prohlížeči s~možností následného opětovného vykonání, dále pouze uváděno jako řešení k~nahrávání a~přehrávání akcí, nebo pouze řešení.
 	
-	Nejprve se podíváme na vybraná existující konkurenční řešení. Podsekce \fullNameref{sub_sec:existingSolutions} slouží k~představení běžných zástupců řešení k~automatizaci prohlížeče, zde jsou uvedeni zástupci s~open-source i~proprietárními licencemi. Hlavním významem této podsekce je ukázat existenci/neexistenci funkcí představených řešení. Tyto řešení jsou pak porovnány s~vlastním řešení ve~\ref{sub_sec:functionalityComparison}. 
+	Nejprve se podíváme na vybraná existující konkurenční řešení. Podsekce \fullNameref{sub_sec:existingSolutions} slouží k~představení běžných zástupců řešení k~automatizaci prohlížeče, jsou zde uvedeni zástupci s~open-source i~proprietárními licencemi. Hlavním významem této podsekce je ukázat existenci/neexistenci funkcí představených řešení. Tyto řešení jsou pak porovnány s~vlastním řešení ve~\ref{sub_sec:functionalityComparison}. 
 	
-	Později ve~\ref{sub_sec:PuppeteerUsageForAutomation} se zaměříme výhradně na Puppeteer, zde provedeme detailní rozbor možností Puppeteeru pro nahrávání a~přehrávání akcí včetně ukázek kódu demonstrujících využití.
+	Později ve~\ref{sub_sec:PuppeteerUsageForAutomation} se podíváme výhradně na Puppeteer, zde provedeme detailní rozbor možností Puppeteeru pro nahrávání a~přehrávání akcí včetně ukázek kódu demonstrujících využití.
 	\subsection{Konkurenční řešení}
 	\label{sub_sec:existingSolutions}
-	V~této části se zaměříme výhradně na konkurenční řešení, podíváme se na jejich funkcionalitu a~popíšeme výhody a~nevýhody. %výhody, nevýhody a~porovnáme je mezi sebou.
+	V~této části se zaměříme zejména na konkurenční řešení, podíváme se na jejich funkcionalitu a~popíšeme výhody a~nevýhody. %výhody, nevýhody a~porovnáme je mezi sebou.
 	
 	Přikládáme ještě tabulku primárně určenou pro rychlou orientaci v~této sekci a~přehledové porovnání.
 {
@@ -1190,7 +1190,7 @@ const phantom = require('phantom');
 	
 	Druhou větví je master, ve které se pracuje na přechodu z~rozšíření Chromu a~Firefoxu na Electron. V~současné době zatím nebyla vydána žádná verze fungující s~Electronem. Zájemci o~vyzkoušení mají možnost si zdrojový kód zkompilovat sami~\cite{seleniumIdeGithub}.
 	
-	Léta vývoje se projevují na funkcionalitě, pojďme se na některé zajímavé funkce současně nejnovějšího Selenia IDE v3.17.0~\cite{seleniumIdeReleses}, podívat.
+	Léta vývoje se projevují na funkcionalitě, pojďme se na některé zajímavé funkce, aktuálně nejnovějšího Selenia IDE v3.17.0~\cite{seleniumIdeReleses}, podívat.
 	
 	\paragraph{Výběr z~lokátorů}
 	Pro každý element je nalezena sada lokátorů, uživatel si může vybrat z~nich ten nejvhodnější.
@@ -1292,7 +1292,7 @@ const phantom = require('phantom');
 		\caption{Porovnání GUI Katalon Recorderu a~Selenia IDE}
 	\end{figure}
 	
-	Hlavním důvodem pro upřednostnění Katalon Recorderu při výběru řešení je jeho placená varianta Katalon Studio Enterprise, ve které je zahrnuta podpora produktu, ale i~rozšířené funkce. Jednou takovou funkcí je "self-healing execution", tj.~využití nalezených náhradních lokátorů pokud vybraný selže~\cite{katalonPricing}. Existují ale i~další méně patrné funkce Katalon Recorderu zahrnuté i~ve volně dostupné verzi, které Selenium IDE nemá.
+	Hlavním důvodem pro upřednostnění Katalon Recorderu při výběru řešení je jeho placená varianta Katalon Studio Enterprise, ve které je zahrnuta podpora produktu, ale i~rozšířené funkce. Jednou takovou funkcí je "self-healing execution", tj.~využití nalezených náhradních lokátorů, pokud vybraný selže~\cite{katalonPricing}. Existují ale i~další méně patrné funkce Katalon Recorderu zahrnuté i~ve volně dostupné verzi, které Selenium IDE nemá.
 	\begin{figure}[H]
 		\begin{subfigure}[t]{0.6\textwidth}
 			%\includegraphics[scale=0.4]{katalonRecorderExport.png}
@@ -1354,7 +1354,7 @@ const phantom = require('phantom');
 	\hspace{0pt}
 	\newpage
 	\paragraph{Funkcionalita}
-	Mezi zaznamenávané akce patří základní události jako stisk klávesy a~myši. Podpora "mouseover" události v~jakékoliv podobě chybí stejně jako podpora lokátorů či případných jiných rozšířeních selektorů.
+	Mezi zaznamenávané akce patří základní události jako stisk klávesy a~myši. Podpora "mouseover" události v~jakékoliv podobě chybí stejně jako podpora lokátorů či případných jiných rozšíření selektorů.
 	
 	V~nastavení je k~dispozici, jak ukazuje následující obrázek, pouze několik položek, jejichž význam je zřejmý.
     \begin{figure}[H]
@@ -1716,7 +1716,7 @@ page.type(selector, text, {delay: durationMs})
 		}. 
 		
 		
-		Na Internetu se často vyskytují otázky týkající se končícího životního cyklu WinForms~\cite{winformObselote1,winformsObselote2,winformsObselote3, winformsObselote4, winformsObselote5}. Místo souhlasu s~tím, že WinForms jsou mrtvé, se domníváme, že jejich stáří přispívá ke stabilitě a~neměnnosti API, které může způsobit i~ztrátu kompatibility mezi jednotlivými verzemi.
+		Na Internetu se často vyskytují otázky týkající se končícího životního cyklu WinForms~\cite{winformObselote1,winformsObselote2,winformsObselote3, winformsObselote4, winformsObselote5}. Místo souhlasu s~tím, že WinForms jsou mrtvé, se domníváme, že jejich stáří přispívá ke stabilitě a~neměnnosti API, nehrozí nám, jako u některých moderních technologií, neočekávané rapidní změny v API, které mohou způsobit i~ztrátu kompatibility mezi jednotlivými verzemi.
 		
 %		Často vyskytujícími se otázkami na Internetu probírající docházející životní cyklus WinForms  Místo souhlasu s~často vyskytujícími se otázkami na Internetu, že WinForms jsou mrtvé~\cite{winformObselote1,winformsObselote2,winformsObselote3, winformsObselote4, winformsObselote5} se domníváme, že jejich stáří přispívá ke stabilitě a~neměnosti API, které může i~způsobit ztrátu kompatibility mezi jednotlivými verzemi.
 	\end{enumerate}
@@ -2050,8 +2050,7 @@ page.type(selector, text, {delay: durationMs})
 		\item Stáhneme si přílohu práce z~jednoho z~následujících zdrojů
 		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
 			\item \label{item:attachment} Digitální repozitář UK (odevzdáno s~tímto textem)
-			\item Repozitář na~\href{https://github.com/jakublevy/puppeteer-automation}{\nolinkurl{GitHubu}}\footnote{Commit id ... odpovídá verzi v~bodě \ref{item:attachment}.} 
-			%TODO: napsat commit id
+			\item Repozitář na~\href{https://github.com/jakublevy/puppeteer-automation}{\nolinkurl{GitHubu}}
 		\end{enumerate}
 		\item Nainstalujeme Node.js\footnote{Mohli bychom distribuovat interpreter přímo se zdrojovým kódem, nicméně nepřijde nám jako dobrý nápad zmrazovat závislost o~velikosti \textasciitilde~68~MB. Lepší varianta podle nás je, když všechny aplikace vyžadující Node.js používají jeden systémový. Abychom instalaci alespoň trochu usnadnili, vytvořili jsme skripty, které automatizují bod 2. Nalezneme je v adresáři \path{Scripts\ }.} 15.5.0 (dle~\cref{tab:usedSoftware}) odpovídající architektuře OS
 		\begin{enumerate}[leftmargin=*,label={\alph*)}, align=left,topsep=0pt]
@@ -2069,7 +2068,7 @@ page.type(selector, text, {delay: durationMs})
 	\subsubsection{Prvotní spuštění}
 	\label{subsub_sec:firstRun}
 	
-	Pro správnou funkci je nutné určit typ připojení ke~Chromu, nastavit cestu k~interpreteru Node.js pokud není umístěna v~proměnné Path proměnného prostředí. Jestliže byla změněna relativní cesta backendu vůči frontendu, tak je nutné nastavit novou cestu i~k~backendu. Začneme připojením Chromu.
+	Pro správnou funkci je nutné určit typ připojení ke~Chromu, nastavit cestu k~interpreteru Node.js, pokud není umístěna v~proměnné Path proměnného prostředí. Jestliže byla změněna relativní cesta backendu vůči frontendu, tak je nutné nastavit novou cestu i~k~backendu. Začneme připojením Chromu.
 	\begin{figure}[H]
 		\centering
 		\begin{minipage}{0.49\textwidth}
@@ -2088,7 +2087,7 @@ page.type(selector, text, {delay: durationMs})
 		\caption{Nastavení připojení ke~Chromu}
 		\label{fig:chromeConnection}
 	\end{figure}
-	Jak je patrné z~\cref{fig:chromeConnection}, na výběr máme ze dvou typů připojení. "Launch" spustí novou lokální instanci Chromu, volitelně vyžaduje zadání cesty ke spustitelnému souboru prohlížeče, její zadání je nutné pokud se spustitelný soubor Chromu nenachází ve standardním umístění. Druhý typ připojení označený jako "Connect" se připojí k~existující vzdálené instanci Chromu, více o~tomto druhu připojení viz \refFullAddedText{subsub_sec:remoteChrome}{tutoriál }{}.
+	Jak je patrné z~\cref{fig:chromeConnection}, na výběr máme ze dvou typů připojení. "Launch" spustí novou lokální instanci Chromu, volitelně vyžaduje zadání cesty ke spustitelnému souboru prohlížeče, její zadání je nutné, pokud se spustitelný soubor Chromu nenachází ve standardním umístění. Druhý typ připojení označený jako "Connect" se připojí k~existující vzdálené instanci Chromu, více o~tomto druhu připojení viz \refFullAddedText{subsub_sec:remoteChrome}{tutoriál }{}.
 	
 	\newpage
 	Poslední dvě zbývající cesty pro backend a~Node.js se nastavují ve společném dialogovém okně.
@@ -2110,7 +2109,7 @@ page.type(selector, text, {delay: durationMs})
 		\end{minipage}
 		\caption{Nastavení cesty k~interpreteru Node.js a~backendu}
 	\end{figure}
-	Obě vyplněné cesty jsou výchozí hodnotou nastavení. Všimněme si, že jako cesta k~interpreteru Node.js stačí uvést pouze "node" pokud je jeho umístění v~proměnné Path proměnného prostředí. 
+	Obě vyplněné cesty jsou výchozí hodnotou nastavení. Všimněme si, že jako cesta k~interpreteru Node.js stačí uvést pouze "node", pokud je jeho umístění v~proměnné Path proměnného prostředí. 
 	
 	Cesta k~backendu je popsána relativně vůči umístění spustitelného souboru frontendové části. Pokud nebyla upravena struktura projektu, cesta k~backendu je správná.
 	\subsubsection{Nová nahrávka}
@@ -2383,7 +2382,7 @@ ssh -L 0.0.0.0:9223:localhost:9222 localhost -N
 		\caption{Vygenerování kódu jedné akce typu "pageUrlChanged"}
 	\end{figure}
 	\subsubsection{Filtr akcí}
-	V~horní části editačního UI je ještě jedno tlačítko, na které jsme se zatím v~žádném tutoriálu nepodívali. Tlačítko má popisek "Filter Actions", který nám napovídá, že jedná se o~filtr. V~našem případě umožňuje dočasně skrýt akce dle různých kritérií\footnote{Kritéria, která můžeme použít pro filtrování (i~současně):
+	V~horní části editačního UI je ještě jedno tlačítko, na které jsme se zatím v~žádném tutoriálu nepodívali. Tlačítko má popisek "Filter Actions", který nám napovídá, že se jedná o~filtr. V~našem případě umožňuje dočasně skrýt akce dle různých kritérií\footnote{Kritéria, která můžeme použít pro filtrování (i~současně):
 		\begin{itemize}[noitemsep, topsep=1pt]
 			\item[--] typ události (pageUrlChanged, click, scroll, ...)
 			\item[--] typ identifikátoru (lokátor, selektor)
@@ -2968,7 +2967,7 @@ async function receiveMsg(sock) {
 		
 		\lstinline[style=MyCSharpDocs]|private void RecordingTask()| naslouchá na informace z~backendu o~zaznamenaných akcích. Po obdržení akce ji přidá do seznamu akcí voláním metody \lstinline|LoadAction|.
 		
-		\lstinline[style=MyCSharpDocs]|private void ReplayTask()| postupně odesílá akce k~přehrání do backendu, \lstinline|ActionUserControl| (\ref{docs:auc}) aktuálně přehrávané akce je zvýrazněna \begin{tikzpicture}\path [fill={rgb,255:red,184; green,134; blue,11}] (0,0) rectangle (0.7,0.3);
+		\lstinline[style=MyCSharpDocs]|private void ReplayTask()| postupně odesílá akce k~přehrání do backendu, \lstinline|ActionUserControl| (\ref{docs:auc}) aktuálně přehrávaná akce je zvýrazněna \begin{tikzpicture}\path [fill={rgb,255:red,184; green,134; blue,11}] (0,0) rectangle (0.7,0.3);
 		\end{tikzpicture} barvou.
 		
 		\lstinline[style=MyCSharpDocs]|private HashSet<string> ScrapeWebsitesFromRecordings(List<Recording> recordings)| vrátí seznam načtených adres URL z~akcí \lstinline|recordings|.
@@ -3033,15 +3032,15 @@ async function receiveMsg(sock) {
 	\texttt{ConfigManager}
 	\paragraph{Vybrané metody}
 	\begin{methods}
-		\lstinline[style=MyCSharpDocs]|public static CodeGenOptions GetCodeGeneratorOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) generátoru kódu. 
+		\lstinline[style=MyCSharpDocs]|public static CodeGenOptions GetCodeGeneratorOptions()| vrátí uložené nastavení (výchozí, pokud neexistuje) generátoru kódu. 
 		
-		\lstinline[style=MyCSharpDocs]|public static NodeJsOptions GetNodeJsOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) obsahující cestu k~backendu a~interpreteru Node.js.
+		\lstinline[style=MyCSharpDocs]|public static NodeJsOptions GetNodeJsOptions()| vrátí uložené nastavení (výchozí, pokud neexistuje) obsahující cestu k~backendu a~interpreteru Node.js.
 		
-		\lstinline[style=MyCSharpDocs]|public static PlayerOptions GetPlayerOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) pro přehrávání akcí. 
+		\lstinline[style=MyCSharpDocs]|public static PlayerOptions GetPlayerOptions()| vrátí uložené nastavení (výchozí, pokud neexistuje) pro přehrávání akcí. 
 		
-		\lstinline[style=MyCSharpDocs]|public static PuppeteerOptions GetPuppeteerConfiguration()| vrátí uložené nastavení (výchozí pokud neexistuje) uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}. 
+		\lstinline[style=MyCSharpDocs]|public static PuppeteerOptions GetPuppeteerConfiguration()| vrátí uložené nastavení (výchozí, pokud neexistuje) uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}. 
 		
-		\lstinline[style=MyCSharpDocs]|public static RecordedEvents GetRecordedEventsOptions()| vrátí uložené nastavení (výchozí pokud neexistuje) obsahující typy akcí povolené k~nahrávání.
+		\lstinline[style=MyCSharpDocs]|public static RecordedEvents GetRecordedEventsOptions()| vrátí uložené nastavení (výchozí, pokud neexistuje) obsahující typy akcí povolených k~nahrávání.
 		
 		\lstinline[style=MyCSharpDocs]|public static void SavePuppeteerConfiguration(PuppeteerOptions po)|\newline uloží nastavení uživatelské komponenty \ref{docs:puppeteerOptionsUserControl}.
 	
@@ -3240,7 +3239,7 @@ public enum WaitForNavigation {
 	\section{Fragmenty kódu pro Puppeteer}
 	\label{appx:puppeteerCode}
 	Zde jsou umístěny části kódu pro Puppeteer, které nejsou považovány za nezbytné, případně jsou příliš dlouhé.
-	\subsection{Zachycení událost z~viewportu}
+	\subsection{Zachycení události z~viewportu}
 	\label{sub_sec:captureViewportEvents}
 	\begin{codefigure}[H]
 		\renewcommand\baselinestretch{\codefigureSpacing}
